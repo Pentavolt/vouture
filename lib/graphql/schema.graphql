@@ -1,0 +1,417 @@
+subscription Messages($channel: Int!) {
+  messages(channel: $channel) {
+    id
+    content
+    channelId
+    userId
+  }
+}
+
+mutation Send($channel: Int!, $content: String!) {
+  send(channel: $channel, content: $content) {
+    id
+    content
+    channelId
+  }
+}
+
+mutation Login($password: String!, $email: String!) {
+  login(password: $password, email: $email) {
+    accessToken
+    refreshToken
+  }
+}
+
+query GetUser(
+  $where: UserWhereUniqueInput!
+  $orderBy: [PostOrderByWithRelationInput!]
+) {
+  user(where: $where) {
+    id
+    username
+    email
+    image
+    notificationToken
+    createdAt
+    loyalty
+    biography
+    badges {
+      badge {
+        name
+      }
+    }
+    posts(orderBy: $orderBy) {
+      id
+      content
+      createdAt
+      updatedAt
+      user {
+        id
+        username
+        image
+      }
+      attachments {
+        url
+      }
+      likes {
+        id
+        postId
+        userId
+      }
+      tags {
+        brand {
+          name
+        }
+        x
+        y
+      }
+      comments {
+        id
+        content
+        createdAt
+        author {
+          id
+          username
+          image
+        }
+      }
+    }
+    followers {
+      followerId
+    }
+    following {
+      followerId
+    }
+  }
+}
+
+mutation CreateUser($data: UserCreateInput!) {
+  createOneUser(data: $data) {
+    id
+  }
+}
+
+mutation CreateFollow($data: FollowCreateInput!) {
+  createOneFollow(data: $data) {
+    createdAt
+  }
+}
+
+mutation Upload($images: [Upload!]!) {
+  upload(images: $images)
+}
+
+mutation CreatePost($data: PostCreateInput!) {
+  createOnePost(data: $data) {
+    content
+    attachments {
+      url
+    }
+    createdAt
+    updatedAt
+  }
+}
+
+query Post($where: PostWhereUniqueInput!) {
+  post(where: $where) {
+    content
+    createdAt
+    updatedAt
+    user {
+      id
+      username
+      image
+    }
+    comments {
+      id
+      content
+      createdAt
+      author {
+        id
+        image
+        username
+      }
+    }
+    likes {
+      id
+      userId
+      postId
+    }
+    attachments {
+      url
+    }
+    id
+  }
+}
+mutation CreateComment($data: CommentCreateInput!) {
+  createOneComment(data: $data) {
+    id
+    content
+    author {
+      id
+      image
+      username
+    }
+    authorId
+    postId
+    updatedAt
+    createdAt
+  }
+}
+
+query Refresh($refreshToken: String!) {
+  refresh(refreshToken: $refreshToken) {
+    accessToken
+    refreshToken
+  }
+}
+
+query Posts(
+  $where: PostWhereInput
+  $orderBy: [PostOrderByWithRelationInput!]
+  $cursor: PostWhereUniqueInput
+  $take: Int
+  $skip: Int
+) {
+  posts(
+    where: $where
+    orderBy: $orderBy
+    cursor: $cursor
+    take: $take
+    skip: $skip
+  ) {
+    id
+    content
+    user {
+      id
+      image
+      username
+    }
+    createdAt
+    updatedAt
+    comments {
+      id
+      content
+      author {
+        id
+        image
+        username
+      }
+      createdAt
+    }
+    likes {
+      id
+      postId
+      userId
+    }
+    tags {
+      x
+      y
+      brand {
+        name
+      }
+    }
+    attachments {
+      url
+    }
+  }
+}
+
+query Me {
+  me {
+    id
+    username
+    email
+    image
+    biography
+  }
+}
+
+mutation CreateOneLike($data: LikeCreateInput!) {
+  createOneLike(data: $data) {
+    id
+    userId
+    postId
+  }
+}
+
+mutation DeleteOneLike($where: LikeWhereUniqueInput!) {
+  deleteOneLike(where: $where) {
+    id
+    userId
+    postId
+  }
+}
+
+mutation Upload($images: [Upload!]!) {
+  upload(images: $images)
+}
+
+mutation DeleteFollow($where: FollowWhereUniqueInput!) {
+  deleteOneFollow(where: $where) {
+    id
+  }
+}
+
+query Follows($where: FollowWhereInput) {
+  follows(where: $where) {
+    followingId
+  }
+}
+
+query Notification($where: NotificationWhereUniqueInput!) {
+  notification(where: $where) {
+    type {
+      name
+    }
+    createdAt
+    read
+    typeId
+    id
+    notifierId
+    receiverId
+    notifier {
+      username
+      image
+    }
+    receiver {
+      email
+      username
+    }
+  }
+}
+
+mutation UpdateUser($data: UserUpdateInput!, $where: UserWhereUniqueInput!) {
+  updateOneUser(data: $data, where: $where) {
+    notificationToken
+  }
+}
+
+mutation UpsertView(
+  $where: ViewWhereUniqueInput!
+  $create: ViewCreateInput!
+  $update: ViewUpdateInput!
+) {
+  upsertOneView(where: $where, create: $create, update: $update) {
+    id
+  }
+}
+
+mutation CreateView($data: ViewCreateInput!) {
+  createOneView(data: $data) {
+    id
+  }
+}
+
+query FindFirstPost(
+  $where: PostWhereInput
+  $take: Int
+  $orderBy: [PostOrderByWithRelationInput!]
+) {
+  findFirstPost(where: $where, take: $take, orderBy: $orderBy) {
+    attachments {
+      colors {
+        occurrence
+        red
+        green
+        blue
+      }
+    }
+  }
+}
+
+query Feed($count: Int!, $cursor: Int, $skip: Int) {
+  feed(count: $count, cursor: $cursor, skip: $skip) {
+    posts {
+      id
+      content
+      user {
+        id
+        image
+        username
+      }
+      updatedAt
+      createdAt
+      comments {
+        id
+        content
+        author {
+          id
+          image
+          username
+        }
+        createdAt
+      }
+      likes {
+        id
+        userId
+        postId
+      }
+      attachments {
+        url
+      }
+      tags {
+        brand {
+          name
+        }
+        x
+        y
+      }
+    }
+    cursor
+  }
+}
+
+query Brands(
+  $orderBy: [BrandOrderByWithRelationInput!]
+  $take: Int
+  $skip: Int
+) {
+  brands(orderBy: $orderBy, take: $take, skip: $skip) {
+    name
+    id
+  }
+}
+
+mutation UpdateOneView($data: ViewUpdateInput!, $where: ViewWhereUniqueInput!) {
+  updateOneView(data: $data, where: $where) {
+    id
+  }
+}
+
+query Comment($where: CommentWhereUniqueInput!) {
+  comment(where: $where) {
+    id
+    content
+    author {
+      id
+      image
+      username
+    }
+    authorId
+    postId
+    updatedAt
+    createdAt
+  }
+}
+
+query Topics($where: TopicWhereInput!, $take: Int) {
+  topics(where: $where, take: $take) {
+    name
+  }
+}
+
+mutation CreateOneTopic($data: TopicCreateInput!) {
+  createOneTopic(data: $data) {
+    id
+    name
+  }
+}
+
+mutation UpdateMe($data: UserUpdateInput!) {
+  updateMe(data: $data) {
+    image
+    username
+    email
+  }
+}
