@@ -5,6 +5,7 @@ import type {
 import type { StackScreenProps } from "@react-navigation/stack";
 import type { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
 import { Post, Tag, User } from "../../generated/gql/graphql";
+import { MaterialTopTabScreenProps } from "@react-navigation/material-top-tabs";
 
 export type RootStackParamList = {
   Root: NavigatorScreenParams<RootTabParamList>;
@@ -35,7 +36,7 @@ export type CameraStackParamList = {
 };
 
 export type HomeStackParamList = {
-  Feed: undefined;
+  Feed: NavigatorScreenParams<FeedTopTabParamList>;
   Profile: { user: User };
   Details: { post: Post };
 };
@@ -51,6 +52,11 @@ export type PreferencesStackParamList = {
   Username: undefined;
   Biography: undefined;
   Location: undefined;
+};
+
+export type FeedTopTabParamList = {
+  ForYou: undefined;
+  Following: undefined;
 };
 
 export type RootStackScreenProps<T extends keyof RootStackParamList> =
@@ -103,6 +109,12 @@ export type RootTabScreenProps<T extends keyof RootTabParamList> =
   CompositeScreenProps<
     BottomTabScreenProps<RootTabParamList, T>,
     RootStackScreenProps<keyof RootStackParamList>
+  >;
+
+export type FeedTopTabScreenProps<T extends keyof FeedTopTabParamList> =
+  CompositeScreenProps<
+    MaterialTopTabScreenProps<FeedTopTabParamList, T>,
+    HomeStackScreenProps<"Feed">
   >;
 
 declare global {

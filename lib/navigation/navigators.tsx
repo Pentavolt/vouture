@@ -12,12 +12,14 @@ import {
   UserStackScreenProps,
   RootTabScreenProps,
   CameraStackScreenProps,
+  FeedTopTabParamList,
 } from "./types";
 import { createStackNavigator } from "@react-navigation/stack";
+import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import LoginScreen from "../../screens/intro/LoginScreen";
 import FrontScreen from "../../screens/intro/FrontScreen";
 import RegisterScreen from "../../screens/intro/RegisterScreen";
-import FeedScreen from "../../screens/auth/FeedScreen";
+import FollowingScreen from "../../screens/feed/FollowingScreen";
 import CameraScreen from "../../screens/media/CameraScreen";
 import PreviewScreen from "../../screens/media/PreviewScreen";
 import ProfileScreen from "../../screens/auth/ProfileScreen";
@@ -26,10 +28,10 @@ import LabelScreen from "../../screens/media/LabelScreen";
 import SettingsScreen from "../../screens/settings/SettingsScreen";
 import EmptyScreen from "../../screens/EmptyScreen";
 import ProfileSettingsScreen from "../../screens/settings/ProfileSettingsScreen";
-import Modal from "../../screens/settings/UsernameScreen";
 import UsernameScreen from "../../screens/settings/UsernameScreen";
 import BiographyScreen from "../../screens/settings/BiographyScreen";
 import LocationScreen from "../../screens/settings/LocationScreen";
+import ForYouScreen from "../../screens/feed/ForYouScreen";
 
 const BottomTab = createBottomTabNavigator<RootTabParamList>();
 
@@ -157,7 +159,11 @@ const HomeStack = createStackNavigator<HomeStackParamList>();
 export function HomeStackNavigator() {
   return (
     <HomeStack.Navigator>
-      <HomeStack.Screen name="Feed" component={FeedScreen} />
+      <HomeStack.Screen
+        name="Feed"
+        component={FeedTopTabNavigator}
+        options={{ headerShown: false }}
+      />
       <HomeStack.Screen
         name="Details"
         component={PostScreen}
@@ -236,6 +242,39 @@ export function PreferencesStackNavigator() {
         />
       </PreferencesStack.Group>
     </PreferencesStack.Navigator>
+  );
+}
+
+const FeedTopTab = createMaterialTopTabNavigator<FeedTopTabParamList>();
+
+export function FeedTopTabNavigator() {
+  return (
+    <FeedTopTab.Navigator
+      screenOptions={{
+        tabBarGap: 20,
+        tabBarIndicatorStyle: {
+          backgroundColor: "black",
+          marginHorizontal: 13, // Needs to match the paddingHorizontal of tabBarStyle.
+        },
+        tabBarPressColor: "transparent",
+        tabBarItemStyle: {
+          width: "auto",
+          paddingHorizontal: 0,
+        },
+        tabBarLabelStyle: {
+          textTransform: "capitalize",
+          fontFamily: "Satoshi Bold",
+          marginHorizontal: 0,
+        },
+        tabBarStyle: {
+          elevation: 0,
+          paddingHorizontal: 13,
+        },
+      }}
+    >
+      <FeedTopTab.Screen component={ForYouScreen} name="ForYou" />
+      <FeedTopTab.Screen component={FollowingScreen} name="Following" />
+    </FeedTopTab.Navigator>
   );
 }
 
