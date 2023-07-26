@@ -31,7 +31,7 @@ import ProfileSettingsScreen from "../../screens/settings/ProfileSettingsScreen"
 import UsernameScreen from "../../screens/settings/UsernameScreen";
 import BiographyScreen from "../../screens/settings/BiographyScreen";
 import LocationScreen from "../../screens/settings/LocationScreen";
-import ForYouScreen from "../../screens/feed/ForYouScreen";
+import DiscoverScreen from "../../screens/feed/DiscoverScreen";
 
 const BottomTab = createBottomTabNavigator<RootTabParamList>();
 
@@ -272,7 +272,7 @@ export function FeedTopTabNavigator() {
         },
       }}
     >
-      <FeedTopTab.Screen component={ForYouScreen} name="ForYou" />
+      <FeedTopTab.Screen component={DiscoverScreen} name="Discover" />
       <FeedTopTab.Screen component={FollowingScreen} name="Following" />
     </FeedTopTab.Navigator>
   );

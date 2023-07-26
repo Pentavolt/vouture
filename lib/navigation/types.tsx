@@ -55,7 +55,7 @@ export type PreferencesStackParamList = {
 };
 
 export type FeedTopTabParamList = {
-  ForYou: undefined;
+  Discover: undefined;
   Following: undefined;
 };
 

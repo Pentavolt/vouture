@@ -21,13 +21,6 @@ export default function FollowingScreen({
   });
 
   useScrollToTop(ref);
-  // useFocusEffect(
-  //   useCallback(() => {
-  //     // Refetch feed when screen is in focus.
-  //     refetch();
-  //   }, [])
-  // );
-
   const renderItem = useCallback(
     ({ item, columnIndex }: MasonryListRenderItemInfo<Post>) => (
       <FeedItem

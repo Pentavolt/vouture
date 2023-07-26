@@ -11,9 +11,9 @@ import { FeedDocument, Post } from "../../generated/gql/graphql";
 import { FeedTopTabScreenProps } from "../../lib/navigation/types";
 import FeedItem from "../../components/FeedItem";
 
-export default function ForYouScreen({
+export default function DiscoverScreen({
   navigation,
-}: FeedTopTabScreenProps<"ForYou">) {
+}: FeedTopTabScreenProps<"Discover">) {
   const ref = useRef(null);
   const { data, fetchMore, refetch, networkStatus } = useQuery(FeedDocument, {
     variables: { count: 20 },
@@ -21,13 +21,6 @@ export default function ForYouScreen({
   });
 
   useScrollToTop(ref);
-  // useFocusEffect(
-  //   useCallback(() => {
-  //     // Refetch feed when screen is in focus.
-  //     refetch();
-  //   }, [])
-  // );
-
   const renderItem = useCallback(
     ({ item, columnIndex }: MasonryListRenderItemInfo<Post>) => (
       <FeedItem
