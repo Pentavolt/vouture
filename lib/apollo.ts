@@ -57,6 +57,12 @@ export const client = new ApolloClient({
             keyArgs: false,
             merge: (existing = {}, incoming) => ({ ...existing, ...incoming }),
           },
+          familiar: {
+            keyArgs: false,
+            merge: (existing = {}, incoming) => {
+              return { ...existing, ...incoming };
+            },
+          },
         },
       },
       Post: {
