@@ -22,10 +22,7 @@ mutation Login($password: String!, $email: String!) {
   }
 }
 
-query GetUser(
-  $where: UserWhereUniqueInput!
-  $orderBy: [PostOrderByWithRelationInput!]
-) {
+query GetUser($where: UserWhereUniqueInput!) {
   user(where: $where) {
     id
     username
@@ -40,47 +37,20 @@ query GetUser(
         name
       }
     }
-    posts(orderBy: $orderBy) {
-      id
-      content
-      createdAt
-      updatedAt
-      user {
-        id
-        username
-        image
-      }
-      attachments {
-        url
-      }
-      likes {
-        id
-        postId
-        userId
-      }
-      tags {
-        brand {
-          name
-        }
-        x
-        y
-      }
-      comments {
-        id
-        content
-        createdAt
-        author {
-          id
-          username
-          image
-        }
-      }
-    }
     followers {
+      id
       followerId
+      followingId
     }
     following {
+      id
       followerId
+      followingId
+    }
+    posts {
+      _count {
+        attachments
+      }
     }
   }
 }
@@ -93,7 +63,9 @@ mutation CreateUser($data: UserCreateInput!) {
 
 mutation CreateFollow($data: FollowCreateInput!) {
   createOneFollow(data: $data) {
-    createdAt
+    id
+    followingId
+    followerId
   }
 }
 
@@ -362,6 +334,48 @@ query Feed($count: Int!, $cursor: Int, $skip: Int) {
   }
 }
 
+query Familiar($count: Int!, $cursor: Int, $skip: Int) {
+  familiar(count: $count, skip: $skip, cursor: $cursor) {
+    posts {
+      id
+      content
+      user {
+        id
+        image
+        username
+      }
+      updatedAt
+      createdAt
+      comments {
+        id
+        content
+        author {
+          id
+          image
+          username
+        }
+        createdAt
+      }
+      likes {
+        id
+        userId
+        postId
+      }
+      attachments {
+        url
+      }
+      tags {
+        brand {
+          name
+        }
+        x
+        y
+      }
+    }
+    cursor
+  }
+}
+
 query Brands(
   $orderBy: [BrandOrderByWithRelationInput!]
   $take: Int
@@ -410,6 +424,7 @@ mutation CreateOneTopic($data: TopicCreateInput!) {
 
 mutation UpdateMe($data: UserUpdateInput!) {
   updateMe(data: $data) {
+    id
     image
     username
     email
