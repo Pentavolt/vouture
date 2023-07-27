@@ -5,6 +5,7 @@ import { useQuery } from "@apollo/client";
 import {
   GetUserDocument,
   Post,
+  PostsDocument,
   SortOrder,
   User,
 } from "../../generated/gql/graphql";
@@ -19,10 +20,21 @@ export default function ProfileScreen({
   route,
 }: UserStackScreenProps<"Profile">) {
   const { user } = useAuth();
-  const { data, refetch, loading } = useQuery(GetUserDocument, {
+  const currentUser = route.params ? route.params.user.id : user?.id;
+
+  const { data, refetch } = useQuery(GetUserDocument, {
+    variables: { where: { id: currentUser } },
+  });
+
+  const {
+    data: content,
+    loading,
+    fetchMore,
+  } = useQuery(PostsDocument, {
     variables: {
-      where: { id: route.params ? route.params.user.id : user?.id },
+      where: { userId: { equals: currentUser } },
       orderBy: { createdAt: SortOrder["Desc"] },
+      take: 20,
     },
   });
 
@@ -43,8 +55,20 @@ export default function ProfileScreen({
       refreshing={loading}
       numColumns={3}
       keyExtractor={(_, idx) => idx.toString()}
-      data={data?.user?.posts as Post[]}
+      data={content?.posts as Post[]}
       estimatedItemSize={200}
+      onEndReachedThreshold={0.5}
+      onEndReached={async () => {
+        const lastItemId = content?.posts[content.posts.length - 1].id;
+        await fetchMore({
+          variables: { cursor: { id: lastItemId }, skip: 1 },
+          updateQuery: (previousQueryResult, { fetchMoreResult }) => {
+            return {
+              posts: [...previousQueryResult.posts, ...fetchMoreResult.posts],
+            };
+          },
+        });
+      }}
     />
   );
 }
