@@ -73,6 +73,16 @@ export const client = new ApolloClient({
           },
         },
       },
+      User: {
+        fields: {
+          followers: {
+            merge: (_, incoming) => incoming,
+          },
+          following: {
+            merge: (_, incoming) => incoming,
+          },
+        },
+      },
     },
   }),
   link: from([
