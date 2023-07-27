@@ -113,7 +113,9 @@ const IntroStack = createStackNavigator<IntroStackParamList>();
 
 export function IntroStackNavigator() {
   return (
-    <IntroStack.Navigator>
+    <IntroStack.Navigator
+      screenOptions={{ headerTitleStyle: { fontFamily: "Satoshi Bold" } }}
+    >
       <IntroStack.Screen
         name="Front"
         component={FrontScreen}
@@ -129,7 +131,9 @@ const CameraStack = createStackNavigator<CameraStackParamList>();
 
 export function CameraStackNavigator() {
   return (
-    <CameraStack.Navigator>
+    <CameraStack.Navigator
+      screenOptions={{ headerTitleStyle: { fontFamily: "Satoshi Bold" } }}
+    >
       <CameraStack.Screen
         name="Camera"
         component={CameraScreen}
@@ -158,7 +162,9 @@ const HomeStack = createStackNavigator<HomeStackParamList>();
 
 export function HomeStackNavigator() {
   return (
-    <HomeStack.Navigator>
+    <HomeStack.Navigator
+      screenOptions={{ headerTitleStyle: { fontFamily: "Satoshi Bold" } }}
+    >
       <HomeStack.Screen
         name="Feed"
         component={FeedTopTabNavigator}
@@ -182,7 +188,9 @@ const UserStack = createStackNavigator<UserStackParamList>();
 
 export function UserStackNavigator() {
   return (
-    <UserStack.Navigator>
+    <UserStack.Navigator
+      screenOptions={{ headerTitleStyle: { fontFamily: "Satoshi Bold" } }}
+    >
       <UserStack.Screen
         name="Profile"
         component={ProfileScreen}
@@ -217,7 +225,9 @@ const PreferencesStack = createStackNavigator<PreferencesStackParamList>();
 
 export function PreferencesStackNavigator() {
   return (
-    <PreferencesStack.Navigator>
+    <PreferencesStack.Navigator
+      screenOptions={{ headerTitleStyle: { fontFamily: "Satoshi Bold" } }}
+    >
       <PreferencesStack.Screen name="Settings" component={SettingsScreen} />
       <PreferencesStack.Screen
         name="ProfileSettings"
@@ -265,6 +275,7 @@ export function FeedTopTabNavigator() {
           textTransform: "capitalize",
           fontFamily: "Satoshi Bold",
           marginHorizontal: 0,
+          fontSize: 16,
         },
         tabBarStyle: {
           elevation: 0,
