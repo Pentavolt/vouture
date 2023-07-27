@@ -51,6 +51,10 @@ const headingFont = createFont({
 });
 
 const bodyFont = createFont({ size: { ...defaultSizes }, family: "Satoshi" });
+const spanFont = createFont({
+  size: { ...defaultSizes },
+  family: "Satoshi Medium",
+});
 
 const config = createTamagui({
   animations,
@@ -61,6 +65,7 @@ const config = createTamagui({
   fonts: {
     heading: headingFont,
     body: bodyFont,
+    span: spanFont,
   },
   themes,
   tokens,
