@@ -10,6 +10,7 @@ import {
 } from "tamagui";
 import { useMutation, useQuery } from "@apollo/client";
 import {
+  GetUserDocument,
   MeDocument,
   UpdateMeDocument,
   UploadDocument,
@@ -23,7 +24,7 @@ export default function ProfileSettingsScreen({
 }: PreferencesStackScreenProps<"ProfileSettings">) {
   const { data, loading } = useQuery(MeDocument);
   const [upload] = useMutation(UploadDocument);
-  const [update] = useMutation(UpdateMeDocument);
+  const [updateMe] = useMutation(UpdateMeDocument);
 
   const openGallery = async () => {
     const result = await launchImageLibraryAsync({
@@ -45,8 +46,28 @@ export default function ProfileSettingsScreen({
       fetchPolicy: "network-only",
     });
 
-    if (!urls.data) return console.error("No upload data?");
-    update({ variables: { data: { image: { set: urls.data.upload[0] } } } });
+    if (!urls.data || !urls.data.upload.length) {
+      return console.error("No upload data?");
+    }
+
+    updateMe({
+      variables: { data: { image: { set: urls.data.upload[0] } } },
+      update: (cache, { data: content }) => {
+        if (!content?.updateMe) return;
+        cache.updateQuery(
+          {
+            query: GetUserDocument,
+            variables: { where: { id: content.updateMe.id } },
+          },
+          (data) => {
+            if (!data?.user) return undefined;
+            return {
+              user: { ...data.user, image: urls.data?.upload[0] as string },
+            };
+          }
+        );
+      },
+    });
   };
 
   // TODO: Add Formik here.
