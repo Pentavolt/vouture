@@ -33,6 +33,7 @@ export default function PostContent({ post, onNavigate }: PostContent) {
         </TouchableOpacity>
         {!!post.content && (
           <Paragraph
+            lineHeight={20}
             onTextLayout={(e) => setCanExpand(e.nativeEvent.lines.length > 2)}
             onPress={() => (canExpand ? setIsExpanded((curr) => !curr) : null)}
             color={"white"}
