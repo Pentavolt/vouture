@@ -24,7 +24,8 @@ export default function FeedItem({ post, column, onPress }: FeedItemProps) {
         <FastImage
           source={{ uri: post.attachments[0].url }}
           style={{
-            height: 200,
+            width: "100%",
+            aspectRatio: 3 / 4,
             borderTopLeftRadius: 5,
             borderTopRightRadius: 5,
           }}
@@ -32,7 +33,12 @@ export default function FeedItem({ post, column, onPress }: FeedItemProps) {
         />
         <View padding={10} space>
           {post.content?.length && (
-            <Text numberOfLines={2} color={"black"}>
+            <Text
+              fontFamily={"$body"}
+              numberOfLines={2}
+              lineHeight={20}
+              color={"black"}
+            >
               {post.content}
             </Text>
           )}
@@ -42,7 +48,7 @@ export default function FeedItem({ post, column, onPress }: FeedItemProps) {
                 <Avatar.Image source={{ uri: post.user.image }} />
                 <Avatar.Fallback backgroundColor="$blue10" />
               </Avatar>
-              <Text fontSize={"$3"} color={"black"}>
+              <Text fontFamily={"$span"} fontSize={"$2"} color={"black"}>
                 {post.user.username}
               </Text>
             </XStack>
