@@ -1,5 +1,4 @@
 import { useFonts } from "expo-font";
-import { useColorScheme } from "react-native";
 import { TamaguiProvider } from "tamagui";
 import config from "./tamagui.config";
 import { NavigationProvider } from "./lib/navigation";
@@ -13,6 +12,7 @@ export default function App() {
   const [loaded] = useFonts({
     Satoshi: require("./lib/fonts/satoshi/Satoshi-Regular.otf"),
     "Satoshi Bold": require("./lib/fonts/satoshi/Satoshi-Bold.otf"),
+    "Satoshi Medium": require("./lib/fonts/satoshi/Satoshi-Medium.otf"),
   });
 
   if (!loaded) {
