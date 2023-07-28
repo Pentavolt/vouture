@@ -32,6 +32,7 @@ import UsernameScreen from "../../screens/settings/UsernameScreen";
 import BiographyScreen from "../../screens/settings/BiographyScreen";
 import LocationScreen from "../../screens/settings/LocationScreen";
 import DiscoverScreen from "../../screens/feed/DiscoverScreen";
+import PrivacyScreen from "../../screens/settings/PrivacyScreen";
 
 const BottomTab = createBottomTabNavigator<RootTabParamList>();
 
@@ -250,6 +251,9 @@ export function PreferencesStackNavigator() {
           component={LocationScreen}
           options={{ headerTitle: "Edit Location" }}
         />
+      </PreferencesStack.Group>
+      <PreferencesStack.Group>
+        <PreferencesStack.Screen name="Privacy" component={PrivacyScreen} />
       </PreferencesStack.Group>
     </PreferencesStack.Navigator>
   );
