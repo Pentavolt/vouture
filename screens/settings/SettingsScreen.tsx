@@ -26,17 +26,8 @@ export default function SettingsScreen({
             hoverTheme
             pressTheme
             fontSize={15}
-            icon={<Ionicons name="information-circle" />}
-          >
-            Account
-          </ListItem>
-        </YGroup.Item>
-        <YGroup.Item>
-          <ListItem
-            hoverTheme
-            pressTheme
-            fontSize={15}
             icon={<Ionicons name="lock-closed" />}
+            onPress={() => navigation.navigate("Privacy")}
           >
             Privacy
           </ListItem>
