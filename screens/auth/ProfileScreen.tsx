@@ -1,3 +1,4 @@
+import { Ionicons } from "@expo/vector-icons";
 import { useAuth } from "../../lib/hooks";
 import { UserStackScreenProps } from "../../lib/navigation/types";
 import { FlashList } from "@shopify/flash-list";
@@ -9,7 +10,7 @@ import {
   SortOrder,
   User,
 } from "../../generated/gql/graphql";
-import { Text } from "tamagui";
+import { Paragraph, Text, YStack } from "tamagui";
 import PostPreview from "../../components/post/PostPreview";
 import ProfileHeader from "../../components/ProfileHeader";
 
@@ -46,6 +47,35 @@ export default function ProfileScreen({
   );
 
   if (loading || !data?.user) return <Text>Loading...</Text>;
+  if (
+    data.user.id !== user?.id &&
+    data.user.isPrivate &&
+    !data.user.followers.some((follow) => follow.followerId === user?.id)
+  ) {
+    return (
+      <YStack flex={1}>
+        <ProfileHeader user={data.user as User} />
+        <YStack
+          space
+          paddingHorizontal={"$7"}
+          flexGrow={1}
+          alignItems="center"
+          justifyContent="center"
+        >
+          <Ionicons name="lock-closed" size={40} />
+          <Paragraph
+            fontFamily={"$span"}
+            color={"$gray7Dark"}
+            textAlign="center"
+          >
+            This user has a private profile. To see their posts, request to
+            follow them.
+          </Paragraph>
+        </YStack>
+      </YStack>
+    );
+  }
+
   return (
     // TODO: Try design with space between images.
     <FlashList<Post>
