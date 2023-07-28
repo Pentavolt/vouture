@@ -134,32 +134,6 @@ export default function ProfileSettingsScreen({
           </YGroup.Item>
         </YGroup>
       </YStack>
-      {/* <YStack minWidth={300} justifyContent="space-between" flexGrow={1}>
-        <YStack>
-          <Label htmlFor="biography" color={"black"}>
-            Biography
-          </Label>
-          <TextArea
-            id="biography"
-            minHeight={100}
-            maxLength={300}
-            color={"black"}
-            backgroundColor={"$gray3Light"}
-            borderColor={"$gray3Light"}
-            focusStyle={{ borderColor: "$gray3Light" }}
-            textAlignVertical="top"
-            value={text}
-            onChangeText={setText}
-          />
-        </YStack>
-        <Button
-          disabled={disabled}
-          onPress={onSave}
-          icon={disabled ? <Spinner /> : <Ionicons name="save" />} // Note: This causes a slight change in width.
-        >
-          Save Changes
-        </Button>
-      </YStack> */}
     </ScrollView>
   );
 }
