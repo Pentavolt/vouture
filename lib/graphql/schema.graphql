@@ -38,6 +38,11 @@ query GetUser($where: UserWhereUniqueInput!) {
         name
       }
     }
+    blocker {
+      id
+      blockedId
+      blockerId
+    }
     followers {
       id
       followerId
@@ -87,47 +92,61 @@ mutation CreatePost($data: PostCreateInput!) {
 
 query Post($where: PostWhereUniqueInput!) {
   post(where: $where) {
+    id
     content
-    createdAt
-    updatedAt
     user {
       id
-      username
       image
+      username
     }
-    comments {
+    createdAt
+    updatedAt
+    comments(where: { isHidden: { equals: false } }) {
       id
       content
-      createdAt
+      isHidden
       author {
         id
         image
         username
       }
+      postId
+      post {
+        userId
+      }
+      createdAt
     }
     likes {
       id
-      userId
       postId
+      userId
+    }
+    tags {
+      x
+      y
+      brand {
+        name
+      }
     }
     attachments {
       url
     }
-    id
   }
 }
 mutation CreateComment($data: CommentCreateInput!) {
   createOneComment(data: $data) {
     id
     content
+    isHidden
     author {
       id
       image
       username
     }
-    authorId
     postId
-    updatedAt
+    post {
+      userId
+    }
     createdAt
   }
 }
@@ -162,13 +181,18 @@ query Posts(
     }
     createdAt
     updatedAt
-    comments {
+    comments(where: { isHidden: { equals: false } }) {
       id
       content
+      isHidden
       author {
         id
         image
         username
+      }
+      postId
+      post {
+        userId
       }
       createdAt
     }
@@ -430,5 +454,29 @@ mutation UpdateMe($data: UserUpdateInput!) {
     image
     username
     email
+  }
+}
+
+mutation CreateOneBlocklist($data: BlocklistCreateInput!) {
+  createOneBlocklist(data: $data) {
+    blockerId
+    blockedId
+    id
+  }
+}
+
+mutation UpdateOneComment(
+  $data: CommentUpdateInput!
+  $where: CommentWhereUniqueInput!
+) {
+  updateOneComment(data: $data, where: $where) {
+    id
+    content
+    author {
+      id
+      image
+      username
+    }
+    createdAt
   }
 }
