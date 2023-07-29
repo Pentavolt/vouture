@@ -6,6 +6,7 @@ import { storage } from "./store";
 import { isExpired } from "./utils";
 import { RefreshDocument } from "../generated/gql/graphql";
 import { API_URL } from "./constants";
+import { apolloDevToolsInit } from "react-native-apollo-devtools-client";
 
 const refreshLink = setContext(async (operation) => {
   const accessToken = storage.getString("jwt");
@@ -104,3 +105,5 @@ export const client = new ApolloClient({
     createUploadLink({ uri: API_URL }),
   ]),
 });
+
+if (__DEV__) apolloDevToolsInit(client);
