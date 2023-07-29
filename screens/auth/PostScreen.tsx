@@ -16,14 +16,17 @@ export default function PostScreen({
   // TODO: Consider making this a similar posts feed.
   const ref = useRef(null);
   const { height } = useWindowDimensions();
-  const { data, fetchMore, refetch, networkStatus } = useQuery(PostsDocument, {
-    fetchPolicy: "network-only",
-    variables: {
-      take: 20,
-      cursor: { id: route.params.post.id },
-      orderBy: [{ createdAt: SortOrder["Desc"] }, { id: SortOrder["Desc"] }],
-    },
-  });
+  const { data, loading, fetchMore, refetch, networkStatus } = useQuery(
+    PostsDocument,
+    {
+      fetchPolicy: "network-only",
+      variables: {
+        take: 20,
+        cursor: { id: route.params.post.id },
+        orderBy: [{ createdAt: SortOrder["Desc"] }, { id: SortOrder["Desc"] }],
+      },
+    }
+  );
 
   useScrollToTop(ref);
   useEffect(() => {
@@ -40,8 +43,12 @@ export default function PostScreen({
     []
   );
 
-  if (!data) {
-    return <Spinner size="large" />;
+  if (loading) {
+    return (
+      <View flex={1} justifyContent="center" alignItems="center">
+        <Spinner size="large" />
+      </View>
+    );
   }
 
   return (
