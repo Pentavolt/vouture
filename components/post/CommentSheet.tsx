@@ -8,10 +8,11 @@ import {
   XStack,
   YStack,
 } from "tamagui";
-import { Comment } from "../../generated/gql/graphql";
+import { Comment, User } from "../../generated/gql/graphql";
 import { FlashList } from "@shopify/flash-list";
 import { useCallback, useRef, useState } from "react";
 import CommentItem from "./CommentItem";
+import { useAuth } from "../../lib/hooks";
 
 interface CommentSheetProps {
   comments: Comment[];
@@ -27,11 +28,14 @@ export default function CommentSheet({
   onComment,
 }: CommentSheetProps) {
   const ref = useRef<FlashList<Comment>>(null);
+  const { user } = useAuth();
   const [text, setText] = useState<string>("");
   const [disabled, setDisabled] = useState<boolean>(false);
 
   const renderItem = useCallback(
-    ({ item }: { item: Comment }) => <CommentItem comment={item} />,
+    ({ item }: { item: Comment }) => (
+      <CommentItem user={user as User} comment={item} />
+    ),
     []
   );
 
@@ -44,6 +48,7 @@ export default function CommentSheet({
       onOpenChange={onClose}
     >
       <Sheet.Handle />
+      <Sheet.Overlay opacity={0} />
       <Sheet.Frame flex={1}>
         <YStack space padding="$3" flex={1}>
           <FlashList<Comment>
@@ -72,7 +77,11 @@ export default function CommentSheet({
                 // Awaiting this is slow but necessary for scrollToEnd() to work.
                 await onComment(text);
                 if (comments.length) {
-                  ref.current?.scrollToEnd({ animated: true });
+                  // Not a great solution, but works for now.
+                  setTimeout(
+                    () => ref.current?.scrollToEnd({ animated: true }),
+                    100
+                  );
                 }
 
                 setDisabled(false);
