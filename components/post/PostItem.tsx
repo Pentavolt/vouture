@@ -19,6 +19,7 @@ import {
   Post,
   PostDocument,
   PostQuery,
+  PostWhereUniqueInput,
 } from "../../generated/gql/graphql";
 import { AnimatableClothingLabel } from "./ClothingLabel";
 import FastImage from "react-native-fast-image";
@@ -107,8 +108,9 @@ export default function PostItem({ post, onNavigate }: PostItemProps) {
       },
       update: (cache, { data }) => {
         if (!data) return;
-        cache.writeQuery<PostQuery>({
+        cache.writeQuery<PostQuery, PostWhereUniqueInput>({
           query: PostDocument,
+          variables: { id: post.id },
           data: {
             post: {
               ...post,
@@ -140,6 +142,7 @@ export default function PostItem({ post, onNavigate }: PostItemProps) {
         if (!data) return;
         cache.writeQuery<PostQuery>({
           query: PostDocument,
+          variables: { id: post.id },
           data: {
             post: {
               ...post,
@@ -162,6 +165,7 @@ export default function PostItem({ post, onNavigate }: PostItemProps) {
       update: (cache) => {
         cache.writeQuery<PostQuery>({
           query: PostDocument,
+          variables: { id: post.id },
           data: {
             post: {
               ...post,
