@@ -53,6 +53,14 @@ export const client = new ApolloClient({
     typePolicies: {
       Query: {
         fields: {
+          post: {
+            read(_, { args, toReference }) {
+              return toReference({
+                __typename: "Post",
+                id: args?.where.id,
+              });
+            },
+          },
           feed: {
             keyArgs: false,
             merge: (existing = {}, incoming) => ({ ...existing, ...incoming }),
@@ -68,6 +76,10 @@ export const client = new ApolloClient({
       Post: {
         fields: {
           likes: {
+            keyArgs: false,
+            merge: (_, incoming: any[]) => incoming,
+          },
+          comments: {
             keyArgs: false,
             merge: (_, incoming: any[]) => incoming,
           },
