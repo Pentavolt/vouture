@@ -7,6 +7,7 @@ import { Suspense } from "react";
 import { ToastProvider, ToastViewport } from "@tamagui/toast";
 import { ApolloProvider } from "@apollo/client";
 import { client } from "./lib/apollo";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 export default function App() {
   const [loaded] = useFonts({
@@ -20,17 +21,19 @@ export default function App() {
   }
 
   return (
-    <TamaguiProvider config={config}>
+    <GestureHandlerRootView style={{ flex: 1 }}>
       <ApolloProvider client={client}>
-        <AuthProvider>
-          <Suspense>
-            <ToastProvider>
-              <NavigationProvider colorScheme={"light"} />
-              <ToastViewport />
-            </ToastProvider>
-          </Suspense>
-        </AuthProvider>
+        <TamaguiProvider config={config}>
+          <AuthProvider>
+            <Suspense>
+              <ToastProvider>
+                <NavigationProvider colorScheme={"light"} />
+                <ToastViewport />
+              </ToastProvider>
+            </Suspense>
+          </AuthProvider>
+        </TamaguiProvider>
       </ApolloProvider>
-    </TamaguiProvider>
+    </GestureHandlerRootView>
   );
 }
