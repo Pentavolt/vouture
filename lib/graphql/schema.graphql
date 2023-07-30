@@ -499,6 +499,7 @@ query Blocklists(
   $skip: Int
 ) {
   blocklists(where: $where, cursor: $cursor, orderBy: $orderBy, skip: $skip) {
+    id
     blocked {
       username
       image
