@@ -48,7 +48,7 @@ export default function CommentSheet({
       onOpenChange={onClose}
     >
       <Sheet.Handle />
-      <Sheet.Overlay opacity={0.2} />
+      <Sheet.Overlay />
       <Sheet.Frame flex={1}>
         <YStack space padding="$3" flex={1}>
           <FlashList<Comment>
