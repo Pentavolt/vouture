@@ -33,6 +33,7 @@ import BiographyScreen from "../../screens/settings/BiographyScreen";
 import LocationScreen from "../../screens/settings/LocationScreen";
 import DiscoverScreen from "../../screens/feed/DiscoverScreen";
 import PrivacyScreen from "../../screens/settings/PrivacyScreen";
+import BlockedUsersScreen from "../../screens/settings/BlockedUsersScreen";
 
 const BottomTab = createBottomTabNavigator<RootTabParamList>();
 
@@ -254,6 +255,10 @@ export function PreferencesStackNavigator() {
       </PreferencesStack.Group>
       <PreferencesStack.Group>
         <PreferencesStack.Screen name="Privacy" component={PrivacyScreen} />
+        <PreferencesStack.Screen
+          name="Blocklist"
+          component={BlockedUsersScreen}
+        />
       </PreferencesStack.Group>
     </PreferencesStack.Navigator>
   );

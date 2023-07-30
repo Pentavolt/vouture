@@ -1,3 +1,4 @@
+import { Ionicons } from "@expo/vector-icons";
 import { useMutation, useQuery } from "@apollo/client";
 import {
   Heading,
@@ -11,8 +12,11 @@ import {
 import { MeDocument, UpdateMeDocument } from "../../generated/gql/graphql";
 import { useState } from "react";
 import { View } from "tamagui";
+import { PreferencesStackScreenProps } from "../../lib/navigation/types";
 
-export default function PrivacyScreen() {
+export default function PrivacyScreen({
+  navigation,
+}: PreferencesStackScreenProps<"Privacy">) {
   const [checked, setChecked] = useState<boolean>(false);
   const [updateMe] = useMutation(UpdateMeDocument);
   const { loading } = useQuery(MeDocument, {
@@ -59,6 +63,16 @@ export default function PrivacyScreen() {
                 </Switch>
               }
             />
+          </YGroup.Item>
+        </YGroup>
+        <YGroup>
+          <YGroup.Item>
+            <ListItem
+              iconAfter={<Ionicons size={15} name="chevron-forward" />}
+              onPress={() => navigation.navigate("Blocklist")}
+            >
+              Blocked Users
+            </ListItem>
           </YGroup.Item>
         </YGroup>
       </YStack>

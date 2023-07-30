@@ -53,6 +53,7 @@ export type PreferencesStackParamList = {
   Biography: undefined;
   Location: undefined;
   Privacy: undefined;
+  Blocklist: undefined;
 };
 
 export type FeedTopTabParamList = {
