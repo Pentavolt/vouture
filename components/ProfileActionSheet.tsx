@@ -97,25 +97,30 @@ export default function ProfileActionSheet({
                     },
                   },
                   update: (cache) => {
-                    cache.writeQuery({
-                      query: GetUserDocument,
-                      variables: { where: { id: viewedUser.id } },
-                      data: {
-                        user: {
-                          ...viewedUser,
-                          blocker: viewedUser.blocked.filter(
-                            (block) =>
-                              block.blockedId !== viewedUser.id &&
-                              block.blockerId !== currentUser.id
-                          ),
-                          blocked: viewedUser.blocked.filter(
-                            (block) =>
-                              block.blockedId !== viewedUser.id &&
-                              block.blockerId !== currentUser.id
-                          ),
-                        },
+                    cache.updateQuery(
+                      {
+                        query: GetUserDocument,
+                        variables: { where: { id: viewedUser.id } },
                       },
-                    });
+                      (data) => {
+                        if (!data?.user) return undefined;
+                        return {
+                          user: {
+                            ...data.user,
+                            blocker: data.user.blocker.filter(
+                              (block) =>
+                                block.blockedId !== viewedUser.id &&
+                                block.blockerId !== currentUser.id
+                            ),
+                            blocked: data.user.blocked.filter(
+                              (block) =>
+                                block.blockedId !== viewedUser.id &&
+                                block.blockerId !== currentUser.id
+                            ),
+                          },
+                        };
+                      }
+                    );
                   },
                 })
               }
