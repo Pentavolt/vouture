@@ -94,6 +94,12 @@ export const client = new ApolloClient({
           following: {
             merge: (_, incoming) => incoming,
           },
+          blocker: {
+            merge: (_, incoming) => incoming,
+          },
+          blocked: {
+            merge: (_, incoming) => incoming,
+          },
         },
       },
     },
