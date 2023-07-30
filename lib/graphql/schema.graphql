@@ -43,6 +43,11 @@ query GetUser($where: UserWhereUniqueInput!) {
       blockedId
       blockerId
     }
+    blocked {
+      id
+      blockedId
+      blockerId
+    }
     followers {
       id
       followerId
@@ -476,6 +481,27 @@ mutation UpdateOneComment(
       id
       image
       username
+    }
+    createdAt
+  }
+}
+
+mutation DeleteOneBlocklist($where: BlocklistWhereUniqueInput!) {
+  deleteOneBlocklist(where: $where) {
+    id
+  }
+}
+
+query Blocklists(
+  $where: BlocklistWhereInput
+  $cursor: BlocklistWhereUniqueInput
+  $orderBy: [BlocklistOrderByWithRelationInput!]
+  $skip: Int
+) {
+  blocklists(where: $where, cursor: $cursor, orderBy: $orderBy, skip: $skip) {
+    blocked {
+      username
+      image
     }
     createdAt
   }
