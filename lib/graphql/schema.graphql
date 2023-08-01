@@ -191,6 +191,7 @@ query Posts(
     }
     createdAt
     updatedAt
+    isCommentable
     comments(where: { isHidden: { equals: false } }) {
       id
       content
@@ -340,6 +341,7 @@ query Feed($count: Int!, $cursor: Int, $skip: Int) {
       }
       updatedAt
       createdAt
+      isCommentable
       comments {
         id
         content
@@ -382,6 +384,7 @@ query Familiar($count: Int!, $cursor: Int, $skip: Int) {
       }
       updatedAt
       createdAt
+      isCommentable
       comments {
         id
         content

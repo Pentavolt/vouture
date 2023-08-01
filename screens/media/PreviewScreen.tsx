@@ -7,6 +7,7 @@ import {
   ListItem,
   Separator,
   Spinner,
+  Switch,
   Text,
   TextArea,
   View,
@@ -39,6 +40,7 @@ export default function PreviewScreen({
   const [caption, setCaption] = useState<string>("");
   const [uploading, setUploading] = useState<boolean>(false);
   const [topicNames, setTopicNames] = useState<string[]>([]);
+  const [checked, setChecked] = useState<boolean>(true);
   const { user } = useAuth();
   const { photo, tags } = route.params;
 
@@ -70,6 +72,7 @@ export default function PreviewScreen({
               },
             })),
           },
+          isCommentable: checked,
           content: caption.length ? caption : undefined,
           attachments: { create: urls.data.upload.map((url) => ({ url })) },
           user: { connect: { id: user?.id } },
@@ -195,6 +198,23 @@ export default function PreviewScreen({
         <YGroup separator={<Separator />}>
           <YGroup.Item>
             <ListItem
+              title={"Allow comments"}
+              icon={<Ionicons name="chatbox" />}
+              subTitle={"Allow other users to comment on this post."}
+              iconAfter={
+                <Switch
+                  size={"$3"}
+                  checked={checked}
+                  backgroundColor={checked ? "#FE9F10" : "$gray6Dark"}
+                  onCheckedChange={() => setChecked((curr) => !curr)}
+                >
+                  <Switch.Thumb animation="bouncy" />
+                </Switch>
+              }
+            />
+          </YGroup.Item>
+          <YGroup.Item>
+            <ListItem
               hoverTheme
               pressTheme
               title="Location"
@@ -217,7 +237,7 @@ export default function PreviewScreen({
         </YGroup>
         <Button
           disabled={uploading}
-          backgroundColor={"$orange7Light"}
+          backgroundColor={"#FE9F10"}
           icon={uploading ? <Spinner /> : <Ionicons name="send" />}
           onPress={onPress}
         >

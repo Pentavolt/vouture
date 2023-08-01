@@ -239,7 +239,7 @@ export default function PostItem({ post, onNavigate }: PostItemProps) {
         onLikePress={() => (isLiked ? handleUnlike() : onDoubleTap())}
       />
       <CommentSheet
-        comments={post.comments}
+        post={post}
         open={open}
         onClose={() => setOpen(false)}
         onComment={handleComment}
