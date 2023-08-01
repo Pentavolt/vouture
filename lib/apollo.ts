@@ -72,6 +72,9 @@ export const client = new ApolloClient({
               return { ...existing, ...incoming };
             },
           },
+          followRequests: {
+            merge: (_, incoming) => incoming,
+          },
         },
       },
       Post: {
@@ -98,6 +101,9 @@ export const client = new ApolloClient({
             merge: (_, incoming) => incoming,
           },
           blocked: {
+            merge: (_, incoming) => incoming,
+          },
+          incomingRequests: {
             merge: (_, incoming) => incoming,
           },
         },
