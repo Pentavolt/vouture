@@ -5,19 +5,11 @@ import {
   BlocklistsDocument,
   DeleteOneBlocklistDocument,
 } from "../../generated/gql/graphql";
-import {
-  Avatar,
-  ListItem,
-  Paragraph,
-  Spinner,
-  Text,
-  View,
-  XStack,
-  YStack,
-} from "tamagui";
+import { Spinner, Text, View, YStack } from "tamagui";
 import { FlashList, ListRenderItemInfo } from "@shopify/flash-list";
 import { useCallback } from "react";
 import { useAuth } from "../../lib/hooks";
+import UserListItem from "../../components/UserListItem";
 
 export default function BlockedUsersScreen() {
   const { user } = useAuth();
@@ -28,34 +20,19 @@ export default function BlockedUsersScreen() {
 
   const renderItem = useCallback(
     ({ item }: ListRenderItemInfo<Blocklist>) => (
-      <ListItem
+      <UserListItem
         pressTheme
-        borderRadius={"$3"}
-        flex={1}
-        backgroundColor={"$background"}
+        user={item.blocked}
+        subtitle={"Blocked on " + new Date(item.createdAt).toLocaleDateString()}
         onPress={() =>
           unblock({
             variables: { where: { id: item.id } },
-            update: (cache) => {
-              // TODO: Update cache and remove the block.
-            },
+            // TODO: Update cache and remove the block.
           })
         }
       >
-        <XStack alignItems="center" space>
-          <Avatar circular size={"$4"}>
-            <Avatar.Image source={{ uri: item.blocked.image }} />
-            <Avatar.Fallback backgroundColor={"red"} />
-          </Avatar>
-          <YStack flexGrow={1}>
-            <Text>{item.blocked.username}</Text>
-            <Paragraph color={"$gray7Light"}>
-              {"Blocked on " + new Date(item.createdAt).toLocaleDateString()}
-            </Paragraph>
-          </YStack>
-          <Ionicons size={15} color={"white"} name="close" />
-        </XStack>
-      </ListItem>
+        <Ionicons size={15} color={"white"} name="close" />
+      </UserListItem>
     ),
     []
   );
@@ -86,6 +63,7 @@ export default function BlockedUsersScreen() {
       <FlashList
         data={data.blocklists as Blocklist[]}
         renderItem={renderItem}
+        keyExtractor={(_, idx) => idx.toString()}
         estimatedItemSize={60}
       />
     </YStack>
