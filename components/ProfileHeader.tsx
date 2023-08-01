@@ -11,14 +11,15 @@ import {
 } from "tamagui";
 import {
   CreateFollowDocument,
+  CreateOneFollowRequestDocument,
   DeleteFollowDocument,
+  DeleteOneFollowRequestDocument,
   GetUserDocument,
   User,
 } from "../generated/gql/graphql";
 import Badge from "./Badge";
 import { useAuth } from "../lib/hooks";
 import { useMutation } from "@apollo/client";
-import { useRef } from "react";
 
 interface ProfileHeaderProps {
   user: User;
@@ -28,13 +29,79 @@ export default function ProfileHeader({ user }: ProfileHeaderProps) {
   const { user: me } = useAuth();
   const [follow] = useMutation(CreateFollowDocument);
   const [unfollow] = useMutation(DeleteFollowDocument);
-  const isFollowing = useRef(
-    user.followers.some((follow) => follow.followerId === me?.id)
+  const [request] = useMutation(CreateOneFollowRequestDocument);
+  const [unrequest] = useMutation(DeleteOneFollowRequestDocument);
+  const isFollowing = user.followers.some(
+    (follow) => follow.followerId === me?.id
   );
 
-  const onPress = () => {
+  const hasRequested = user.incomingRequests.some(
+    (request) => request.requesterId === me?.id
+  );
+
+  const getButtonText = () => {
+    if (isFollowing) return "Unfollow";
+    if (hasRequested) return "Requested";
+    if (user.isPrivate) return "Request";
+    else return "Follow";
+  };
+
+  const onPress = async () => {
     if (!me) return;
-    if (isFollowing.current) {
+    if (hasRequested) {
+      return unrequest({
+        errorPolicy: "ignore", // Poor workaround, should either use subscriptions or try to refetch the query.
+        variables: {
+          where: { block: { requesterId: me.id, targetId: user.id } },
+        },
+        update: (cache) => {
+          cache.updateQuery(
+            { query: GetUserDocument, variables: { where: { id: user.id } } },
+            (data) => {
+              if (!data?.user) return undefined;
+              return {
+                user: {
+                  ...data.user,
+                  incomingRequests: data.user.incomingRequests.filter(
+                    (request) => request.requesterId !== me.id
+                  ),
+                },
+              };
+            }
+          );
+        },
+      });
+    }
+
+    if (!isFollowing && user.isPrivate) {
+      return request({
+        variables: {
+          data: {
+            requester: { connect: { id: me.id } },
+            target: { connect: { id: user.id } },
+          },
+        },
+        update: (cache, { data }) => {
+          cache.updateQuery(
+            { query: GetUserDocument, variables: { where: { id: user.id } } },
+            (cached) => {
+              if (!cached?.user || !data) return undefined;
+              return {
+                user: {
+                  ...cached.user,
+                  incomingRequests: [
+                    ...cached.user.incomingRequests,
+                    data.createOneFollowRequest,
+                  ],
+                },
+              };
+            }
+          );
+        },
+      });
+    }
+
+    if (isFollowing) {
       unfollow({
         variables: {
           where: {
@@ -78,8 +145,6 @@ export default function ProfileHeader({ user }: ProfileHeaderProps) {
           );
         },
       });
-
-      isFollowing.current = false;
     } else {
       follow({
         variables: {
@@ -119,8 +184,6 @@ export default function ProfileHeader({ user }: ProfileHeaderProps) {
           );
         },
       });
-
-      isFollowing.current = true;
     }
   };
 
@@ -199,12 +262,10 @@ export default function ProfileHeader({ user }: ProfileHeaderProps) {
           onPress={onPress}
           width={"100%"}
           icon={
-            <Ionicons
-              name={isFollowing.current ? "person-remove" : "person-add"}
-            />
+            <Ionicons name={isFollowing ? "person-remove" : "person-add"} />
           }
         >
-          {isFollowing.current ? "Unfollow" : "Follow"}
+          {getButtonText()}
         </Button>
       )}
     </YStack>
