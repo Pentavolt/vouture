@@ -67,9 +67,10 @@ export default function PostScreen({
         keyExtractor={(_, idx) => idx.toString()}
         onEndReachedThreshold={5}
         onEndReached={async () => {
+          if (!data?.posts[data?.posts.length - 1]) return;
           await fetchMore({
             variables: {
-              cursor: { id: data?.posts[data?.posts.length - 1].id },
+              cursor: { id: data?.posts[data?.posts.length - 1]?.id },
               skip: 1,
             },
             updateQuery: (previousQueryResult, { fetchMoreResult }) => {
