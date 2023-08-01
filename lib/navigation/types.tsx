@@ -17,6 +17,7 @@ export type RootStackParamList = {
 export type RootTabParamList = {
   Home: NavigatorScreenParams<HomeStackParamList>;
   User: NavigatorScreenParams<UserStackParamList>;
+  Inbox: NavigatorScreenParams<InboxStackParamList>;
   Media: undefined;
 };
 
@@ -59,6 +60,11 @@ export type PreferencesStackParamList = {
 export type FeedTopTabParamList = {
   Discover: undefined;
   Following: undefined;
+};
+
+export type InboxStackParamList = {
+  Notifications: undefined;
+  Requests: undefined;
 };
 
 export type RootStackScreenProps<T extends keyof RootStackParamList> =
@@ -106,6 +112,15 @@ export type PreferencesStackScreenProps<
     >
   >
 >;
+
+export type InboxStackScreenProps<T extends keyof InboxStackParamList> =
+  CompositeScreenProps<
+    StackScreenProps<InboxStackParamList, T>,
+    CompositeScreenProps<
+      BottomTabScreenProps<RootTabParamList, "Inbox">,
+      RootStackScreenProps<keyof RootStackParamList>
+    >
+  >;
 
 export type RootTabScreenProps<T extends keyof RootTabParamList> =
   CompositeScreenProps<

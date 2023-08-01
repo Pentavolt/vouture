@@ -13,6 +13,7 @@ import {
   RootTabScreenProps,
   CameraStackScreenProps,
   FeedTopTabParamList,
+  InboxStackParamList,
 } from "./types";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
@@ -34,6 +35,8 @@ import LocationScreen from "../../screens/settings/LocationScreen";
 import DiscoverScreen from "../../screens/feed/DiscoverScreen";
 import PrivacyScreen from "../../screens/settings/PrivacyScreen";
 import BlockedUsersScreen from "../../screens/settings/BlockedUsersScreen";
+import NotificationsScreen from "../../screens/inbox/NotificationsScreen";
+import RequestsScreen from "../../screens/inbox/RequestsScreen";
 
 const BottomTab = createBottomTabNavigator<RootTabParamList>();
 
@@ -87,6 +90,24 @@ export function BottomTabNavigator() {
             e.preventDefault();
             navigation.navigate("Create", { screen: "Camera" });
           },
+        })}
+      />
+      <BottomTab.Screen
+        name="Inbox"
+        component={InboxStackNavigator}
+        options={({ route }) => ({
+          tabBarStyle: {
+            display:
+              getFocusedRouteNameFromRoute(route) === "Details"
+                ? "none"
+                : "flex",
+          },
+          tabBarIcon: ({ color, focused }) => (
+            <TabBarIcon
+              name={focused ? "file-tray" : "file-tray-outline"}
+              color={color}
+            />
+          ),
         })}
       />
       <BottomTab.Screen
@@ -295,6 +316,19 @@ export function FeedTopTabNavigator() {
       <FeedTopTab.Screen component={DiscoverScreen} name="Discover" />
       <FeedTopTab.Screen component={FollowingScreen} name="Following" />
     </FeedTopTab.Navigator>
+  );
+}
+
+const InboxStack = createStackNavigator<InboxStackParamList>();
+
+export function InboxStackNavigator() {
+  return (
+    <InboxStack.Navigator
+      screenOptions={{ headerTitleStyle: { fontFamily: "Satoshi Bold" } }}
+    >
+      <InboxStack.Screen name="Notifications" component={NotificationsScreen} />
+      <InboxStack.Screen name="Requests" component={RequestsScreen} />
+    </InboxStack.Navigator>
   );
 }
 
