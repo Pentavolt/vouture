@@ -74,6 +74,7 @@ export default function LabelScreen({
         dismissOnSnapToBottom
         forceRemoveScrollEnabled={open}
       >
+        <Sheet.Overlay />
         <Sheet.Handle backgroundColor={"white"} />
         <Sheet.Frame backgroundColor={"white"}>
           <FlashList<Brand>
