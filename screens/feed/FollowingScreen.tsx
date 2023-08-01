@@ -7,7 +7,7 @@ import {
 } from "@shopify/flash-list";
 import { View, YStack } from "tamagui";
 import { NetworkStatus, useQuery } from "@apollo/client";
-import { FeedDocument, Post } from "../../generated/gql/graphql";
+import { FamiliarDocument, Post } from "../../generated/gql/graphql";
 import { FeedTopTabScreenProps } from "../../lib/navigation/types";
 import FeedItem from "../../components/FeedItem";
 
@@ -15,10 +15,13 @@ export default function FollowingScreen({
   navigation,
 }: FeedTopTabScreenProps<"Following">) {
   const ref = useRef(null);
-  const { data, fetchMore, refetch, networkStatus } = useQuery(FeedDocument, {
-    variables: { count: 20 },
-    notifyOnNetworkStatusChange: true,
-  });
+  const { data, fetchMore, refetch, networkStatus } = useQuery(
+    FamiliarDocument,
+    {
+      variables: { count: 20 },
+      notifyOnNetworkStatusChange: true,
+    }
+  );
 
   useScrollToTop(ref);
   const renderItem = useCallback(
@@ -67,7 +70,7 @@ export default function FollowingScreen({
         ref={ref}
         numColumns={2}
         estimatedItemSize={200}
-        data={data?.feed.posts as Post[]}
+        data={data?.familiar.posts as Post[]}
         decelerationRate="normal"
         disableIntervalMomentum={true}
         removeClippedSubviews={true}
@@ -77,13 +80,13 @@ export default function FollowingScreen({
         onEndReachedThreshold={1}
         onEndReached={async () => {
           await fetchMore({
-            variables: { cursor: data?.feed.cursor, skip: 1 },
+            variables: { cursor: data?.familiar.cursor, skip: 1 },
             updateQuery: (previousResult, { fetchMoreResult }) => {
-              const newEntries = fetchMoreResult.feed.posts;
+              const newEntries = fetchMoreResult.familiar.posts;
               return {
-                feed: {
-                  cursor: fetchMoreResult.feed.cursor,
-                  posts: [...previousResult.feed.posts, ...newEntries],
+                familiar: {
+                  cursor: fetchMoreResult.familiar.cursor,
+                  posts: [...previousResult.familiar.posts, ...newEntries],
                 },
               };
             },
