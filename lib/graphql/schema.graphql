@@ -58,6 +58,11 @@ query GetUser($where: UserWhereUniqueInput!) {
       followerId
       followingId
     }
+    incomingRequests {
+      id
+      requesterId
+      targetId
+    }
     posts {
       _count {
         attachments
@@ -501,6 +506,35 @@ query Blocklists(
   blocklists(where: $where, cursor: $cursor, orderBy: $orderBy, skip: $skip) {
     id
     blocked {
+      username
+      image
+    }
+    createdAt
+  }
+}
+
+mutation CreateOneFollowRequest($data: FollowRequestCreateInput!) {
+  createOneFollowRequest(data: $data) {
+    id
+    requesterId
+    targetId
+  }
+}
+
+mutation DeleteOneFollowRequest($where: FollowRequestWhereUniqueInput!) {
+  deleteOneFollowRequest(where: $where) {
+    id
+    requesterId
+    targetId
+  }
+}
+
+query FollowRequests($where: FollowRequestWhereInput, $take: Int, $skip: Int) {
+  followRequests(where: $where, take: $take, skip: $skip) {
+    requesterId
+    targetId
+    id
+    requester {
       username
       image
     }
