@@ -94,6 +94,26 @@ export default function ProfileScreen({
       />
       <FlashList<Post>
         ListHeaderComponent={<ProfileHeader user={data.user as User} />}
+        ListEmptyComponent={
+          <YStack
+            space
+            paddingVertical={"$12"} // Not ideal, but necessary since FlashList does not support flexGrow: 1 in contentContainerStyle.
+            paddingHorizontal={"$7"}
+            alignItems="center"
+            justifyContent="center"
+          >
+            <Ionicons name={isBlocked ? "eye-off" : "lock-closed"} size={40} />
+            <Paragraph
+              fontFamily={"$span"}
+              color={"$gray7Dark"}
+              textAlign="center"
+            >
+              {isBlocked
+                ? "You are not allowed to view this user's posts."
+                : "This profile is private. Only followers can see their posts."}
+            </Paragraph>
+          </YStack>
+        }
         renderItem={renderItem}
         onRefresh={refetch}
         refreshing={postsLoading}
@@ -117,27 +137,6 @@ export default function ProfileScreen({
           });
         }}
       />
-      {(isBlocked || isPrivate) && (
-        <YStack
-          flex={1}
-          space
-          paddingHorizontal={"$7"}
-          flexGrow={1}
-          alignItems="center"
-          justifyContent="center"
-        >
-          <Ionicons name={isBlocked ? "eye-off" : "lock-closed"} size={40} />
-          <Paragraph
-            fontFamily={"$span"}
-            color={"$gray7Dark"}
-            textAlign="center"
-          >
-            {isBlocked
-              ? "You are not allowed to view this user's posts."
-              : "This profile is private. Only followers can see their posts."}
-          </Paragraph>
-        </YStack>
-      )}
     </View>
   );
 }
