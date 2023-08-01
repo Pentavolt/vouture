@@ -1,8 +1,7 @@
 import * as NavigationBar from "expo-navigation-bar";
 import PostItem from "../../components/post/PostItem";
 import { RefreshControl, useWindowDimensions } from "react-native";
-import { useScrollToTop } from "@react-navigation/native";
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useEffect } from "react";
 import { FlashList } from "@shopify/flash-list";
 import { Spinner, View } from "tamagui";
 import { NetworkStatus, useQuery } from "@apollo/client";
@@ -14,7 +13,6 @@ export default function PostScreen({
   navigation,
 }: HomeStackScreenProps<"Details">) {
   // TODO: Consider making this a similar posts feed.
-  const ref = useRef(null);
   const { height } = useWindowDimensions();
   const { data, loading, fetchMore, refetch, networkStatus } = useQuery(
     PostsDocument,
@@ -28,7 +26,6 @@ export default function PostScreen({
     }
   );
 
-  useScrollToTop(ref);
   useEffect(() => {
     (async () => NavigationBar.setBackgroundColorAsync("black"))();
   }, []);
@@ -54,7 +51,6 @@ export default function PostScreen({
   return (
     <View flex={1}>
       <FlashList<Post>
-        ref={ref}
         estimatedItemSize={height}
         data={data?.posts as Post[]}
         decelerationRate="normal"
