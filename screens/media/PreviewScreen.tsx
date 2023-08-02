@@ -139,7 +139,7 @@ export default function PreviewScreen({
           focusStyle={{ borderColor: "$gray12" }}
           onChangeText={(text) => setCaption(text)}
           value={caption}
-          placeholder="Write a caption..."
+          placeholder="Add a caption..."
         />
         <XStack
           space="$1"
