@@ -16,6 +16,7 @@ export type RootStackParamList = {
 
 export type RootTabParamList = {
   Home: NavigatorScreenParams<HomeStackParamList>;
+  Search: NavigatorScreenParams<SearchStackParamList>;
   User: NavigatorScreenParams<UserStackParamList>;
   Inbox: NavigatorScreenParams<InboxStackParamList>;
   Media: undefined;
@@ -57,14 +58,28 @@ export type PreferencesStackParamList = {
   Blocklist: undefined;
 };
 
-export type FeedTopTabParamList = {
-  Discover: undefined;
-  Following: undefined;
+export type SearchStackParamList = {
+  Explore: undefined;
+  Results: NavigatorScreenParams<ResultsTopTabParamList>;
+  Query: undefined;
+  Profile: { user: User };
+  Details: { post: Post };
 };
 
 export type InboxStackParamList = {
   Notifications: undefined;
   Requests: undefined;
+};
+
+export type FeedTopTabParamList = {
+  Discover: undefined;
+  Following: undefined;
+};
+
+export type ResultsTopTabParamList = {
+  Users: { query: string };
+  Posts: { query: string };
+  Brands: { query: string };
 };
 
 export type RootStackScreenProps<T extends keyof RootStackParamList> =
@@ -122,6 +137,15 @@ export type InboxStackScreenProps<T extends keyof InboxStackParamList> =
     >
   >;
 
+export type SearchStackScreenProps<T extends keyof SearchStackParamList> =
+  CompositeScreenProps<
+    StackScreenProps<SearchStackParamList, T>,
+    CompositeScreenProps<
+      BottomTabScreenProps<RootTabParamList, "Search">,
+      RootStackScreenProps<keyof RootStackParamList>
+    >
+  >;
+
 export type RootTabScreenProps<T extends keyof RootTabParamList> =
   CompositeScreenProps<
     BottomTabScreenProps<RootTabParamList, T>,
@@ -132,6 +156,12 @@ export type FeedTopTabScreenProps<T extends keyof FeedTopTabParamList> =
   CompositeScreenProps<
     MaterialTopTabScreenProps<FeedTopTabParamList, T>,
     HomeStackScreenProps<"Feed">
+  >;
+
+export type ResultsTopTabScreenProps<T extends keyof ResultsTopTabParamList> =
+  CompositeScreenProps<
+    MaterialTopTabScreenProps<ResultsTopTabParamList, T>,
+    SearchStackScreenProps<"Results">
   >;
 
 declare global {

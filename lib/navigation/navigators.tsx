@@ -14,6 +14,10 @@ import {
   CameraStackScreenProps,
   FeedTopTabParamList,
   InboxStackParamList,
+  SearchStackParamList,
+  ResultsTopTabParamList,
+  SearchStackScreenProps,
+  ResultsTopTabScreenProps,
 } from "./types";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
@@ -37,6 +41,12 @@ import PrivacyScreen from "../../screens/settings/PrivacyScreen";
 import BlockedUsersScreen from "../../screens/settings/BlockedUsersScreen";
 import NotificationsScreen from "../../screens/inbox/NotificationsScreen";
 import RequestsScreen from "../../screens/inbox/RequestsScreen";
+import ExploreScreen from "../../screens/search/ExploreScreen";
+import UserResultsScreen from "../../screens/search/UserResultsScreen";
+import QueryScreen from "../../screens/search/QueryScreen";
+import BrandResultsScreen from "../../screens/search/BrandResultsScreen";
+import { Button, XStack, YStack } from "tamagui";
+import PostResultsScreen from "../../screens/search/PostResultsScreen";
 
 const BottomTab = createBottomTabNavigator<RootTabParamList>();
 
@@ -69,6 +79,24 @@ export function BottomTabNavigator() {
           tabBarIcon: ({ color, focused }) => (
             <TabBarIcon
               name={focused ? "home" : "home-outline"}
+              color={color}
+            />
+          ),
+        })}
+      />
+      <BottomTab.Screen
+        name="Search"
+        component={SearchStackNavigator}
+        options={({ route }) => ({
+          tabBarStyle: {
+            display:
+              getFocusedRouteNameFromRoute(route) === "Details"
+                ? "none"
+                : "flex",
+          },
+          tabBarIcon: ({ color, focused }) => (
+            <TabBarIcon
+              name={focused ? "search" : "search-outline"}
               color={color}
             />
           ),
@@ -329,6 +357,130 @@ export function InboxStackNavigator() {
       <InboxStack.Screen name="Notifications" component={NotificationsScreen} />
       <InboxStack.Screen name="Requests" component={RequestsScreen} />
     </InboxStack.Navigator>
+  );
+}
+
+const SearchStack = createStackNavigator<SearchStackParamList>();
+
+export function SearchStackNavigator() {
+  return (
+    <SearchStack.Navigator
+      screenOptions={{ headerTitleStyle: { fontFamily: "Satoshi Bold" } }}
+    >
+      <SearchStack.Screen
+        name="Explore"
+        component={ExploreScreen}
+        options={{ headerShown: false }}
+      />
+      <SearchStack.Screen
+        name="Query"
+        component={QueryScreen}
+        options={{ headerShown: false, animationEnabled: false }}
+      />
+      <SearchStack.Screen name="Profile" component={ProfileScreen} />
+      <SearchStack.Screen
+        name="Details"
+        component={PostScreen}
+        options={{ headerShown: false }}
+      />
+      <SearchStack.Screen
+        name="Results"
+        component={ResultsTopTabNavigator}
+        options={({ route, navigation }) => ({
+          header: () => (
+            <YStack space padding="$3" backgroundColor={"white"}>
+              <XStack space="$2" alignItems="center">
+                <Ionicons
+                  name="chevron-back"
+                  color={"black"}
+                  size={20}
+                  onPress={() => navigation.goBack()}
+                />
+                <Button
+                  flex={1}
+                  paddingHorizontal={"$3"}
+                  onPress={() => navigation.goBack()}
+                  backgroundColor={"$gray3Light"}
+                  pressStyle={{ backgroundColor: "$gray3Light" }}
+                  justifyContent="flex-start"
+                  icon={<Ionicons name="search" color={"black"} size={20} />}
+                  color={"black"}
+                >
+                  {route.params?.params?.query}
+                </Button>
+              </XStack>
+            </YStack>
+          ),
+        })}
+      />
+    </SearchStack.Navigator>
+  );
+}
+
+const ResultsTopTab = createMaterialTopTabNavigator<ResultsTopTabParamList>();
+
+export function ResultsTopTabNavigator({
+  route,
+}: SearchStackScreenProps<"Results">) {
+  return (
+    <ResultsTopTab.Navigator
+      screenOptions={{
+        tabBarGap: 20,
+        tabBarIndicatorStyle: {
+          backgroundColor: "black",
+          marginHorizontal: 13, // Needs to match the paddingHorizontal of tabBarStyle.
+        },
+        tabBarPressColor: "transparent",
+        tabBarItemStyle: {
+          width: "auto",
+          paddingHorizontal: 0,
+        },
+        tabBarLabelStyle: {
+          textTransform: "capitalize",
+          fontFamily: "Satoshi Bold",
+          marginHorizontal: 0,
+          fontSize: 16,
+        },
+        tabBarStyle: {
+          elevation: 0,
+          paddingHorizontal: 13,
+        },
+      }}
+    >
+      <ResultsTopTab.Screen name="Users">
+        {(props: ResultsTopTabScreenProps<"Users">) => (
+          <UserResultsScreen
+            {...props}
+            route={{
+              ...props.route,
+              params: { query: route.params.params?.query ?? "" },
+            }}
+          />
+        )}
+      </ResultsTopTab.Screen>
+      <ResultsTopTab.Screen name="Posts">
+        {(props: ResultsTopTabScreenProps<"Posts">) => (
+          <PostResultsScreen
+            {...props}
+            route={{
+              ...props.route,
+              params: { query: route.params.params?.query ?? "" },
+            }}
+          />
+        )}
+      </ResultsTopTab.Screen>
+      <ResultsTopTab.Screen name="Brands">
+        {(props: ResultsTopTabScreenProps<"Brands">) => (
+          <BrandResultsScreen
+            {...props}
+            route={{
+              ...props.route,
+              params: { query: route.params.params?.query ?? "" },
+            }}
+          />
+        )}
+      </ResultsTopTab.Screen>
+    </ResultsTopTab.Navigator>
   );
 }
 
