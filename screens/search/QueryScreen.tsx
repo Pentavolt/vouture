@@ -40,10 +40,7 @@ export default function QueryScreen({
       500
     );
 
-    return () => {
-      clearTimeout(timer);
-      console.log("clear");
-    };
+    return () => clearTimeout(timer);
   }, [text]);
 
   const renderItem = useCallback(
