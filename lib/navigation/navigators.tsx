@@ -47,6 +47,7 @@ import QueryScreen from "../../screens/search/QueryScreen";
 import BrandResultsScreen from "../../screens/search/BrandResultsScreen";
 import { Button, XStack, YStack } from "tamagui";
 import PostResultsScreen from "../../screens/search/PostResultsScreen";
+import BrandScreen from "../../screens/search/BrandScreen";
 
 const BottomTab = createBottomTabNavigator<RootTabParamList>();
 
@@ -382,6 +383,11 @@ export function SearchStackNavigator() {
         name="Details"
         component={PostScreen}
         options={{ headerShown: false }}
+      />
+      <SearchStack.Screen
+        name="Brand"
+        component={BrandScreen}
+        options={({ route }) => ({ headerTitle: route.params.brandName })}
       />
       <SearchStack.Screen
         name="Results"

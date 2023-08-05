@@ -14,6 +14,7 @@ import { TouchableOpacity } from "react-native";
 
 export default function BrandResultsScreen({
   route,
+  navigation,
 }: ResultsTopTabScreenProps<"Brands">) {
   const { data, loading } = useQuery(BrandsDocument, {
     variables: {
@@ -30,6 +31,7 @@ export default function BrandResultsScreen({
   const renderItem = useCallback(
     ({ item, index }: ListRenderItemInfo<Brand>) => (
       <TouchableOpacity
+        onPress={() => navigation.navigate("Brand", { brandName: item.name })}
         style={{
           paddingVertical: 10,
           paddingHorizontal: 13,

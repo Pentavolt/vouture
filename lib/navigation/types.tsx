@@ -64,6 +64,7 @@ export type SearchStackParamList = {
   Query: undefined;
   Profile: { user: User };
   Details: { post: Post };
+  Brand: { brandName: string };
 };
 
 export type InboxStackParamList = {
