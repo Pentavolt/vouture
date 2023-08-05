@@ -67,7 +67,6 @@ export default function PostResultsScreen({
         onEndReached={async () => {
           if (!data?.posts.length) return;
           if (data.posts.length % 20 !== 0) return;
-          console.log("MORE");
           await fetchMore({
             variables: { skip: data?.posts.length },
             updateQuery: (previousResult, { fetchMoreResult }) => {
