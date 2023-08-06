@@ -26,6 +26,7 @@ export type IntroStackParamList = {
   Front: undefined;
   Login: undefined;
   Register: undefined;
+  Verification: { user: { id: number; email: string; password: string } };
 };
 
 export type CameraStackParamList = {

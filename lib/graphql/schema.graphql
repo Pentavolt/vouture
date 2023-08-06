@@ -419,8 +419,9 @@ query Brands(
   $orderBy: [BrandOrderByWithRelationInput!]
   $take: Int
   $skip: Int
+  $where: BrandWhereInput
 ) {
-  brands(orderBy: $orderBy, take: $take, skip: $skip) {
+  brands(orderBy: $orderBy, take: $take, skip: $skip, where: $where) {
     name
     id
   }
@@ -543,4 +544,52 @@ query FollowRequests($where: FollowRequestWhereInput, $take: Int, $skip: Int) {
     }
     createdAt
   }
+}
+
+query Users(
+  $where: UserWhereInput
+  $take: Int
+  $orderBy: [UserOrderByWithRelationInput!]
+) {
+  users(where: $where, take: $take, orderBy: $orderBy) {
+    username
+    image
+    id
+    posts {
+      id
+    }
+    followers {
+      id
+    }
+  }
+}
+
+mutation Register($password: String!, $email: String!, $username: String!) {
+  register(password: $password, email: $email, username: $username) {
+    id
+    email
+  }
+}
+
+query VerificationCode($where: VerificationCodeWhereUniqueInput!) {
+  verificationCode(where: $where) {
+    id
+    code
+    userId
+    expiresAt
+  }
+}
+
+mutation DeleteOneVerificationCode($where: VerificationCodeWhereUniqueInput!) {
+  deleteOneVerificationCode(where: $where) {
+    code
+  }
+}
+
+mutation SendVerificationCode($userId: Int!) {
+  sendVerificationCode(userId: $userId)
+}
+
+mutation Verify($code: String!, $userId: Int!) {
+  verify(code: $code, userId: $userId)
 }

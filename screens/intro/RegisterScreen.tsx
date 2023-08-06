@@ -7,7 +7,6 @@ import {
   H1,
   Heading,
   Input,
-  Label,
   ScrollView,
   Text,
   View,
@@ -23,6 +22,7 @@ import {
 import { Formik } from "formik";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import RoundedImage from "../../components/RoundedImage";
+import { IntroStackScreenProps } from "../../lib/navigation/types";
 
 const IMAGES = [
   "https://ci.xiaohongshu.com/1000g0082qddt7oiju0005njngs208eqc1mikm3g?imageView2/2/w/format/png",
@@ -30,7 +30,9 @@ const IMAGES = [
   "https://ci.xiaohongshu.com/1000g0082qddt7oiju0005njngs208eqc1mikm3g?imageView2/2/w/format/png",
 ];
 
-export default function RegisterScreen() {
+export default function RegisterScreen({
+  navigation,
+}: IntroStackScreenProps<"Register">) {
   const { navigate } = useNavigation();
   const { register } = useAuth();
   const schema = Yup.object().shape({
@@ -71,9 +73,13 @@ export default function RegisterScreen() {
               validateOnBlur={false}
               validationSchema={schema}
               initialValues={{ email: "", username: "", password: "" }}
-              onSubmit={({ email, username, password }) =>
-                register(email, username, password)
-              }
+              onSubmit={async ({ email, username, password }) => {
+                const { data } = await register(email, username, password);
+                if (!data?.register) return;
+                navigation.navigate("Verification", {
+                  user: { ...data.register, password },
+                });
+              }}
             >
               {({ handleChange, handleBlur, submitForm, errors, values }) => (
                 <Form

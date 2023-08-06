@@ -48,6 +48,7 @@ import BrandResultsScreen from "../../screens/search/BrandResultsScreen";
 import { Button, XStack, YStack } from "tamagui";
 import PostResultsScreen from "../../screens/search/PostResultsScreen";
 import BrandScreen from "../../screens/search/BrandScreen";
+import VerificationScreen from "../../screens/intro/VerificationScreen";
 
 const BottomTab = createBottomTabNavigator<RootTabParamList>();
 
@@ -175,6 +176,7 @@ export function IntroStackNavigator() {
       />
       <IntroStack.Screen name="Login" component={LoginScreen} />
       <IntroStack.Screen name="Register" component={RegisterScreen} />
+      <IntroStack.Screen name="Verification" component={VerificationScreen} />
     </IntroStack.Navigator>
   );
 }
