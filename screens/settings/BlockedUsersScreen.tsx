@@ -5,11 +5,12 @@ import {
   BlocklistsDocument,
   DeleteOneBlocklistDocument,
 } from "../../generated/gql/graphql";
-import { Spinner, Text, View, YStack } from "tamagui";
+import { Text, View, YStack } from "tamagui";
 import { FlashList, ListRenderItemInfo } from "@shopify/flash-list";
 import { useCallback } from "react";
 import { useAuth } from "../../lib/hooks";
 import UserListItem from "../../components/UserListItem";
+import Loading from "../../components/Loading";
 
 export default function BlockedUsersScreen() {
   const { user } = useAuth();
@@ -37,14 +38,7 @@ export default function BlockedUsersScreen() {
     []
   );
 
-  if (loading || !data?.blocklists) {
-    return (
-      <View flex={1} justifyContent="center" alignItems="center">
-        <Spinner />
-      </View>
-    );
-  }
-
+  if (loading || !data?.blocklists) return <Loading />;
   if (!data.blocklists.length) {
     return (
       <View flex={1} justifyContent="center" alignItems="center">

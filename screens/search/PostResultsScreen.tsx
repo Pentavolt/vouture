@@ -1,5 +1,5 @@
 import { useCallback } from "react";
-import { Heading, Spinner, View, YStack } from "tamagui";
+import { YStack } from "tamagui";
 import { ResultsTopTabScreenProps } from "../../lib/navigation/types";
 import { useQuery } from "@apollo/client";
 import {
@@ -13,6 +13,7 @@ import {
   MasonryListRenderItemInfo,
 } from "@shopify/flash-list";
 import FeedItem from "../../components/FeedItem";
+import Loading from "../../components/Loading";
 
 export default function PostResultsScreen({
   navigation,
@@ -42,14 +43,7 @@ export default function PostResultsScreen({
     []
   );
 
-  if (loading) {
-    return (
-      <View flex={1} backgroundColor={"white"}>
-        <Spinner />
-      </View>
-    );
-  }
-
+  if (loading) return <Loading />;
   return (
     <YStack space flex={1} minHeight={400}>
       <MasonryFlashList

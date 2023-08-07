@@ -1,4 +1,4 @@
-import { Heading, Spinner, Text, View, YStack } from "tamagui";
+import { Heading, Text, View, YStack } from "tamagui";
 import { SearchStackScreenProps } from "../../lib/navigation/types";
 import { useCallback } from "react";
 import {
@@ -13,6 +13,7 @@ import {
   SortOrder,
 } from "../../generated/gql/graphql";
 import FeedItem from "../../components/FeedItem";
+import Loading from "../../components/Loading";
 
 export default function BrandScreen({
   navigation,
@@ -50,14 +51,7 @@ export default function BrandScreen({
     []
   );
 
-  if (loading) {
-    return (
-      <View flex={1} backgroundColor={"white"}>
-        <Spinner />
-      </View>
-    );
-  }
-
+  if (loading) return <Loading />;
   return (
     <YStack flex={1} width={"100%"}>
       <MasonryFlashList

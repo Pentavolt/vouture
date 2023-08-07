@@ -1,19 +1,12 @@
 import { useCallback } from "react";
-import {
-  Avatar,
-  Heading,
-  Paragraph,
-  Spinner,
-  View,
-  XStack,
-  YStack,
-} from "tamagui";
+import { Avatar, Paragraph, View, XStack, YStack } from "tamagui";
 import { Text } from "tamagui";
 import { ResultsTopTabScreenProps } from "../../lib/navigation/types";
 import { useQuery } from "@apollo/client";
 import { QueryMode, User, UsersDocument } from "../../generated/gql/graphql";
 import { FlashList, ListRenderItemInfo } from "@shopify/flash-list";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import Loading from "../../components/Loading";
 
 export default function UserResultsScreen({
   navigation,
@@ -65,14 +58,7 @@ export default function UserResultsScreen({
     [loading]
   );
 
-  if (loading) {
-    return (
-      <View flex={1} backgroundColor={"white"}>
-        <Spinner />
-      </View>
-    );
-  }
-
+  if (loading) return <Loading />;
   return (
     <YStack
       space

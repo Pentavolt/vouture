@@ -1,4 +1,4 @@
-import { Heading, Spinner, Text, View, YStack } from "tamagui";
+import { Heading, Text, YStack } from "tamagui";
 import { useMutation } from "@apollo/client";
 import { UpdateMeDocument } from "../../generated/gql/graphql";
 import { FlashList, ListRenderItemInfo } from "@shopify/flash-list";
@@ -6,6 +6,7 @@ import { COUNTRIES } from "../../lib/constants";
 import { useCallback, useEffect, useState } from "react";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { PreferencesStackScreenProps } from "../../lib/navigation/types";
+import Loading from "../../components/Loading";
 
 export default function LocationScreen({
   navigation,
@@ -47,14 +48,7 @@ export default function LocationScreen({
     return unsubscribe;
   }, []);
 
-  if (!mounted) {
-    return (
-      <View flex={1} justifyContent="center" alignItems="center">
-        <Spinner />
-      </View>
-    );
-  }
-
+  if (!mounted) return <Loading />;
   return (
     <YStack space padding="$3" flex={1} backgroundColor={"white"}>
       <Heading color={"black"}>Location</Heading>

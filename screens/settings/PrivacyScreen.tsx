@@ -1,18 +1,10 @@
 import { Ionicons } from "@expo/vector-icons";
 import { useMutation, useQuery } from "@apollo/client";
-import {
-  Heading,
-  ListItem,
-  ScrollView,
-  Spinner,
-  Switch,
-  YGroup,
-  YStack,
-} from "tamagui";
+import { Heading, ListItem, ScrollView, Switch, YGroup, YStack } from "tamagui";
 import { MeDocument, UpdateMeDocument } from "../../generated/gql/graphql";
 import { useState } from "react";
-import { View } from "tamagui";
 import { PreferencesStackScreenProps } from "../../lib/navigation/types";
+import Loading from "../../components/Loading";
 
 export default function PrivacyScreen({
   navigation,
@@ -28,14 +20,7 @@ export default function PrivacyScreen({
     setChecked(value);
   };
 
-  if (loading) {
-    return (
-      <View flex={1} alignItems="center" justifyContent="center">
-        <Spinner />
-      </View>
-    );
-  }
-
+  if (loading) return <Loading />;
   return (
     <ScrollView
       space

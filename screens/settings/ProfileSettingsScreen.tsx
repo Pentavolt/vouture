@@ -12,19 +12,24 @@ import { useMutation, useQuery } from "@apollo/client";
 import {
   GetUserDocument,
   MeDocument,
+  SendVerificationCodeDocument,
   UpdateMeDocument,
   UploadDocument,
 } from "../../generated/gql/graphql";
 import { MediaTypeOptions, launchImageLibraryAsync } from "expo-image-picker";
 import { ReactNativeFile } from "apollo-upload-client";
 import { PreferencesStackScreenProps } from "../../lib/navigation/types";
+import Loading from "../../components/Loading";
 
 export default function ProfileSettingsScreen({
   navigation,
 }: PreferencesStackScreenProps<"ProfileSettings">) {
-  const { data, loading } = useQuery(MeDocument);
   const [upload] = useMutation(UploadDocument);
   const [updateMe] = useMutation(UpdateMeDocument);
+  const [verify] = useMutation(SendVerificationCodeDocument);
+  const { data, loading } = useQuery(MeDocument, {
+    fetchPolicy: "network-only",
+  });
 
   const openGallery = async () => {
     const result = await launchImageLibraryAsync({
@@ -70,6 +75,8 @@ export default function ProfileSettingsScreen({
     });
   };
 
+  if (!data?.me) return <Loading />;
+
   // TODO: Add Formik here.
   return (
     <ScrollView
@@ -108,6 +115,27 @@ export default function ProfileSettingsScreen({
               title="Username"
               subTitle={data?.me.username}
               onPress={() => navigation.navigate("Username")}
+            />
+          </YGroup.Item>
+          <YGroup.Item>
+            <ListItem
+              hoverTheme
+              pressTheme
+              iconAfter={
+                data.me.isEmailVerified ? (
+                  <Ionicons name="chevron-forward" />
+                ) : (
+                  <Ionicons name="warning" color={"red"} size={15} />
+                )
+              }
+              fontSize={15}
+              title="Email"
+              subTitle={data.me.email}
+              onPress={() => {
+                if (data.me.isEmailVerified) return;
+                verify({ variables: { userId: data?.me.id } });
+                navigation.navigate("Verification");
+              }}
             />
           </YGroup.Item>
           <YGroup.Item>

@@ -3,10 +3,11 @@ import PostItem from "../../components/post/PostItem";
 import { RefreshControl, useWindowDimensions } from "react-native";
 import { useCallback, useEffect } from "react";
 import { FlashList } from "@shopify/flash-list";
-import { Spinner, View } from "tamagui";
+import { View } from "tamagui";
 import { NetworkStatus, useQuery } from "@apollo/client";
 import { Post, PostsDocument, SortOrder } from "../../generated/gql/graphql";
 import { HomeStackScreenProps } from "../../lib/navigation/types";
+import Loading from "../../components/Loading";
 
 export default function PostScreen({
   route,
@@ -40,14 +41,7 @@ export default function PostScreen({
     []
   );
 
-  if (loading) {
-    return (
-      <View flex={1} justifyContent="center" alignItems="center">
-        <Spinner size="large" />
-      </View>
-    );
-  }
-
+  if (loading) return <Loading />;
   return (
     <View flex={1}>
       <FlashList<Post>

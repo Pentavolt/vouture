@@ -1,10 +1,11 @@
 import { NetworkStatus, useQuery } from "@apollo/client";
 import { Ionicons } from "@expo/vector-icons";
-import { Circle, ListItem, Spinner, Text, View, YGroup, YStack } from "tamagui";
+import { Circle, ListItem, Text, YGroup, YStack } from "tamagui";
 import { GetUserDocument } from "../../generated/gql/graphql";
 import { useAuth } from "../../lib/hooks";
 import { InboxStackScreenProps } from "../../lib/navigation/types";
 import { FlashList } from "@shopify/flash-list";
+import Loading from "../../components/Loading";
 
 export default function NotificationsScreen({
   navigation,
@@ -15,14 +16,7 @@ export default function NotificationsScreen({
     fetchPolicy: "network-only",
   });
 
-  if (loading || !data?.user) {
-    return (
-      <View flex={1} justifyContent="center" alignItems="center">
-        <Spinner />
-      </View>
-    );
-  }
-
+  if (loading || !data?.user) return <Loading />;
   return (
     <YStack space padding="$3" flex={1} backgroundColor={"white"}>
       <FlashList

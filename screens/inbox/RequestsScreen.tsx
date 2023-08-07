@@ -11,8 +11,9 @@ import {
   GetUserDocument,
 } from "../../generated/gql/graphql";
 import { useAuth } from "../../lib/hooks";
-import { Paragraph, Spinner, View, XStack, YStack } from "tamagui";
+import { Paragraph, View, XStack, YStack } from "tamagui";
 import { TouchableOpacity } from "react-native";
+import Loading from "../../components/Loading";
 
 export default function RequestsScreen() {
   const [approve] = useMutation(CreateFollowDocument);
@@ -152,14 +153,7 @@ export default function RequestsScreen() {
     []
   );
 
-  if (loading || !data?.followRequests) {
-    return (
-      <View flex={1} justifyContent="center" alignItems="center">
-        <Spinner />
-      </View>
-    );
-  }
-
+  if (loading || !data?.followRequests) return <Loading />;
   if (!data.followRequests.length) {
     return (
       <View flex={1} justifyContent="center" alignItems="center">

@@ -1,6 +1,6 @@
 import { Ionicons } from "@expo/vector-icons";
 import { useWindowDimensions } from "react-native";
-import { Button, Heading, Sheet, Spinner, View, YStack } from "tamagui";
+import { Button, Heading, Sheet, View, YStack } from "tamagui";
 import { CameraStackScreenProps } from "../../lib/navigation/types";
 import { useRef, useState } from "react";
 import { FlashList } from "@shopify/flash-list";
@@ -15,6 +15,7 @@ import { useQuery } from "@apollo/client";
 import FastImage from "react-native-fast-image";
 import ClothingLabel from "../../components/post/ClothingLabel";
 import { useBottomSheetBack } from "../../lib/hooks";
+import Loading from "../../components/Loading";
 
 export default function LabelScreen({
   route,
@@ -57,14 +58,7 @@ export default function LabelScreen({
     </TouchableOpacity>
   );
 
-  if (loading) {
-    return (
-      <View flex={1} backgroundColor={"white"}>
-        <Spinner size="large" />
-      </View>
-    );
-  }
-
+  if (loading) return <Loading />;
   return (
     <>
       <Sheet

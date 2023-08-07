@@ -6,9 +6,10 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { useIsFocused } from "@react-navigation/native";
 import { Camera, CameraType, FlashMode } from "expo-camera";
 import { useAuth, useIsForeground } from "../../lib/hooks";
-import { Button, Image, Spinner, Text, View, XStack, YStack } from "tamagui";
+import { Button, Image, Text, View, XStack, YStack } from "tamagui";
 import { Toast, useToastController, useToastState } from "@tamagui/toast";
 import { CameraStackScreenProps } from "../../lib/navigation/types";
+import Loading from "../../components/Loading";
 
 export default function CameraScreen({
   navigation,
@@ -167,11 +168,7 @@ export default function CameraScreen({
           </YStack>
         </Toast>
       )}
-      {loading && (
-        <View flex={1} justifyContent="center" alignContent="center">
-          <Spinner size="large" />
-        </View>
-      )}
+      {loading && <Loading />}
       {photo && (
         <>
           <Image flex={1} source={{ uri: photo }} />
@@ -217,16 +214,6 @@ export default function CameraScreen({
       )}
       {mounted && !photo && (
         <View>
-          {/* <View
-            height={remainder / 2}
-            backgroundColor={"white"}
-            paddingHorizontal="$3"
-            justifyContent="center"
-          >
-            <Heading fontWeight={"600"} color={"black"}>
-              Create post
-            </Heading>
-          </View> */}
           <Camera
             ref={camera}
             flashMode={flashMode}
