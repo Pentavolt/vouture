@@ -6,6 +6,7 @@ import {
   KeyboardAvoidingView,
   Platform,
   TouchableOpacity,
+  TouchableWithoutFeedback,
 } from "react-native";
 import { useAuth } from "../../lib/hooks";
 import {
@@ -21,7 +22,6 @@ import {
   ScrollView,
 } from "tamagui";
 import RoundedImage from "../../components/RoundedImage";
-import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 
 const IMAGES = [
   "https://ci.xiaohongshu.com/1000g0082qddt7oiju0005njngs208eqc1mikm3g?imageView2/2/w/format/png",
@@ -38,45 +38,40 @@ export default function LoginScreen() {
   });
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-      style={{ flex: 1 }}
-    >
-      <TouchableWithoutFeedback
-        onPress={Keyboard.dismiss}
-        style={{ flex: 1 }}
-        containerStyle={{ flex: 1 }}
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <ScrollView
+        contentContainerStyle={{ flexGrow: 1, alignItems: "center" }}
+        flex={1}
+        backgroundColor={"white"}
+        px="$2"
+        pb="$4"
       >
-        <ScrollView
-          contentContainerStyle={{ flexGrow: 1, alignItems: "center" }}
-          flex={1}
-          backgroundColor={"white"}
-          px="$2"
-          pb="$4"
-        >
-          <XStack space="$2" paddingVertical="$5">
-            {IMAGES.map((image, idx) => (
-              <RoundedImage key={idx} offset={30 * idx} uri={image} />
-            ))}
-          </XStack>
-          <YStack flex={1}>
-            <H1 color="black">Welcome back!</H1>
-            <Heading pb={"$6"} fontFamily={"$body"} color={"black"}>
-              Let's get you signed in.
-            </Heading>
-            <Formik
-              validateOnChange={false}
-              validateOnBlur={false}
-              validationSchema={schema}
-              initialValues={{ email: "", password: "" }}
-              onSubmit={({ email, password }) => login(email, password)}
-            >
-              {({ handleChange, handleBlur, submitForm, errors, values }) => (
-                <Form
-                  onSubmit={submitForm}
-                  minWidth={300}
-                  flexGrow={1}
-                  justifyContent="space-between"
+        <XStack space="$2" paddingVertical="$5">
+          {IMAGES.map((image, idx) => (
+            <RoundedImage key={idx} offset={30 * idx} uri={image} />
+          ))}
+        </XStack>
+        <YStack flex={1}>
+          <H1 color="black">Welcome back!</H1>
+          <Heading pb={"$6"} fontFamily={"$body"} color={"black"}>
+            Let's get you signed in.
+          </Heading>
+          <Formik
+            validateOnChange={false}
+            validateOnBlur={false}
+            validationSchema={schema}
+            initialValues={{ email: "", password: "" }}
+            onSubmit={({ email, password }) => login(email, password)}
+          >
+            {({ handleChange, handleBlur, submitForm, errors, values }) => (
+              <Form
+                onSubmit={submitForm}
+                minWidth={300}
+                flexGrow={1}
+                justifyContent="space-between"
+              >
+                <KeyboardAvoidingView
+                  behavior={Platform.OS === "ios" ? "padding" : "height"}
                 >
                   <YStack space>
                     <View>
@@ -121,31 +116,31 @@ export default function LoginScreen() {
                       )}
                     </View>
                   </YStack>
-                  <YStack>
-                    <TouchableOpacity
-                      onPress={() => navigate("Intro", { screen: "Register" })}
-                    >
-                      <Text fontFamily={"$body"} color={"black"}>
-                        Not a member?{" "}
-                        <Text color={"#FE9F10"} fontWeight={"400"}>
-                          Create an account
-                        </Text>
+                </KeyboardAvoidingView>
+                <YStack paddingTop="$3">
+                  <TouchableOpacity
+                    onPress={() => navigate("Intro", { screen: "Register" })}
+                  >
+                    <Text fontFamily={"$body"} color={"black"}>
+                      Not a member?{" "}
+                      <Text color={"#FE9F10"} fontWeight={"400"}>
+                        Create an account
                       </Text>
-                    </TouchableOpacity>
-                    <Button
-                      marginTop="$3"
-                      onPress={submitForm}
-                      backgroundColor={"#FE9F10"}
-                    >
-                      Sign in
-                    </Button>
-                  </YStack>
-                </Form>
-              )}
-            </Formik>
-          </YStack>
-        </ScrollView>
-      </TouchableWithoutFeedback>
-    </KeyboardAvoidingView>
+                    </Text>
+                  </TouchableOpacity>
+                  <Button
+                    marginTop="$3"
+                    onPress={submitForm}
+                    backgroundColor={"#FE9F10"}
+                  >
+                    Sign in
+                  </Button>
+                </YStack>
+              </Form>
+            )}
+          </Formik>
+        </YStack>
+      </ScrollView>
+    </TouchableWithoutFeedback>
   );
 }

@@ -18,11 +18,10 @@ import {
   KeyboardAvoidingView,
   Platform,
   TouchableOpacity,
+  TouchableWithoutFeedback,
 } from "react-native";
 import { Formik } from "formik";
-import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import RoundedImage from "../../components/RoundedImage";
-import { IntroStackScreenProps } from "../../lib/navigation/types";
 
 const IMAGES = [
   "https://ci.xiaohongshu.com/1000g0082qddt7oiju0005njngs208eqc1mikm3g?imageView2/2/w/format/png",
@@ -30,9 +29,7 @@ const IMAGES = [
   "https://ci.xiaohongshu.com/1000g0082qddt7oiju0005njngs208eqc1mikm3g?imageView2/2/w/format/png",
 ];
 
-export default function RegisterScreen({
-  navigation,
-}: IntroStackScreenProps<"Register">) {
+export default function RegisterScreen() {
   const { navigate } = useNavigation();
   const { register } = useAuth();
   const schema = Yup.object().shape({
@@ -42,51 +39,42 @@ export default function RegisterScreen({
   });
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-      style={{ flex: 1 }}
-    >
-      <TouchableWithoutFeedback
-        onPress={Keyboard.dismiss}
-        style={{ flex: 1 }}
-        containerStyle={{ flex: 1 }}
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <ScrollView
+        contentContainerStyle={{ flexGrow: 1, alignItems: "center" }}
+        flex={1}
+        backgroundColor={"white"}
+        px="$2"
+        pb="$4"
       >
-        <ScrollView
-          contentContainerStyle={{ flexGrow: 1, alignItems: "center" }}
-          flex={1}
-          backgroundColor={"white"}
-          px="$2"
-          pb="$4"
-        >
-          <XStack space="$2" paddingVertical="$5">
-            {IMAGES.map((image, idx) => (
-              <RoundedImage key={idx} offset={30 * idx} uri={image} />
-            ))}
-          </XStack>
-          <YStack flex={1}>
-            <H1 color="black">Create account</H1>
-            <Heading pb={"$6"} fontFamily={"$body"} color={"black"}>
-              The fashion of the world - at your fingertips.
-            </Heading>
-            <Formik
-              validateOnChange={false}
-              validateOnBlur={false}
-              validationSchema={schema}
-              initialValues={{ email: "", username: "", password: "" }}
-              onSubmit={async ({ email, username, password }) => {
-                const { data } = await register(email, username, password);
-                if (!data?.register) return;
-                navigation.navigate("Verification", {
-                  user: { ...data.register, password },
-                });
-              }}
-            >
-              {({ handleChange, handleBlur, submitForm, errors, values }) => (
-                <Form
-                  onSubmit={submitForm}
-                  minWidth={300}
-                  flexGrow={1}
-                  justifyContent="space-between"
+        <XStack space="$2" paddingVertical="$5">
+          {IMAGES.map((image, idx) => (
+            <RoundedImage key={idx} offset={30 * idx} uri={image} />
+          ))}
+        </XStack>
+        <YStack flex={1}>
+          <H1 color="black">Create account</H1>
+          <Heading pb={"$6"} fontFamily={"$body"} color={"black"}>
+            The fashion of the world - at your fingertips.
+          </Heading>
+          <Formik
+            validateOnChange={false}
+            validateOnBlur={false}
+            validationSchema={schema}
+            initialValues={{ email: "", username: "", password: "" }}
+            onSubmit={async ({ email, username, password }) =>
+              await register(email, username, password)
+            }
+          >
+            {({ handleChange, handleBlur, submitForm, errors, values }) => (
+              <Form
+                onSubmit={submitForm}
+                minWidth={300}
+                flexGrow={1}
+                justifyContent="space-between"
+              >
+                <KeyboardAvoidingView
+                  behavior={Platform.OS === "ios" ? "padding" : "height"}
                 >
                   <YStack space>
                     <View>
@@ -151,31 +139,31 @@ export default function RegisterScreen({
                       )}
                     </View>
                   </YStack>
-                  <YStack>
-                    <TouchableOpacity
-                      onPress={() => navigate("Intro", { screen: "Login" })}
-                    >
-                      <Text fontFamily={"$body"} color={"black"}>
-                        Already have an account?{" "}
-                        <Text color={"#FE9F10"} fontWeight={"400"}>
-                          Sign in
-                        </Text>
+                </KeyboardAvoidingView>
+                <YStack paddingTop="$3">
+                  <TouchableOpacity
+                    onPress={() => navigate("Intro", { screen: "Login" })}
+                  >
+                    <Text fontFamily={"$body"} color={"black"}>
+                      Already have an account?{" "}
+                      <Text color={"#FE9F10"} fontWeight={"400"}>
+                        Sign in
                       </Text>
-                    </TouchableOpacity>
-                    <Button
-                      marginTop="$3"
-                      onPress={submitForm}
-                      backgroundColor={"#FE9F10"}
-                    >
-                      Sign up
-                    </Button>
-                  </YStack>
-                </Form>
-              )}
-            </Formik>
-          </YStack>
-        </ScrollView>
-      </TouchableWithoutFeedback>
-    </KeyboardAvoidingView>
+                    </Text>
+                  </TouchableOpacity>
+                  <Button
+                    marginTop="$3"
+                    onPress={submitForm}
+                    backgroundColor={"#FE9F10"}
+                  >
+                    Sign up
+                  </Button>
+                </YStack>
+              </Form>
+            )}
+          </Formik>
+        </YStack>
+      </ScrollView>
+    </TouchableWithoutFeedback>
   );
 }
