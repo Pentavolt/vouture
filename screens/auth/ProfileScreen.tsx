@@ -10,11 +10,12 @@ import {
   SortOrder,
   User,
 } from "../../generated/gql/graphql";
-import { Paragraph, Text, View, YStack } from "tamagui";
+import { Paragraph, View, YStack } from "tamagui";
 import PostPreview from "../../components/post/PostPreview";
 import ProfileHeader from "../../components/ProfileHeader";
 import { useEffect, useState } from "react";
 import ProfileActionSheet from "../../components/ProfileActionSheet";
+import Loading from "../../components/Loading";
 
 // TODO: The props should be HomeStackScreenProps as well.
 
@@ -71,9 +72,7 @@ export default function ProfileScreen({
     />
   );
 
-  if (postsLoading || userLoading || !data?.user) {
-    return <Text>Loading...</Text>;
-  }
+  if (postsLoading || userLoading || !data?.user) return <Loading />;
 
   const isBlocked =
     data.user.blocked.some((block) => block.blockerId === user?.id) ||
@@ -95,24 +94,29 @@ export default function ProfileScreen({
       <FlashList<Post>
         ListHeaderComponent={<ProfileHeader user={data.user as User} />}
         ListEmptyComponent={
-          <YStack
-            space
-            paddingVertical={"$12"} // Not ideal, but necessary since FlashList does not support flexGrow: 1 in contentContainerStyle.
-            paddingHorizontal={"$7"}
-            alignItems="center"
-            justifyContent="center"
-          >
-            <Ionicons name={isBlocked ? "eye-off" : "lock-closed"} size={40} />
-            <Paragraph
-              fontFamily={"$span"}
-              color={"$gray7Dark"}
-              textAlign="center"
+          isBlocked || isPrivate ? (
+            <YStack
+              space
+              paddingVertical={"$12"} // Not ideal, but necessary since FlashList does not support flexGrow: 1 in contentContainerStyle.
+              paddingHorizontal={"$7"}
+              alignItems="center"
+              justifyContent="center"
             >
-              {isBlocked
-                ? "You are not allowed to view this user's posts."
-                : "This profile is private. Only followers can see their posts."}
-            </Paragraph>
-          </YStack>
+              <Ionicons
+                name={isBlocked ? "eye-off" : "lock-closed"}
+                size={40}
+              />
+              <Paragraph
+                fontFamily={"$span"}
+                color={"$gray7Dark"}
+                textAlign="center"
+              >
+                {isBlocked
+                  ? "You are not allowed to view this user's posts."
+                  : "This profile is private. Only followers can see their posts."}
+              </Paragraph>
+            </YStack>
+          ) : undefined
         }
         renderItem={renderItem}
         onRefresh={refetch}
