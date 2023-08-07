@@ -48,7 +48,7 @@ import BrandResultsScreen from "../../screens/search/BrandResultsScreen";
 import { Button, XStack, YStack } from "tamagui";
 import PostResultsScreen from "../../screens/search/PostResultsScreen";
 import BrandScreen from "../../screens/search/BrandScreen";
-import VerificationScreen from "../../screens/intro/VerificationScreen";
+import VerificationScreen from "../../screens/settings/VerificationScreen";
 
 const BottomTab = createBottomTabNavigator<RootTabParamList>();
 
