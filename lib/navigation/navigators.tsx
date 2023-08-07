@@ -176,7 +176,6 @@ export function IntroStackNavigator() {
       />
       <IntroStack.Screen name="Login" component={LoginScreen} />
       <IntroStack.Screen name="Register" component={RegisterScreen} />
-      <IntroStack.Screen name="Verification" component={VerificationScreen} />
     </IntroStack.Navigator>
   );
 }
@@ -303,6 +302,10 @@ export function PreferencesStackNavigator() {
           name="Location"
           component={LocationScreen}
           options={{ headerTitle: "Edit Location" }}
+        />
+        <PreferencesStack.Screen
+          name="Verification"
+          component={VerificationScreen}
         />
       </PreferencesStack.Group>
       <PreferencesStack.Group>

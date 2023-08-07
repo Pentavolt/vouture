@@ -1,9 +1,9 @@
 import { useState } from "react";
 import CodeInput from "../../components/CodeInput";
-import { IntroStackScreenProps } from "../../lib/navigation/types";
 import { useAuth } from "../../lib/hooks";
 import { useMutation } from "@apollo/client";
 import {
+  MeDocument,
   SendVerificationCodeDocument,
   VerifyDocument,
 } from "../../generated/gql/graphql";
@@ -16,16 +16,20 @@ import {
   TouchableWithoutFeedback,
 } from "react-native";
 import { Text } from "tamagui";
+import { PreferencesStackScreenProps } from "../../lib/navigation/types";
+import Loading from "../../components/Loading";
 
 export default function VerificationScreen({
-  route,
-}: IntroStackScreenProps<"Verification">) {
+  navigation,
+}: PreferencesStackScreenProps<"Verification">) {
   const maxLength = 6;
-  const { login } = useAuth();
+  const { user } = useAuth();
   const [digits, setDigits] = useState<string[]>([]);
   const [lastSentAt, setLastSentAt] = useState<number>(Date.now());
   const [verify] = useMutation(VerifyDocument);
   const [resend] = useMutation(SendVerificationCodeDocument);
+
+  if (!user) return <Loading />;
 
   const handleChange = (code: string, index: number) => {
     const copy = [...digits].filter((digit) => digit);
@@ -37,23 +41,26 @@ export default function VerificationScreen({
     if (maxLength !== digits.length) return;
     verify({
       variables: {
-        userId: route.params.user.id,
+        userId: user.id,
         code: digits.join(""),
       },
       onCompleted: (data) => {
         if (!data.verify) return setDigits([]);
-        login(route.params.user.email, route.params.user.password);
+        navigation.goBack();
+      },
+      update: (cache) => {
+        cache.updateQuery({ query: MeDocument }, (data) => {
+          if (!data?.me) return undefined;
+          return { me: { ...data.me, isEmailVerified: true } };
+        });
       },
     });
   };
 
   const handleResend = () => {
-    if (Date.now() - lastSentAt < 60 * 1000) return;
     resend({
-      variables: { userId: route.params.user.id },
-      onCompleted: () => {
-        setLastSentAt(Date.now());
-      },
+      variables: { userId: user.id },
+      onCompleted: () => setLastSentAt(Date.now()),
     });
   };
 
@@ -71,7 +78,7 @@ export default function VerificationScreen({
           <H1 color={"black"}>Verification Code Sent</H1>
           <Paragraph fontSize={16} color={"black"}>
             A verification code has been sent to{" "}
-            <Text color={"#FE9F10"}>{route.params.user.email}</Text>.
+            <Text color={"#FE9F10"}>{user?.email}</Text>.
           </Paragraph>
           <KeyboardAvoidingView
             style={{ paddingVertical: 30 }}

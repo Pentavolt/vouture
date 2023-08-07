@@ -233,6 +233,7 @@ query Me {
     image
     biography
     isPrivate
+    isEmailVerified
   }
 }
 

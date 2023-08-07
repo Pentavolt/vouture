@@ -12,9 +12,9 @@ import {
 import { AppState, AppStateStatus, BackHandler } from "react-native";
 import { storage } from "./store";
 import {
-  CreateUserDocument,
   LoginDocument,
   MeDocument,
+  RegisterDocument,
   User,
 } from "../generated/gql/graphql";
 import { useLazyQuery, useMutation } from "@apollo/client";
@@ -40,7 +40,7 @@ export function AuthProvider({
   const [error, setError] = useState<any>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [loadingInitial, setLoadingInitial] = useState<boolean>(true);
-  const [create] = useMutation(CreateUserDocument);
+  const [create] = useMutation(RegisterDocument);
   const [me] = useLazyQuery(MeDocument);
   const [mutate] = useMutation(LoginDocument);
 
@@ -105,7 +105,7 @@ export function AuthProvider({
   ) => {
     setLoading(true);
     create({
-      variables: { data: { email, password, username } },
+      variables: { email, password, username },
       onCompleted: async () => await login(email, password),
       onError: (e) => setError(e),
     });
