@@ -20,8 +20,6 @@ import {
   DeleteOneLikeDocument,
   Post,
   PostDocument,
-  PostQuery,
-  PostWhereUniqueInput,
 } from "../../generated/gql/graphql";
 import { AnimatableClothingLabel } from "./ClothingLabel";
 import FastImage from "react-native-fast-image";
@@ -116,16 +114,18 @@ export default function PostItem({ post, onNavigate }: PostItemProps) {
       },
       update: (cache, { data }) => {
         if (!data) return;
-        cache.writeQuery<PostQuery, PostWhereUniqueInput>({
-          query: PostDocument,
-          variables: { id: post.id },
-          data: {
-            post: {
-              ...post,
-              comments: [...post.comments, data.createOneComment],
-            },
-          },
-        });
+        cache.updateQuery(
+          { query: PostDocument, variables: { where: { id: post.id } } },
+          (cached) => {
+            if (!cached?.post) return undefined;
+            return {
+              post: {
+                ...cached.post,
+                comments: [...cached.post.comments, data.createOneComment],
+              },
+            };
+          }
+        );
       },
     });
   };
@@ -137,10 +137,11 @@ export default function PostItem({ post, onNavigate }: PostItemProps) {
         variables: { where: { key: { postId: post.id, userId: user.id } } },
         onCompleted: () => setIsCollected(false),
         update: (cache, { data }) => {
+          if (!data) return;
           cache.updateQuery(
             { query: PostDocument, variables: { where: { id: post.id } } },
             (cached) => {
-              if (!cached?.post || !data) return undefined;
+              if (!cached?.post) return undefined;
               return {
                 post: {
                   ...cached.post,
@@ -164,10 +165,11 @@ export default function PostItem({ post, onNavigate }: PostItemProps) {
         },
         onCompleted: () => setIsCollected(true),
         update: (cache, { data }) => {
+          if (!data) return;
           cache.updateQuery(
             { query: PostDocument, variables: { where: { id: post.id } } },
             (cached) => {
-              if (!cached?.post || !data) return undefined;
+              if (!cached?.post) return undefined;
               return {
                 post: {
                   ...cached.post,
@@ -204,16 +206,18 @@ export default function PostItem({ post, onNavigate }: PostItemProps) {
       },
       update: (cache, { data }) => {
         if (!data) return;
-        cache.writeQuery<PostQuery>({
-          query: PostDocument,
-          variables: { id: post.id },
-          data: {
-            post: {
-              ...post,
-              likes: [...post.likes, data?.createOneLike],
-            },
-          },
-        });
+        cache.updateQuery(
+          { query: PostDocument, variables: { where: { id: post.id } } },
+          (cached) => {
+            if (!cached?.post) return undefined;
+            return {
+              post: {
+                ...cached.post,
+                likes: [...cached.post.likes, data.createOneLike],
+              },
+            };
+          }
+        );
       },
     });
 
@@ -227,18 +231,20 @@ export default function PostItem({ post, onNavigate }: PostItemProps) {
     await unlike({
       variables: { where: { key: { postId: post.id, userId: user.id } } },
       update: (cache) => {
-        cache.writeQuery<PostQuery>({
-          query: PostDocument,
-          variables: { id: post.id },
-          data: {
-            post: {
-              ...post,
-              likes: post.likes.filter(
-                (like) => like.postId === post.id && like.userId !== user.id
-              ),
-            },
-          },
-        });
+        cache.updateQuery(
+          { query: PostDocument, variables: { where: { id: post.id } } },
+          (cached) => {
+            if (!cached?.post) return undefined;
+            return {
+              post: {
+                ...cached.post,
+                likes: cached.post.likes.filter(
+                  (like) => like.postId === post.id && like.userId !== user.id
+                ),
+              },
+            };
+          }
+        );
       },
     });
 
