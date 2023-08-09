@@ -13,8 +13,10 @@ import { View } from "tamagui";
 import { useMutation } from "@apollo/client";
 import {
   CreateCommentDocument,
+  CreateOneCollectedPostDocument,
   CreateOneLikeDocument,
   CreateViewDocument,
+  DeleteOneCollectedPostDocument,
   DeleteOneLikeDocument,
   Post,
   PostDocument,
@@ -60,9 +62,15 @@ export default function PostItem({ post, onNavigate }: PostItemProps) {
   const [unlike] = useMutation(DeleteOneLikeDocument);
   const [comment] = useMutation(CreateCommentDocument);
   const [view] = useMutation(CreateViewDocument);
+  const [collect] = useMutation(CreateOneCollectedPostDocument);
+  const [uncollect] = useMutation(DeleteOneCollectedPostDocument);
   const [open, setOpen] = useState<boolean>(false);
   const [isLiked, setIsLiked] = useState<boolean>(
     post.likes.some((like) => like.userId === user?.id)
+  );
+
+  const [isCollected, setIsCollected] = useState<boolean>(
+    post.collects.some((collect) => collect.userId === user?.id)
   );
 
   useBottomSheetBack(open, () => setOpen(false));
@@ -120,6 +128,62 @@ export default function PostItem({ post, onNavigate }: PostItemProps) {
         });
       },
     });
+  };
+
+  const handleCollect = async () => {
+    if (!user) return;
+    if (isCollected) {
+      await uncollect({
+        variables: { where: { key: { postId: post.id, userId: user.id } } },
+        onCompleted: () => setIsCollected(false),
+        update: (cache, { data }) => {
+          cache.updateQuery(
+            { query: PostDocument, variables: { where: { id: post.id } } },
+            (cached) => {
+              if (!cached?.post || !data) return undefined;
+              return {
+                post: {
+                  ...cached.post,
+                  collects: cached.post.collects.filter(
+                    (collected) =>
+                      collected.id !== data.deleteOneCollectedPost?.id
+                  ),
+                },
+              };
+            }
+          );
+        },
+      });
+    } else {
+      await collect({
+        variables: {
+          data: {
+            post: { connect: { id: post.id } },
+            user: { connect: { id: user.id } },
+          },
+        },
+        onCompleted: () => setIsCollected(true),
+        update: (cache, { data }) => {
+          cache.updateQuery(
+            { query: PostDocument, variables: { where: { id: post.id } } },
+            (cached) => {
+              if (!cached?.post || !data) return undefined;
+              return {
+                post: {
+                  ...cached.post,
+                  collects: [
+                    ...cached.post.collects,
+                    data.createOneCollectedPost,
+                  ],
+                },
+              };
+            }
+          );
+        },
+      });
+
+      setIsCollected(true);
+    }
   };
 
   const onSingleTap = () => {
@@ -232,10 +296,9 @@ export default function PostItem({ post, onNavigate }: PostItemProps) {
       </PostGestureView>
       <PostContent post={post} onNavigate={onNavigate} />
       <ActionPanel
-        likes={post.likes}
-        comments={post.comments}
+        post={post}
         onCommentPress={() => setOpen(true)}
-        onSavePress={() => null}
+        onSavePress={handleCollect}
         onLikePress={() => (isLiked ? handleUnlike() : onDoubleTap())}
       />
       <CommentSheet

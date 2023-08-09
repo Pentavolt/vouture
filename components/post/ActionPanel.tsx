@@ -1,25 +1,32 @@
 import { Button, XStack } from "tamagui";
 import { Ionicons } from "@expo/vector-icons";
-import { Comment, Like } from "../../generated/gql/graphql";
+import { CollectedPost, Comment, Like } from "../../generated/gql/graphql";
 import { useAuth } from "../../lib/hooks";
 
 interface ActionPanelProps {
-  likes: Partial<Like>[];
-  comments: Comment[];
+  post: {
+    likes: Partial<Like>[];
+    comments: Comment[];
+    collects: CollectedPost[];
+  };
+
   onLikePress: () => void;
   onCommentPress: () => void;
   onSavePress: () => void;
 }
 
 export default function ActionPanel({
-  comments,
-  likes,
+  post,
   onCommentPress,
   onLikePress,
   onSavePress,
 }: ActionPanelProps) {
   const { user } = useAuth();
-  const isLiked = likes.some((like) => like.userId === user?.id);
+  const isLiked = post.likes.some((like) => like.userId === user?.id);
+  const isCollected = post.collects.some(
+    (collect) => collect.userId === user?.id
+  );
+
   return (
     <XStack
       space
@@ -40,22 +47,28 @@ export default function ActionPanel({
           />
         }
       >
-        {likes.length.toString()}
+        {post.likes.length.toString()}
       </Button>
       <Button
         backgroundColor={"$backgroundTransparent"}
         icon={<Ionicons color="white" size={25} name="chatbubble-outline" />}
         onPress={onCommentPress}
       >
-        {comments.length.toString()}
+        {post.comments.length.toString()}
       </Button>
       <Button
         backgroundColor={"$backgroundTransparent"}
         onPress={onSavePress}
         icon={
-          <Ionicons color="white" size={25} name="file-tray-full-outline" />
+          <Ionicons
+            size={25}
+            color={isCollected ? "#FE9F10" : "white"}
+            name={isCollected ? "bookmark" : "bookmark-outline"}
+          />
         }
-      />
+      >
+        {post.collects.length.toString()}
+      </Button>
     </XStack>
   );
 }

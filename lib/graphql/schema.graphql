@@ -131,6 +131,10 @@ query Post($where: PostWhereUniqueInput!) {
       postId
       userId
     }
+    collects {
+      id
+      userId
+    }
     tags {
       x
       y
@@ -143,6 +147,7 @@ query Post($where: PostWhereUniqueInput!) {
     }
   }
 }
+
 mutation CreateComment($data: CommentCreateInput!) {
   createOneComment(data: $data) {
     id
@@ -221,6 +226,10 @@ query Posts(
     }
     attachments {
       url
+    }
+    collects {
+      id
+      userId
     }
   }
 }
@@ -549,4 +558,18 @@ mutation SendVerificationCode($userId: Int!) {
 
 mutation Verify($code: String!, $userId: Int!) {
   verify(code: $code, userId: $userId)
+}
+
+mutation CreateOneCollectedPost($data: CollectedPostCreateInput!) {
+  createOneCollectedPost(data: $data) {
+    id
+    userId
+  }
+}
+
+mutation DeleteOneCollectedPost($where: CollectedPostWhereUniqueInput!) {
+  deleteOneCollectedPost(where: $where) {
+    id
+    userId
+  }
 }
