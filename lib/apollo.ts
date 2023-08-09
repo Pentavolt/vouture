@@ -87,7 +87,7 @@ export const client = new ApolloClient({
             keyArgs: false,
             merge: (_, incoming: any[]) => incoming,
           },
-          collects: {
+          saves: {
             keyArgs: false,
             merge: (_, incoming: any[]) => incoming,
           },

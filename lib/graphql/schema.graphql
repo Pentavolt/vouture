@@ -131,7 +131,7 @@ query Post($where: PostWhereUniqueInput!) {
       postId
       userId
     }
-    collects {
+    saves {
       id
       userId
     }
@@ -227,7 +227,7 @@ query Posts(
     attachments {
       url
     }
-    collects {
+    saves {
       id
       userId
     }

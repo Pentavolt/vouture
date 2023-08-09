@@ -67,8 +67,8 @@ export default function PostItem({ post, onNavigate }: PostItemProps) {
     post.likes.some((like) => like.userId === user?.id)
   );
 
-  const [isCollected, setIsCollected] = useState<boolean>(
-    post.collects.some((collect) => collect.userId === user?.id)
+  const [isSaved, setIsSaved] = useState<boolean>(
+    post.saves.some((save) => save.userId === user?.id)
   );
 
   useBottomSheetBack(open, () => setOpen(false));
@@ -132,10 +132,10 @@ export default function PostItem({ post, onNavigate }: PostItemProps) {
 
   const handleCollect = async () => {
     if (!user) return;
-    if (isCollected) {
+    if (isSaved) {
       await uncollect({
         variables: { where: { key: { postId: post.id, userId: user.id } } },
-        onCompleted: () => setIsCollected(false),
+        onCompleted: () => setIsSaved(false),
         update: (cache, { data }) => {
           if (!data) return;
           cache.updateQuery(
@@ -145,9 +145,8 @@ export default function PostItem({ post, onNavigate }: PostItemProps) {
               return {
                 post: {
                   ...cached.post,
-                  collects: cached.post.collects.filter(
-                    (collected) =>
-                      collected.id !== data.deleteOneCollectedPost?.id
+                  saves: cached.post.saves.filter(
+                    (save) => save.id !== data.deleteOneCollectedPost?.id
                   ),
                 },
               };
@@ -163,7 +162,7 @@ export default function PostItem({ post, onNavigate }: PostItemProps) {
             user: { connect: { id: user.id } },
           },
         },
-        onCompleted: () => setIsCollected(true),
+        onCompleted: () => setIsSaved(true),
         update: (cache, { data }) => {
           if (!data) return;
           cache.updateQuery(
@@ -173,10 +172,7 @@ export default function PostItem({ post, onNavigate }: PostItemProps) {
               return {
                 post: {
                   ...cached.post,
-                  collects: [
-                    ...cached.post.collects,
-                    data.createOneCollectedPost,
-                  ],
+                  saves: [...cached.post.saves, data.createOneCollectedPost],
                 },
               };
             }
@@ -184,7 +180,7 @@ export default function PostItem({ post, onNavigate }: PostItemProps) {
         },
       });
 
-      setIsCollected(true);
+      setIsSaved(true);
     }
   };
 

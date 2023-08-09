@@ -7,7 +7,7 @@ interface ActionPanelProps {
   post: {
     likes: Partial<Like>[];
     comments: Comment[];
-    collects: CollectedPost[];
+    saves: CollectedPost[];
   };
 
   onLikePress: () => void;
@@ -23,9 +23,7 @@ export default function ActionPanel({
 }: ActionPanelProps) {
   const { user } = useAuth();
   const isLiked = post.likes.some((like) => like.userId === user?.id);
-  const isCollected = post.collects.some(
-    (collect) => collect.userId === user?.id
-  );
+  const isSaved = post.saves.some((save) => save.userId === user?.id);
 
   return (
     <XStack
@@ -62,12 +60,12 @@ export default function ActionPanel({
         icon={
           <Ionicons
             size={25}
-            color={isCollected ? "#FE9F10" : "white"}
-            name={isCollected ? "bookmark" : "bookmark-outline"}
+            color={isSaved ? "#FE9F10" : "white"}
+            name={isSaved ? "bookmark" : "bookmark-outline"}
           />
         }
       >
-        {post.collects.length.toString()}
+        {post.saves.length.toString()}
       </Button>
     </XStack>
   );
