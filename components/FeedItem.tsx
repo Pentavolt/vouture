@@ -54,7 +54,7 @@ export default function FeedItem({ post, column, onPress }: FeedItemProps) {
             </XStack>
             <XStack space="$1" alignItems="center">
               <Ionicons name="heart" />
-              <Text color={"black"}>{post.likes.length}</Text>
+              <Text color={"black"}>{post._count?.likes}</Text>
             </XStack>
           </XStack>
         </View>

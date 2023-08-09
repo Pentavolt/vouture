@@ -332,6 +332,7 @@ query FindFirstPost(
 
 query Feed($count: Int!, $cursor: Int, $skip: Int) {
   feed(count: $count, cursor: $cursor, skip: $skip) {
+    cursor
     posts {
       id
       content
@@ -340,41 +341,19 @@ query Feed($count: Int!, $cursor: Int, $skip: Int) {
         image
         username
       }
-      updatedAt
-      createdAt
-      isCommentable
-      comments {
-        id
-        content
-        author {
-          id
-          image
-          username
-        }
-        createdAt
-      }
-      likes {
-        id
-        userId
-        postId
-      }
       attachments {
         url
       }
-      tags {
-        brand {
-          name
-        }
-        x
-        y
+      _count {
+        likes
       }
     }
-    cursor
   }
 }
 
 query Familiar($count: Int!, $cursor: Int, $skip: Int) {
   familiar(count: $count, skip: $skip, cursor: $cursor) {
+    cursor
     posts {
       id
       content
@@ -383,36 +362,13 @@ query Familiar($count: Int!, $cursor: Int, $skip: Int) {
         image
         username
       }
-      updatedAt
-      createdAt
-      isCommentable
-      comments {
-        id
-        content
-        author {
-          id
-          image
-          username
-        }
-        createdAt
-      }
-      likes {
-        id
-        userId
-        postId
-      }
       attachments {
         url
       }
-      tags {
-        brand {
-          name
-        }
-        x
-        y
+      _count {
+        likes
       }
     }
-    cursor
   }
 }
 
