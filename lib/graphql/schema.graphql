@@ -573,3 +573,34 @@ mutation DeleteOneCollectedPost($where: CollectedPostWhereUniqueInput!) {
     userId
   }
 }
+
+query CollectedPosts(
+  $where: CollectedPostWhereInput
+  $take: Int
+  $orderBy: [CollectedPostOrderByWithRelationInput!]
+  $cursor: CollectedPostWhereUniqueInput
+) {
+  collectedPosts(
+    where: $where
+    take: $take
+    orderBy: $orderBy
+    cursor: $cursor
+  ) {
+    id
+    post {
+      id
+      content
+      _count {
+        likes
+      }
+      attachments {
+        url
+      }
+      user {
+        id
+        image
+        username
+      }
+    }
+  }
+}
