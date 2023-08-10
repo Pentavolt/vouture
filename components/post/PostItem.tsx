@@ -86,6 +86,7 @@ export default function PostItem({ post, onNavigate }: PostItemProps) {
 
     identifier.current = post.id;
     setIsLiked(post.likes.some((like) => like.userId === user?.id));
+    setIsSaved(post.saves.some((save) => save.userId === user?.id));
     setOpen(false);
   }
 
