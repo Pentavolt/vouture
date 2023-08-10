@@ -1,50 +1,35 @@
 import { Ionicons } from "@expo/vector-icons";
-import { useAuth, useBottomSheetBack } from "../../lib/hooks";
-import { UserStackScreenProps } from "../../lib/navigation/types";
-import { FlashList } from "@shopify/flash-list";
-import { useQuery } from "@apollo/client";
 import {
-  GetUserDocument,
-  Post,
-  PostsDocument,
-  SortOrder,
-  User,
-} from "../../generated/gql/graphql";
-import { Paragraph, View, YStack } from "tamagui";
-import PostPreview from "../../components/post/PostPreview";
+  MaterialTabBar,
+  MaterialTabItem,
+  Tabs,
+} from "react-native-collapsible-tab-view";
+import { useAuth, useBottomSheetBack } from "../../lib/hooks";
+import {
+  HomeStackScreenProps,
+  UserStackScreenProps,
+} from "../../lib/navigation/types";
+import { useQuery } from "@apollo/client";
+import { GetUserDocument, User } from "../../generated/gql/graphql";
+import { View } from "tamagui";
 import ProfileHeader from "../../components/ProfileHeader";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import ProfileActionSheet from "../../components/ProfileActionSheet";
 import Loading from "../../components/Loading";
-
-// TODO: The props should be HomeStackScreenProps as well.
+import SavedPostsTab from "../../components/SavedPostsTab";
+import PostsTab from "../../components/PostsTab";
 
 export default function ProfileScreen({
   navigation,
   route,
-}: UserStackScreenProps<"Profile">) {
+}: UserStackScreenProps<"Profile"> | HomeStackScreenProps<"Profile">) {
   const [open, setOpen] = useState<boolean>(false);
   const { user } = useAuth();
-  const currentUserId = route.params ? route.params.user.id : user?.id;
-
   useBottomSheetBack(open, () => setOpen(false));
-  const {
-    data,
-    loading: userLoading,
-    refetch,
-  } = useQuery(GetUserDocument, {
-    variables: { where: { id: currentUserId } },
-  });
 
-  const {
-    data: content,
-    loading: postsLoading,
-    fetchMore,
-  } = useQuery(PostsDocument, {
+  const { data, loading } = useQuery(GetUserDocument, {
     variables: {
-      where: { userId: { equals: currentUserId } },
-      orderBy: { createdAt: SortOrder["Desc"] },
-      take: 20,
+      where: { id: route.params ? route.params.user.id : user?.id },
     },
   });
 
@@ -63,16 +48,14 @@ export default function ProfileScreen({
         ),
       });
     }
-  }, [userLoading]);
+  }, [loading]);
 
-  const renderItem = ({ item }: { item: Post }) => (
-    <PostPreview
-      post={item}
-      onNavigate={() => navigation.push("Details", { post: item })}
-    />
+  const renderHeader = useCallback(
+    () => <ProfileHeader user={data?.user as User} />,
+    [data]
   );
 
-  if (postsLoading || userLoading || !data?.user) return <Loading />;
+  if (loading || !data?.user) return <Loading />;
 
   const isBlocked =
     data.user.blocked.some((block) => block.blockerId === user?.id) ||
@@ -91,56 +74,39 @@ export default function ProfileScreen({
         currentUser={user as User}
         viewedUser={data.user as User}
       />
-      <FlashList<Post>
-        ListHeaderComponent={<ProfileHeader user={data.user as User} />}
-        ListEmptyComponent={
-          isBlocked || isPrivate ? (
-            <YStack
-              space
-              paddingVertical={"$12"} // Not ideal, but necessary since FlashList does not support flexGrow: 1 in contentContainerStyle.
-              paddingHorizontal={"$7"}
-              alignItems="center"
-              justifyContent="center"
-            >
-              <Ionicons
-                name={isBlocked ? "eye-off" : "lock-closed"}
-                size={40}
-              />
-              <Paragraph
-                fontFamily={"$span"}
-                color={"$gray7Dark"}
-                textAlign="center"
-              >
-                {isBlocked
-                  ? "You are not allowed to view this user's posts."
-                  : "This profile is private. Only followers can see their posts."}
-              </Paragraph>
-            </YStack>
-          ) : undefined
-        }
-        renderItem={renderItem}
-        onRefresh={refetch}
-        refreshing={postsLoading}
-        numColumns={3}
-        keyExtractor={(_, idx) => idx.toString()}
-        data={isBlocked || isPrivate ? [] : (content?.posts as Post[])}
-        estimatedItemSize={200}
-        onEndReachedThreshold={0.5}
-        onEndReached={async () => {
-          if (isBlocked || isPrivate) return;
-          const lastItemId = content?.posts[content.posts.length - 1]?.id;
-          await fetchMore({
-            variables: {
-              ...(lastItemId ? { cursor: { id: lastItemId }, skip: 1 } : {}),
-            },
-            updateQuery: (previousQueryResult, { fetchMoreResult }) => {
-              return {
-                posts: [...previousQueryResult.posts, ...fetchMoreResult.posts],
-              };
-            },
-          });
-        }}
-      />
+      <Tabs.Container
+        renderHeader={renderHeader}
+        headerContainerStyle={{ elevation: 0, shadowRadius: 0 }}
+        renderTabBar={(props) => (
+          <MaterialTabBar
+            {...props}
+            indicatorStyle={{ backgroundColor: "black" }}
+            labelStyle={{
+              fontFamily: "Satoshi Medium",
+              textTransform: "capitalize",
+              fontSize: 15,
+            }}
+            TabItemComponent={(props) => (
+              <MaterialTabItem {...props} pressColor="transparent" />
+            )}
+          />
+        )}
+      >
+        <Tabs.Tab name="Posts">
+          <PostsTab
+            userId={data.user.id}
+            isBlocked={isBlocked}
+            isPrivate={isPrivate}
+          />
+        </Tabs.Tab>
+        <Tabs.Tab name="Saved">
+          <SavedPostsTab
+            userId={data.user.id}
+            isBlocked={isBlocked}
+            isPrivate={isPrivate}
+          />
+        </Tabs.Tab>
+      </Tabs.Container>
     </View>
   );
 }
