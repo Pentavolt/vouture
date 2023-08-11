@@ -27,6 +27,7 @@ import ActionPanel from "./ActionPanel";
 import CommentSheet from "./CommentSheet";
 import PostGestureView from "./PostGesture";
 import PostContent from "./PostContent";
+import ControlSheet from "./ControlSheet";
 
 interface PostItemProps {
   post: Post;
@@ -62,7 +63,8 @@ export default function PostItem({ post, onNavigate }: PostItemProps) {
   const [view] = useMutation(CreateViewDocument);
   const [collect] = useMutation(CreateOneCollectedPostDocument);
   const [uncollect] = useMutation(DeleteOneCollectedPostDocument);
-  const [open, setOpen] = useState<boolean>(false);
+  const [commentsOpen, setCommentsOpen] = useState<boolean>(false);
+  const [shareOpen, setShareOpen] = useState<boolean>(false);
   const [isLiked, setIsLiked] = useState<boolean>(
     post.likes.some((like) => like.userId === user?.id)
   );
@@ -71,7 +73,8 @@ export default function PostItem({ post, onNavigate }: PostItemProps) {
     post.saves.some((save) => save.userId === user?.id)
   );
 
-  useBottomSheetBack(open, () => setOpen(false));
+  useBottomSheetBack(commentsOpen, () => setCommentsOpen(false));
+  useBottomSheetBack(shareOpen, () => setShareOpen(false));
   if (identifier.current !== post.id) {
     view({
       variables: {
@@ -87,7 +90,8 @@ export default function PostItem({ post, onNavigate }: PostItemProps) {
     identifier.current = post.id;
     setIsLiked(post.likes.some((like) => like.userId === user?.id));
     setIsSaved(post.saves.some((save) => save.userId === user?.id));
-    setOpen(false);
+    setCommentsOpen(false);
+    setShareOpen(false);
   }
 
   const scaleStyle = useAnimatedStyle(() => ({
@@ -300,15 +304,21 @@ export default function PostItem({ post, onNavigate }: PostItemProps) {
       <PostContent post={post} onNavigate={onNavigate} />
       <ActionPanel
         post={post}
-        onCommentPress={() => setOpen(true)}
+        onCommentPress={() => setCommentsOpen(true)}
         onSavePress={handleCollect}
         onLikePress={() => (isLiked ? handleUnlike() : onDoubleTap())}
+        onSharePress={() => setShareOpen(true)}
       />
       <CommentSheet
         post={post}
-        open={open}
-        onClose={() => setOpen(false)}
+        open={commentsOpen}
+        onClose={() => setCommentsOpen(false)}
         onComment={handleComment}
+      />
+      <ControlSheet
+        post={post}
+        open={shareOpen}
+        onOpenChange={() => setShareOpen(false)}
       />
     </View>
   );
