@@ -27,7 +27,7 @@ export default function ProfileScreen({
   const { user } = useAuth();
   useBottomSheetBack(open, () => setOpen(false));
 
-  const { data, loading } = useQuery(GetUserDocument, {
+  const { data, loading, refetch } = useQuery(GetUserDocument, {
     variables: {
       where: { id: route.params ? route.params.user.id : user?.id },
     },
@@ -97,6 +97,7 @@ export default function ProfileScreen({
             userId={data.user.id}
             isBlocked={isBlocked}
             isPrivate={isPrivate}
+            onRefresh={refetch}
           />
         </Tabs.Tab>
         <Tabs.Tab name="Saved">

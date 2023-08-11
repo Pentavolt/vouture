@@ -16,12 +16,14 @@ interface PostsTabProps {
   userId: number;
   isBlocked: boolean;
   isPrivate: boolean;
+  onRefresh: () => void;
 }
 
 export default function PostsTab({
   userId,
   isBlocked,
   isPrivate,
+  onRefresh,
 }: PostsTabProps) {
   const navigation =
     useNavigation<NavigationProp<UserStackParamList | HomeStackParamList>>();
@@ -69,7 +71,10 @@ export default function PostsTab({
         ) : undefined
       }
       renderItem={renderItem}
-      onRefresh={refetch}
+      onRefresh={() => {
+        refetch();
+        onRefresh();
+      }}
       refreshing={loading}
       numColumns={3}
       keyExtractor={(_, idx) => idx.toString()}
