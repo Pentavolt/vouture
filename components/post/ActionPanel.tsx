@@ -13,6 +13,7 @@ interface ActionPanelProps {
   onLikePress: () => void;
   onCommentPress: () => void;
   onSavePress: () => void;
+  onSharePress: () => void;
 }
 
 export default function ActionPanel({
@@ -20,6 +21,7 @@ export default function ActionPanel({
   onCommentPress,
   onLikePress,
   onSavePress,
+  onSharePress,
 }: ActionPanelProps) {
   const { user } = useAuth();
   const isLiked = post.likes.some((like) => like.userId === user?.id);
@@ -27,7 +29,7 @@ export default function ActionPanel({
 
   return (
     <XStack
-      space
+      width={"100%"}
       backgroundColor={"black"}
       height={60}
       paddingHorizontal={"$3"}
@@ -67,6 +69,11 @@ export default function ActionPanel({
       >
         {post.saves.length.toString()}
       </Button>
+      <Button
+        backgroundColor={"$backgroundTransparent"}
+        onPress={onSharePress}
+        icon={<Ionicons size={25} name={"share-outline"} />}
+      />
     </XStack>
   );
 }
