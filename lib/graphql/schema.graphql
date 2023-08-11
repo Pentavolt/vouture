@@ -63,7 +63,7 @@ query GetUser($where: UserWhereUniqueInput!) {
       requesterId
       targetId
     }
-    posts {
+    posts(where: { isDeleted: { equals: false } }) {
       _count {
         attachments
       }
@@ -521,7 +521,7 @@ query Users(
     username
     image
     id
-    posts {
+    posts(where: { userId: { equals: userId }, isDeleted: { equals: false } }) {
       id
     }
     followers {
@@ -601,6 +601,61 @@ query CollectedPosts(
         image
         username
       }
+    }
+  }
+}
+
+mutation DeleteOnePost($where: PostWhereUniqueInput!) {
+  deleteOnePost(where: $where) {
+    id
+  }
+}
+
+mutation UpdateOnePost($data: PostUpdateInput!, $where: PostWhereUniqueInput!) {
+  updateOnePost(data: $data, where: $where) {
+    id
+    content
+    user {
+      id
+      image
+      username
+    }
+    createdAt
+    updatedAt
+    isCommentable
+    comments(where: { isHidden: { equals: false } }) {
+      id
+      content
+      isHidden
+      author {
+        id
+        image
+        username
+      }
+      postId
+      post {
+        userId
+      }
+      createdAt
+    }
+    likes {
+      id
+      postId
+      userId
+    }
+    tags {
+      x
+      y
+      brand {
+        name
+      }
+    }
+    attachments {
+      url
+    }
+    saves {
+      id
+      userId
     }
   }
 }

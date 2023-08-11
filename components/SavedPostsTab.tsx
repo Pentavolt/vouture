@@ -35,9 +35,12 @@ export default function SavedPostsTab({
     CollectedPostsDocument,
     {
       variables: {
-        where: { userId: { equals: userId } },
         orderBy: { createdAt: SortOrder["Desc"] },
         take: 20,
+        where: {
+          userId: { equals: userId },
+          post: { is: { isDeleted: { equals: false } } },
+        },
       },
     }
   );

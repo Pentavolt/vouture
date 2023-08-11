@@ -28,7 +28,7 @@ export default function PostsTab({
 
   const { data, loading, fetchMore, refetch } = useQuery(PostsDocument, {
     variables: {
-      where: { userId: { equals: userId } },
+      where: { userId: { equals: userId }, isDeleted: { equals: false } },
       orderBy: { createdAt: SortOrder["Desc"] },
       take: 20,
     },

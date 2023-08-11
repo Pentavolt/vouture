@@ -22,6 +22,7 @@ export default function PostScreen({
       variables: {
         take: 20,
         cursor: { id: route.params.post.id },
+        where: { isDeleted: { equals: false } },
         orderBy: [{ createdAt: SortOrder["Desc"] }, { id: SortOrder["Desc"] }],
       },
     }
