@@ -14,6 +14,7 @@ import {
   PreferencesStackNavigator,
 } from "./navigators";
 import type { RootStackParamList } from "./types";
+import ReportScreen from "../../screens/ReportScreen";
 
 export function NavigationProvider({
   colorScheme,
@@ -62,6 +63,7 @@ function RootNavigator() {
             component={PreferencesStackNavigator}
             options={{ headerShown: false }}
           />
+          <Stack.Screen name="Report" component={ReportScreen} />
         </>
       )}
     </Stack.Navigator>

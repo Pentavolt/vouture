@@ -521,7 +521,7 @@ query Users(
     username
     image
     id
-    posts(where: { userId: { equals: userId }, isDeleted: { equals: false } }) {
+    posts(where: { isDeleted: { equals: false } }) {
       id
     }
     followers {
@@ -657,5 +657,11 @@ mutation UpdateOnePost($data: PostUpdateInput!, $where: PostWhereUniqueInput!) {
       id
       userId
     }
+  }
+}
+
+mutation CreateOneReport($data: ReportCreateInput!) {
+  createOneReport(data: $data) {
+    id
   }
 }

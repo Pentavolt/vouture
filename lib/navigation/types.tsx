@@ -12,6 +12,7 @@ export type RootStackParamList = {
   Intro: NavigatorScreenParams<IntroStackParamList>;
   Create: NavigatorScreenParams<CameraStackParamList>;
   Preferences: NavigatorScreenParams<PreferencesStackParamList>;
+  Report: { postId: number };
 };
 
 export type RootTabParamList = {

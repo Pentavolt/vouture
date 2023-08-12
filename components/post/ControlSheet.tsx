@@ -45,10 +45,15 @@ export default function ControlSheet({
   return (
     <Sheet open={open} onOpenChange={onOpenChange} snapPoints={[35]}>
       <Sheet.Overlay />
-      <Sheet.Handle />
+      <Sheet.Handle backgroundColor={"white"} />
       <Sheet.Frame backgroundColor={"white"} padding="$3">
         <XStack space>
-          <ActionButton iconName="flag" onPress={() => null} text="Report" />
+          <ActionButton
+            iconName="flag"
+            // @ts-ignore Will need to find a solution for prop types.
+            onPress={() => navigation.navigate("Report", { postId: post.id })}
+            text="Report"
+          />
           {user?.id === post.user.id && (
             <ActionButton
               iconName="trash"
