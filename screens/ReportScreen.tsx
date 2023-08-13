@@ -43,8 +43,15 @@ export default function ReportScreen({
       variables: {
         data: {
           reason: CATEGORIES[selectedIdx],
-          post: { connect: { id: route.params.postId } },
-          user: { connect: { id: user?.id } },
+          reporter: { connect: { id: user?.id } },
+          post:
+            "postId" in route.params
+              ? { connect: { id: route.params.postId } }
+              : undefined,
+          reported:
+            "userId" in route.params
+              ? { connect: { id: route.params.userId } }
+              : undefined,
         },
       },
       onCompleted: () => {
