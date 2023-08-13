@@ -52,7 +52,7 @@ export default function PostsTab({
         isBlocked || isPrivate ? (
           <YStack
             space
-            paddingVertical={"$12"} // Not ideal, but necessary since FlashList does not support flexGrow: 1 in contentContainerStyle.
+            paddingVertical={"$16"} // Not ideal, but necessary since FlashList does not support flexGrow: 1 in contentContainerStyle.
             paddingHorizontal={"$7"}
             alignItems="center"
             justifyContent="center"
