@@ -4,6 +4,7 @@ import {
   ListItem,
   ScrollView,
   Spinner,
+  Text,
   View,
   YGroup,
   YStack,
@@ -82,7 +83,6 @@ export default function ProfileSettingsScreen({
     <ScrollView
       space
       flex={1}
-      backgroundColor={"white"}
       paddingVertical="$8"
       contentContainerStyle={{ alignItems: "center" }}
     >
@@ -105,45 +105,53 @@ export default function ProfileSettingsScreen({
         </Avatar>
       )}
       <YStack padding={"$3"} space>
-        <YGroup alignSelf="center" bordered size="$4">
+        <YGroup alignSelf="center" size="$4">
           <YGroup.Item>
             <ListItem
               hoverTheme
               pressTheme
-              iconAfter={<Ionicons name="chevron-forward" />}
-              fontSize={15}
-              title="Username"
-              subTitle={data?.me.username}
+              themeInverse
+              iconAfter={<Ionicons name="chevron-forward" size={18} />}
+              fontSize={16}
+              fontFamily={"$span"}
               onPress={() => navigation.navigate("Username")}
-            />
+            >
+              Username
+            </ListItem>
           </YGroup.Item>
           <YGroup.Item>
             <ListItem
               hoverTheme
+              themeInverse
               pressTheme
               iconAfter={
                 data.me.isEmailVerified ? (
-                  <Ionicons name="chevron-forward" />
+                  <Ionicons name="chevron-forward" size={18} />
                 ) : (
-                  <Ionicons name="warning" color={"red"} size={15} />
+                  <Text fontFamily={"$body"} color="red">
+                    Verify
+                  </Text>
                 )
               }
-              fontSize={15}
-              title="Email"
-              subTitle={data.me.email}
+              fontSize={16}
+              fontFamily={"$span"}
               onPress={() => {
                 if (data.me.isEmailVerified) return;
                 verify({ variables: { userId: data?.me.id } });
                 navigation.navigate("Verification");
               }}
-            />
+            >
+              Email
+            </ListItem>
           </YGroup.Item>
           <YGroup.Item>
             <ListItem
               hoverTheme
               pressTheme
-              fontSize={15}
-              iconAfter={<Ionicons name="chevron-forward" />}
+              themeInverse
+              fontSize={16}
+              fontFamily={"$span"}
+              iconAfter={<Ionicons name="chevron-forward" size={18} />}
               onPress={() => navigation.navigate("Biography")}
             >
               Biography
@@ -153,8 +161,10 @@ export default function ProfileSettingsScreen({
             <ListItem
               hoverTheme
               pressTheme
-              fontSize={15}
-              iconAfter={<Ionicons name="chevron-forward" />}
+              themeInverse
+              fontSize={16}
+              fontFamily={"$span"}
+              iconAfter={<Ionicons name="chevron-forward" size={18} />}
               onPress={() => navigation.navigate("Location")}
             >
               Location

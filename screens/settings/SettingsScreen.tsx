@@ -9,13 +9,15 @@ export default function SettingsScreen({
   const { logout } = useAuth();
   return (
     <YStack padding={"$3"} space>
-      <YGroup alignSelf="center" bordered size="$4">
+      <YGroup alignSelf="center" size="$4">
         <YGroup.Item>
           <ListItem
-            hoverTheme
+            themeInverse
             pressTheme
-            icon={<Ionicons name="person" />}
-            fontSize={15}
+            icon={<Ionicons color={"#5D5D5D"} name="person" size={18} />}
+            iconAfter={<Ionicons size={18} name="chevron-forward" />}
+            fontSize={16}
+            fontFamily={"$span"}
             onPress={() => navigation.navigate("ProfileSettings")}
           >
             Profile
@@ -23,31 +25,37 @@ export default function SettingsScreen({
         </YGroup.Item>
         <YGroup.Item>
           <ListItem
-            hoverTheme
+            themeInverse
             pressTheme
-            fontSize={15}
-            icon={<Ionicons name="lock-closed" />}
+            fontSize={16}
+            fontFamily={"$span"}
+            icon={<Ionicons color={"#5D5D5D"} name="lock-closed" size={18} />}
             onPress={() => navigation.navigate("Privacy")}
+            iconAfter={<Ionicons size={18} name="chevron-forward" />}
           >
             Privacy
           </ListItem>
         </YGroup.Item>
         <YGroup.Item>
           <ListItem
-            hoverTheme
+            themeInverse
             pressTheme
-            fontSize={15}
-            icon={<Ionicons name="time" />}
+            fontSize={16}
+            fontFamily={"$span"}
+            icon={<Ionicons color={"#5D5D5D"} name="time" size={18} />}
+            iconAfter={<Ionicons size={18} name="chevron-forward" />}
           >
             History
           </ListItem>
         </YGroup.Item>
         <YGroup.Item>
           <ListItem
-            hoverTheme
+            themeInverse
             pressTheme
-            icon={<Ionicons name="log-out" />}
-            fontSize={15}
+            icon={<Ionicons color={"#5D5D5D"} name="log-out" size={18} />}
+            iconAfter={<Ionicons size={18} name="chevron-forward" />}
+            fontSize={16}
+            fontFamily={"$span"}
             onPress={logout}
           >
             Logout
