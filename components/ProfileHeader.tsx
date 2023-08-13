@@ -39,6 +39,10 @@ export default function ProfileHeader({ user }: ProfileHeaderProps) {
     (request) => request.requesterId === me?.id
   );
 
+  const isBlocked =
+    user.blocked.some((block) => block.blockerId === me?.id) ||
+    user.blocker.some((block) => block.blockedId === me?.id);
+
   const getButtonText = () => {
     if (isFollowing) return "Unfollow";
     if (hasRequested) return "Requested";
@@ -194,36 +198,33 @@ export default function ProfileHeader({ user }: ProfileHeaderProps) {
       justifyContent="center"
       alignItems="center"
       paddingVertical="$5"
-      paddingHorizontal={"$7"}
+      paddingHorizontal={"$3"}
     >
-      <Avatar circular size={"$8"}>
-        <Avatar.Image source={{ uri: user.image }} />
-        <Avatar.Fallback bc={"red"} />
-      </Avatar>
-      <YStack space={"$2"}>
-        <H2 textAlign="center" color={"black"}>
-          {user.username}
-        </H2>
-        {!!user.badges.length && (
-          <XStack space={"$2"} flexWrap="wrap">
-            {user.badges.map(({ badge }, idx) => (
-              <Badge
-                key={idx}
-                name={badge.name}
-                backgroundColor={"$gray2Light"}
-              />
-            ))}
-          </XStack>
-        )}
-      </YStack>
-      {!!user.biography?.length && (
-        <Paragraph color={"black"}>{user.biography}</Paragraph>
-      )}
+      <XStack space width={"100%"} alignItems="center">
+        <Avatar circular size={"$8"}>
+          <Avatar.Image source={{ uri: user.image }} />
+          <Avatar.Fallback bc={"red"} />
+        </Avatar>
+        <YStack space={"$2"}>
+          <H2 color={"black"}>{user.username}</H2>
+          {!!user.badges.length && (
+            <XStack space={"$2"} flexWrap="wrap">
+              {user.badges.map(({ badge }, idx) => (
+                <Badge
+                  key={idx}
+                  name={badge.name}
+                  backgroundColor={"$gray2Light"}
+                />
+              ))}
+            </XStack>
+          )}
+        </YStack>
+      </XStack>
       <XGroup
-        space={"$7"}
+        space={"$4"}
         backgroundColor={"$gray2Light"}
         width={"100%"}
-        justifyContent="center"
+        justifyContent="space-evenly"
         padded
       >
         <XGroup.Item>
@@ -257,8 +258,12 @@ export default function ProfileHeader({ user }: ProfileHeaderProps) {
           </YStack>
         </XGroup.Item>
       </XGroup>
+      {!!user.biography?.length && (
+        <Paragraph color={"black"}>{user.biography}</Paragraph>
+      )}
       {user.id !== me?.id && (
         <Button
+          disabled={isBlocked}
           onPress={onPress}
           width={"100%"}
           icon={
