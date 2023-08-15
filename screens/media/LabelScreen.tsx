@@ -1,6 +1,7 @@
+import * as MediaLibrary from "expo-media-library";
 import { Ionicons } from "@expo/vector-icons";
 import { useWindowDimensions } from "react-native";
-import { Button, Heading, Sheet, View, YStack } from "tamagui";
+import { Button, Heading, Sheet, View, XStack, YStack } from "tamagui";
 import { CameraStackScreenProps } from "../../lib/navigation/types";
 import { useRef, useState } from "react";
 import { FlashList } from "@shopify/flash-list";
@@ -16,13 +17,17 @@ import FastImage from "react-native-fast-image";
 import ClothingLabel from "../../components/post/ClothingLabel";
 import { useBottomSheetBack } from "../../lib/hooks";
 import Loading from "../../components/Loading";
+import { useToastController } from "@tamagui/toast";
+import Toaster from "../../components/Toaster";
 
 export default function LabelScreen({
   route,
   navigation,
 }: CameraStackScreenProps<"Labeling">) {
+  const toast = useToastController();
   const { photo } = route.params;
   const { height, width } = useWindowDimensions();
+  const [permission, requestPermission] = MediaLibrary.usePermissions();
   const { data, loading } = useQuery(BrandsDocument, {
     variables: { orderBy: { name: SortOrder["Asc"] } },
   });
@@ -58,9 +63,27 @@ export default function LabelScreen({
     </TouchableOpacity>
   );
 
+  const saveMedia = async () => {
+    if (!permission) await requestPermission();
+    if (!permission?.granted) {
+      return toast?.show("Unable to save", {
+        native: false,
+        message:
+          "To save images, please grant access to the media library in system settings.",
+      });
+    }
+
+    if (!photo) return;
+    await MediaLibrary.saveToLibraryAsync(photo);
+    return toast?.show("Photo saved", {
+      message: "Your image has successfully been saved.",
+    });
+  };
+
   if (loading) return <Loading />;
   return (
     <>
+      <Toaster backgroundColor={"$green4Light"} iconName="download-outline" />
       <Sheet
         open={open}
         onOpenChange={setOpen}
@@ -104,41 +127,65 @@ export default function LabelScreen({
             }}
           />
         ))}
-        <FastImage style={{ flex: 1 }} source={{ uri: photo }} />
-        <YStack space position={"absolute"} top={15} right={15}>
-          <Button
-            onPress={() =>
-              navigation.navigate("Preview", { photo, tags: positions.current })
-            }
-            bg={"rgba(140, 140, 140, 0.3)"}
-            icon={<Ionicons name="arrow-forward" />}
-            borderRadius="$true"
-            pressStyle={{
-              bg: "darkgray",
-            }}
-          />
-          <Button
-            onPress={() => setOpen(true)}
-            bg={"rgba(140, 140, 140, 0.3)"}
-            icon={<Ionicons name="add-outline" />}
-            borderRadius="$true"
-            pressStyle={{
-              bg: "darkgray",
-            }}
-          />
-        </YStack>
-        <Button
-          onPress={() => navigation.goBack()}
-          position="absolute"
-          top={15}
-          left={15}
-          bg={"rgba(140, 140, 140, 0.3)"}
-          icon={<Ionicons name="arrow-back" />}
-          borderRadius="$true"
-          pressStyle={{
-            bg: "darkgray",
-          }}
+        <FastImage
+          style={{ flex: 1, backgroundColor: "black" }}
+          resizeMode="contain"
+          source={{ uri: photo }}
         />
+        <XStack
+          position={"absolute"}
+          top={15}
+          right={15}
+          left={15}
+          bottom={15}
+          justifyContent="space-between"
+        >
+          <Button
+            onPress={() => navigation.goBack()}
+            bg={"rgba(140, 140, 140, 0.3)"}
+            icon={<Ionicons size={20} name="arrow-back-outline" />}
+            borderRadius="$true"
+            pressStyle={{
+              bg: "darkgray",
+            }}
+          />
+          <YStack space justifyContent="space-between">
+            <YStack space>
+              <Button
+                onPress={() =>
+                  navigation.navigate("Preview", {
+                    photo,
+                    tags: positions.current,
+                  })
+                }
+                bg={"rgba(140, 140, 140, 0.3)"}
+                icon={<Ionicons size={20} name="arrow-forward-outline" />}
+                borderRadius="$true"
+                pressStyle={{
+                  bg: "darkgray",
+                }}
+              />
+              <Button
+                onPress={() => setOpen(true)}
+                bg={"rgba(140, 140, 140, 0.3)"}
+                icon={<Ionicons size={20} name="pricetag-outline" />}
+                borderRadius="$true"
+                pressStyle={{
+                  bg: "darkgray",
+                }}
+              />
+            </YStack>
+            <Button
+              onPress={saveMedia}
+              bg={"rgba(140, 140, 140, 0.3)"}
+              icon={<Ionicons size={20} name="download-outline" />}
+              borderRadius="$true"
+              pressStyle={{
+                bg: "darkgray",
+              }}
+            />
+          </YStack>
+        </XStack>
       </View>
     </>
   );
