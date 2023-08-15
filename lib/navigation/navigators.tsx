@@ -190,16 +190,7 @@ export function CameraStackNavigator() {
       <CameraStack.Screen
         name="Camera"
         component={CameraScreen}
-        options={({ navigation }: CameraStackScreenProps<"Camera">) => ({
-          headerLeft: () => (
-            <Ionicons
-              name="close"
-              size={22}
-              style={{ marginHorizontal: 14 }}
-              onPress={() => navigation.goBack()}
-            />
-          ),
-        })}
+        options={{ headerShown: false }}
       />
       <CameraStack.Screen name="Preview" component={PreviewScreen} />
       <CameraStack.Screen
