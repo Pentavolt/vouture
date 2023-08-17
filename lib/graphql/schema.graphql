@@ -665,3 +665,26 @@ mutation CreateOneReport($data: ReportCreateInput!) {
     id
   }
 }
+
+query Notifications(
+  $where: NotificationWhereInput
+  $take: Int
+  $skip: Int
+  $orderBy: [NotificationOrderByWithRelationInput!]
+) {
+  notifications(where: $where, take: $take, skip: $skip, orderBy: $orderBy) {
+    id
+    notifier {
+      username
+      image
+    }
+    type {
+      name
+    }
+    postId
+    post {
+      id
+    }
+    createdAt
+  }
+}
