@@ -72,6 +72,7 @@ export type SearchStackParamList = {
 export type InboxStackParamList = {
   Notifications: undefined;
   Requests: undefined;
+  Details: { post: Post };
 };
 
 export type FeedTopTabParamList = {

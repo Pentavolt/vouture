@@ -11,7 +11,6 @@ import {
   UserStackParamList,
   UserStackScreenProps,
   RootTabScreenProps,
-  CameraStackScreenProps,
   FeedTopTabParamList,
   InboxStackParamList,
   SearchStackParamList,
@@ -353,6 +352,15 @@ export function InboxStackNavigator() {
     >
       <InboxStack.Screen name="Notifications" component={NotificationsScreen} />
       <InboxStack.Screen name="Requests" component={RequestsScreen} />
+      <InboxStack.Screen
+        name="Details"
+        component={PostScreen}
+        options={{
+          headerShown: true,
+          headerTransparent: true,
+          headerTintColor: "white",
+        }}
+      />
     </InboxStack.Navigator>
   );
 }
