@@ -684,6 +684,9 @@ query Notifications(
     postId
     post {
       id
+      attachments {
+        url
+      }
     }
     createdAt
   }

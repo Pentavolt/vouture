@@ -4,6 +4,7 @@ import { getTimeAgo } from "../lib/time";
 import { Notification } from "../generated/gql/graphql";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { InboxStackParamList } from "../lib/navigation/types";
+import FastImage from "react-native-fast-image";
 
 interface NotificationItemProps {
   index: number;
@@ -53,7 +54,7 @@ export default function NotificationItem({
           <Avatar.Image source={{ uri: notification.notifier.image }} />
           <Avatar.Fallback />
         </Avatar>
-        <YStack>
+        <YStack flex={1}>
           <Text fontFamily={"$span"} color={"black"}>
             {renderNotificationString(notification)}
           </Text>
@@ -61,6 +62,13 @@ export default function NotificationItem({
             {getTimeAgo(notification.createdAt)}
           </Text>
         </YStack>
+        {!!notification.postId && (
+          <FastImage
+            style={{ height: "100%", width: 35, borderRadius: 3 }}
+            resizeMode="cover"
+            source={{ uri: notification.post?.attachments[0].url }}
+          />
+        )}
       </XStack>
     </TouchableOpacity>
   );
