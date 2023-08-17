@@ -131,6 +131,10 @@ export function BottomTabNavigator() {
                 ? "none"
                 : "flex",
           },
+          tabBarBadgeStyle: {
+            backgroundColor: "#E2676F",
+            lineHeight: 19,
+          },
           tabBarIcon: ({ color, focused }) => (
             <TabBarIcon
               name={focused ? "file-tray" : "file-tray-outline"}
