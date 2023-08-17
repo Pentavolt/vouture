@@ -49,7 +49,9 @@ export default function SavedPostsTab({
     ({ item }: ListRenderItemInfo<CollectedPost>) => (
       <PostPreview
         post={item.post}
-        onNavigate={() => navigation.navigate("Details", { post: item.post })}
+        onNavigate={() =>
+          navigation.navigate("Details", { postId: item.post.id })
+        }
       />
     ),
     []

@@ -40,7 +40,7 @@ export default function PostsTab({
     ({ item }: ListRenderItemInfo<Post>) => (
       <PostPreview
         post={item}
-        onNavigate={() => navigation.navigate("Details", { post: item })}
+        onNavigate={() => navigation.navigate("Details", { postId: item.id })}
       />
     ),
     []

@@ -37,7 +37,7 @@ export default function PostResultsScreen({
       <FeedItem
         column={columnIndex}
         post={item}
-        onPress={() => navigation.push("Details", { post: item })}
+        onPress={() => navigation.push("Details", { postId: item.id })}
       />
     ),
     []

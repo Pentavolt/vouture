@@ -41,12 +41,12 @@ export type CameraStackParamList = {
 export type HomeStackParamList = {
   Feed: NavigatorScreenParams<FeedTopTabParamList>;
   Profile: { user: User };
-  Details: { post: Post };
+  Details: { postId: number };
 };
 
 export type UserStackParamList = {
   Profile: { user: User };
-  Details: { post: Post };
+  Details: { postId: number };
 };
 
 export type PreferencesStackParamList = {
@@ -65,14 +65,14 @@ export type SearchStackParamList = {
   Results: NavigatorScreenParams<ResultsTopTabParamList>;
   Query: undefined;
   Profile: { user: User };
-  Details: { post: Post };
+  Details: { postId: number };
   Brand: { brandName: string };
 };
 
 export type InboxStackParamList = {
   Notifications: undefined;
   Requests: undefined;
-  Details: { post: Post };
+  Details: { postId: number };
 };
 
 export type FeedTopTabParamList = {

@@ -21,7 +21,7 @@ export default function PostScreen({
       fetchPolicy: "network-only",
       variables: {
         take: 20,
-        cursor: { id: route.params.post.id },
+        cursor: { id: route.params.postId },
         where: { isDeleted: { equals: false } },
         orderBy: [{ createdAt: SortOrder["Desc"] }, { id: SortOrder["Desc"] }],
       },
