@@ -28,7 +28,7 @@ export default function DiscoverScreen({
         column={columnIndex}
         onPress={() =>
           navigation.push("Details", {
-            post: item,
+            postId: item.id,
           })
         }
       />

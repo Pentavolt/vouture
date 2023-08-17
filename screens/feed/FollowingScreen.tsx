@@ -31,7 +31,7 @@ export default function FollowingScreen({
         column={columnIndex}
         onPress={() =>
           navigation.push("Details", {
-            post: item,
+            postId: item.id,
           })
         }
       />
