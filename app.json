@@ -17,6 +17,7 @@
       "bundleIdentifier": "com.pentavolt.vte"
     },
     "android": {
+      "googleServicesFile": "./google-services.json",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
