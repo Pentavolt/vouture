@@ -265,7 +265,7 @@ export default function PostItem({ post, onNavigate }: PostItemProps) {
               zIndex: 1,
             }}
           >
-            {post.tags.map((tag, idx) => (
+            {post.attachments[0].tags.map((tag, idx) => (
               <AnimatedClothingLabel
                 key={idx}
                 tag={tag}

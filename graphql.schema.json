@@ -2120,6 +2120,119 @@
             "deprecationReason": null
           },
           {
+            "name": "tags",
+            "description": null,
+            "args": [
+              {
+                "name": "cursor",
+                "description": null,
+                "type": {
+                  "kind": "INPUT_OBJECT",
+                  "name": "TagWhereUniqueInput",
+                  "ofType": null
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
+                "name": "distinct",
+                "description": null,
+                "type": {
+                  "kind": "LIST",
+                  "name": null,
+                  "ofType": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "ENUM",
+                      "name": "TagScalarFieldEnum",
+                      "ofType": null
+                    }
+                  }
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
+                "name": "orderBy",
+                "description": null,
+                "type": {
+                  "kind": "LIST",
+                  "name": null,
+                  "ofType": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "INPUT_OBJECT",
+                      "name": "TagOrderByWithRelationInput",
+                      "ofType": null
+                    }
+                  }
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
+                "name": "skip",
+                "description": null,
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Int",
+                  "ofType": null
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
+                "name": "take",
+                "description": null,
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Int",
+                  "ofType": null
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
+                "name": "where",
+                "description": null,
+                "type": {
+                  "kind": "INPUT_OBJECT",
+                  "name": "TagWhereInput",
+                  "ofType": null
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              }
+            ],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "OBJECT",
+                    "name": "Tag",
+                    "ofType": null
+                  }
+                }
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "url",
             "description": null,
             "args": [],
@@ -2255,6 +2368,35 @@
                 "type": {
                   "kind": "INPUT_OBJECT",
                   "name": "ColorWhereInput",
+                  "ofType": null
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              }
+            ],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "tags",
+            "description": null,
+            "args": [
+              {
+                "name": "where",
+                "description": null,
+                "type": {
+                  "kind": "INPUT_OBJECT",
+                  "name": "TagWhereInput",
                   "ofType": null
                 },
                 "defaultValue": null,
@@ -2483,6 +2625,18 @@
                 "name": "PostCreateNestedOneWithoutAttachmentsInput",
                 "ofType": null
               }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "tags",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "TagCreateNestedManyWithoutAttachmentInput",
+              "ofType": null
             },
             "defaultValue": null,
             "isDeprecated": false,
@@ -2853,6 +3007,53 @@
       },
       {
         "kind": "INPUT_OBJECT",
+        "name": "AttachmentCreateNestedOneWithoutTagsInput",
+        "description": null,
+        "fields": null,
+        "inputFields": [
+          {
+            "name": "connect",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "AttachmentWhereUniqueInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "connectOrCreate",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "AttachmentCreateOrConnectWithoutTagsInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "create",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "AttachmentCreateWithoutTagsInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "INPUT_OBJECT",
         "name": "AttachmentCreateOrConnectWithoutBoxesInput",
         "description": null,
         "fields": null,
@@ -2982,6 +3183,49 @@
       },
       {
         "kind": "INPUT_OBJECT",
+        "name": "AttachmentCreateOrConnectWithoutTagsInput",
+        "description": null,
+        "fields": null,
+        "inputFields": [
+          {
+            "name": "create",
+            "description": null,
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "INPUT_OBJECT",
+                "name": "AttachmentCreateWithoutTagsInput",
+                "ofType": null
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "where",
+            "description": null,
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "INPUT_OBJECT",
+                "name": "AttachmentWhereUniqueInput",
+                "ofType": null
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "INPUT_OBJECT",
         "name": "AttachmentCreateWithoutBoxesInput",
         "description": null,
         "fields": null,
@@ -3021,6 +3265,18 @@
                 "name": "PostCreateNestedOneWithoutAttachmentsInput",
                 "ofType": null
               }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "tags",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "TagCreateNestedManyWithoutAttachmentInput",
+              "ofType": null
             },
             "defaultValue": null,
             "isDeprecated": false,
@@ -3094,6 +3350,18 @@
             "deprecationReason": null
           },
           {
+            "name": "tags",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "TagCreateNestedManyWithoutAttachmentInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "url",
             "description": null,
             "type": {
@@ -3151,6 +3419,97 @@
               "kind": "SCALAR",
               "name": "Timestamp",
               "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "tags",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "TagCreateNestedManyWithoutAttachmentInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "url",
+            "description": null,
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "INPUT_OBJECT",
+        "name": "AttachmentCreateWithoutTagsInput",
+        "description": null,
+        "fields": null,
+        "inputFields": [
+          {
+            "name": "boxes",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "BoxCreateNestedManyWithoutAttachmentInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "colors",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "ColorCreateNestedManyWithoutAttachmentInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "createdAt",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "Timestamp",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "post",
+            "description": null,
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "INPUT_OBJECT",
+                "name": "PostCreateNestedOneWithoutAttachmentsInput",
+                "ofType": null
+              }
             },
             "defaultValue": null,
             "isDeprecated": false,
@@ -3816,6 +4175,18 @@
             "deprecationReason": null
           },
           {
+            "name": "tags",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "TagOrderByRelationAggregateInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "url",
             "description": null,
             "type": {
@@ -4258,6 +4629,18 @@
             "type": {
               "kind": "INPUT_OBJECT",
               "name": "PostUpdateOneRequiredWithoutAttachmentsNestedInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "tags",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "TagUpdateManyWithoutAttachmentNestedInput",
               "ofType": null
             },
             "defaultValue": null,
@@ -4726,6 +5109,77 @@
       },
       {
         "kind": "INPUT_OBJECT",
+        "name": "AttachmentUpdateOneRequiredWithoutTagsNestedInput",
+        "description": null,
+        "fields": null,
+        "inputFields": [
+          {
+            "name": "connect",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "AttachmentWhereUniqueInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "connectOrCreate",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "AttachmentCreateOrConnectWithoutTagsInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "create",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "AttachmentCreateWithoutTagsInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "update",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "AttachmentUpdateWithoutTagsInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "upsert",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "AttachmentUpsertWithoutTagsInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "INPUT_OBJECT",
         "name": "AttachmentUpdateWithWhereUniqueWithoutPostInput",
         "description": null,
         "fields": null,
@@ -4810,6 +5264,18 @@
             "deprecationReason": null
           },
           {
+            "name": "tags",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "TagUpdateManyWithoutAttachmentNestedInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "url",
             "description": null,
             "type": {
@@ -4869,6 +5335,18 @@
             "deprecationReason": null
           },
           {
+            "name": "tags",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "TagUpdateManyWithoutAttachmentNestedInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "url",
             "description": null,
             "type": {
@@ -4921,6 +5399,89 @@
             "type": {
               "kind": "INPUT_OBJECT",
               "name": "DateTimeFieldUpdateOperationsInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "tags",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "TagUpdateManyWithoutAttachmentNestedInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "url",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "StringFieldUpdateOperationsInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "INPUT_OBJECT",
+        "name": "AttachmentUpdateWithoutTagsInput",
+        "description": null,
+        "fields": null,
+        "inputFields": [
+          {
+            "name": "boxes",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "BoxUpdateManyWithoutAttachmentNestedInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "colors",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "ColorUpdateManyWithoutAttachmentNestedInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "createdAt",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "DateTimeFieldUpdateOperationsInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "post",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "PostUpdateOneRequiredWithoutAttachmentsNestedInput",
               "ofType": null
             },
             "defaultValue": null,
@@ -5091,6 +5652,49 @@
       },
       {
         "kind": "INPUT_OBJECT",
+        "name": "AttachmentUpsertWithoutTagsInput",
+        "description": null,
+        "fields": null,
+        "inputFields": [
+          {
+            "name": "create",
+            "description": null,
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "INPUT_OBJECT",
+                "name": "AttachmentCreateWithoutTagsInput",
+                "ofType": null
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "update",
+            "description": null,
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "INPUT_OBJECT",
+                "name": "AttachmentUpdateWithoutTagsInput",
+                "ofType": null
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "INPUT_OBJECT",
         "name": "AttachmentWhereInput",
         "description": null,
         "fields": null,
@@ -5221,6 +5825,18 @@
             "type": {
               "kind": "INPUT_OBJECT",
               "name": "IntFilter",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "tags",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "TagListRelationFilter",
               "ofType": null
             },
             "defaultValue": null,
@@ -63782,119 +64398,6 @@
             "deprecationReason": null
           },
           {
-            "name": "tags",
-            "description": null,
-            "args": [
-              {
-                "name": "cursor",
-                "description": null,
-                "type": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "TagWhereUniqueInput",
-                  "ofType": null
-                },
-                "defaultValue": null,
-                "isDeprecated": false,
-                "deprecationReason": null
-              },
-              {
-                "name": "distinct",
-                "description": null,
-                "type": {
-                  "kind": "LIST",
-                  "name": null,
-                  "ofType": {
-                    "kind": "NON_NULL",
-                    "name": null,
-                    "ofType": {
-                      "kind": "ENUM",
-                      "name": "TagScalarFieldEnum",
-                      "ofType": null
-                    }
-                  }
-                },
-                "defaultValue": null,
-                "isDeprecated": false,
-                "deprecationReason": null
-              },
-              {
-                "name": "orderBy",
-                "description": null,
-                "type": {
-                  "kind": "LIST",
-                  "name": null,
-                  "ofType": {
-                    "kind": "NON_NULL",
-                    "name": null,
-                    "ofType": {
-                      "kind": "INPUT_OBJECT",
-                      "name": "TagOrderByWithRelationInput",
-                      "ofType": null
-                    }
-                  }
-                },
-                "defaultValue": null,
-                "isDeprecated": false,
-                "deprecationReason": null
-              },
-              {
-                "name": "skip",
-                "description": null,
-                "type": {
-                  "kind": "SCALAR",
-                  "name": "Int",
-                  "ofType": null
-                },
-                "defaultValue": null,
-                "isDeprecated": false,
-                "deprecationReason": null
-              },
-              {
-                "name": "take",
-                "description": null,
-                "type": {
-                  "kind": "SCALAR",
-                  "name": "Int",
-                  "ofType": null
-                },
-                "defaultValue": null,
-                "isDeprecated": false,
-                "deprecationReason": null
-              },
-              {
-                "name": "where",
-                "description": null,
-                "type": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "TagWhereInput",
-                  "ofType": null
-                },
-                "defaultValue": null,
-                "isDeprecated": false,
-                "deprecationReason": null
-              }
-            ],
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "LIST",
-                "name": null,
-                "ofType": {
-                  "kind": "NON_NULL",
-                  "name": null,
-                  "ofType": {
-                    "kind": "OBJECT",
-                    "name": "Tag",
-                    "ofType": null
-                  }
-                }
-              }
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "topics",
             "description": null,
             "args": [
@@ -64424,35 +64927,6 @@
             "deprecationReason": null
           },
           {
-            "name": "tags",
-            "description": null,
-            "args": [
-              {
-                "name": "where",
-                "description": null,
-                "type": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "TagWhereInput",
-                  "ofType": null
-                },
-                "defaultValue": null,
-                "isDeprecated": false,
-                "deprecationReason": null
-              }
-            ],
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Int",
-                "ofType": null
-              }
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "topics",
             "description": null,
             "args": [
@@ -64910,18 +65384,6 @@
             "type": {
               "kind": "INPUT_OBJECT",
               "name": "CollectedPostCreateNestedManyWithoutPostInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "tags",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "TagCreateNestedManyWithoutPostInput",
               "ofType": null
             },
             "defaultValue": null,
@@ -65605,53 +66067,6 @@
       },
       {
         "kind": "INPUT_OBJECT",
-        "name": "PostCreateNestedOneWithoutTagsInput",
-        "description": null,
-        "fields": null,
-        "inputFields": [
-          {
-            "name": "connect",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "PostWhereUniqueInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "connectOrCreate",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "PostCreateOrConnectWithoutTagsInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "create",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "PostCreateWithoutTagsInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          }
-        ],
-        "interfaces": null,
-        "enumValues": null,
-        "possibleTypes": null
-      },
-      {
-        "kind": "INPUT_OBJECT",
         "name": "PostCreateNestedOneWithoutTopicsInput",
         "description": null,
         "fields": null,
@@ -66004,49 +66419,6 @@
       },
       {
         "kind": "INPUT_OBJECT",
-        "name": "PostCreateOrConnectWithoutTagsInput",
-        "description": null,
-        "fields": null,
-        "inputFields": [
-          {
-            "name": "create",
-            "description": null,
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "INPUT_OBJECT",
-                "name": "PostCreateWithoutTagsInput",
-                "ofType": null
-              }
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "where",
-            "description": null,
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "INPUT_OBJECT",
-                "name": "PostWhereUniqueInput",
-                "ofType": null
-              }
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          }
-        ],
-        "interfaces": null,
-        "enumValues": null,
-        "possibleTypes": null
-      },
-      {
-        "kind": "INPUT_OBJECT",
         "name": "PostCreateOrConnectWithoutTopicsInput",
         "description": null,
         "fields": null,
@@ -66301,18 +66673,6 @@
             "deprecationReason": null
           },
           {
-            "name": "tags",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "TagCreateNestedManyWithoutPostInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "topics",
             "description": null,
             "type": {
@@ -66489,18 +66849,6 @@
             "type": {
               "kind": "INPUT_OBJECT",
               "name": "CollectedPostCreateNestedManyWithoutPostInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "tags",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "TagCreateNestedManyWithoutPostInput",
               "ofType": null
             },
             "defaultValue": null,
@@ -66691,18 +67039,6 @@
             "deprecationReason": null
           },
           {
-            "name": "tags",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "TagCreateNestedManyWithoutPostInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "topics",
             "description": null,
             "type": {
@@ -66879,18 +67215,6 @@
             "type": {
               "kind": "INPUT_OBJECT",
               "name": "CollectedPostCreateNestedManyWithoutPostInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "tags",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "TagCreateNestedManyWithoutPostInput",
               "ofType": null
             },
             "defaultValue": null,
@@ -67081,18 +67405,6 @@
             "deprecationReason": null
           },
           {
-            "name": "tags",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "TagCreateNestedManyWithoutPostInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "topics",
             "description": null,
             "type": {
@@ -67269,213 +67581,6 @@
             "type": {
               "kind": "INPUT_OBJECT",
               "name": "ReportCreateNestedManyWithoutPostInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "tags",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "TagCreateNestedManyWithoutPostInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "topics",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "PostTopicCreateNestedManyWithoutPostInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "updatedAt",
-            "description": null,
-            "type": {
-              "kind": "SCALAR",
-              "name": "Timestamp",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "user",
-            "description": null,
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "INPUT_OBJECT",
-                "name": "UserCreateNestedOneWithoutPostsInput",
-                "ofType": null
-              }
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "views",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "ViewCreateNestedManyWithoutPostInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          }
-        ],
-        "interfaces": null,
-        "enumValues": null,
-        "possibleTypes": null
-      },
-      {
-        "kind": "INPUT_OBJECT",
-        "name": "PostCreateWithoutTagsInput",
-        "description": null,
-        "fields": null,
-        "inputFields": [
-          {
-            "name": "attachments",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "AttachmentCreateNestedManyWithoutPostInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "comments",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "CommentCreateNestedManyWithoutPostInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "content",
-            "description": null,
-            "type": {
-              "kind": "SCALAR",
-              "name": "String",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "createdAt",
-            "description": null,
-            "type": {
-              "kind": "SCALAR",
-              "name": "Timestamp",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "isCommentable",
-            "description": null,
-            "type": {
-              "kind": "SCALAR",
-              "name": "Boolean",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "isDeleted",
-            "description": null,
-            "type": {
-              "kind": "SCALAR",
-              "name": "Boolean",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "likes",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "LikeCreateNestedManyWithoutPostInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "notifications",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "NotificationCreateNestedManyWithoutPostInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "published",
-            "description": null,
-            "type": {
-              "kind": "SCALAR",
-              "name": "Boolean",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "reports",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "ReportCreateNestedManyWithoutPostInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "saves",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "CollectedPostCreateNestedManyWithoutPostInput",
               "ofType": null
             },
             "defaultValue": null,
@@ -67678,18 +67783,6 @@
             "deprecationReason": null
           },
           {
-            "name": "tags",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "TagCreateNestedManyWithoutPostInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "updatedAt",
             "description": null,
             "type": {
@@ -67873,18 +67966,6 @@
             "deprecationReason": null
           },
           {
-            "name": "tags",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "TagCreateNestedManyWithoutPostInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "topics",
             "description": null,
             "type": {
@@ -68057,18 +68138,6 @@
             "type": {
               "kind": "INPUT_OBJECT",
               "name": "CollectedPostCreateNestedManyWithoutPostInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "tags",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "TagCreateNestedManyWithoutPostInput",
               "ofType": null
             },
             "defaultValue": null,
@@ -69124,18 +69193,6 @@
             "type": {
               "kind": "INPUT_OBJECT",
               "name": "CollectedPostOrderByRelationAggregateInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "tags",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "TagOrderByRelationAggregateInput",
               "ofType": null
             },
             "defaultValue": null,
@@ -72895,18 +72952,6 @@
             "deprecationReason": null
           },
           {
-            "name": "tags",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "TagUpdateManyWithoutPostNestedInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "topics",
             "description": null,
             "type": {
@@ -73594,77 +73639,6 @@
       },
       {
         "kind": "INPUT_OBJECT",
-        "name": "PostUpdateOneRequiredWithoutTagsNestedInput",
-        "description": null,
-        "fields": null,
-        "inputFields": [
-          {
-            "name": "connect",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "PostWhereUniqueInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "connectOrCreate",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "PostCreateOrConnectWithoutTagsInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "create",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "PostCreateWithoutTagsInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "update",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "PostUpdateWithoutTagsInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "upsert",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "PostUpsertWithoutTagsInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          }
-        ],
-        "interfaces": null,
-        "enumValues": null,
-        "possibleTypes": null
-      },
-      {
-        "kind": "INPUT_OBJECT",
         "name": "PostUpdateOneRequiredWithoutTopicsNestedInput",
         "description": null,
         "fields": null,
@@ -74165,18 +74139,6 @@
             "deprecationReason": null
           },
           {
-            "name": "tags",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "TagUpdateManyWithoutPostNestedInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "topics",
             "description": null,
             "type": {
@@ -74349,18 +74311,6 @@
             "type": {
               "kind": "INPUT_OBJECT",
               "name": "CollectedPostUpdateManyWithoutPostNestedInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "tags",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "TagUpdateManyWithoutPostNestedInput",
               "ofType": null
             },
             "defaultValue": null,
@@ -74547,18 +74497,6 @@
             "deprecationReason": null
           },
           {
-            "name": "tags",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "TagUpdateManyWithoutPostNestedInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "topics",
             "description": null,
             "type": {
@@ -74731,18 +74669,6 @@
             "type": {
               "kind": "INPUT_OBJECT",
               "name": "CollectedPostUpdateManyWithoutPostNestedInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "tags",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "TagUpdateManyWithoutPostNestedInput",
               "ofType": null
             },
             "defaultValue": null,
@@ -74929,18 +74855,6 @@
             "deprecationReason": null
           },
           {
-            "name": "tags",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "TagUpdateManyWithoutPostNestedInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "topics",
             "description": null,
             "type": {
@@ -75113,209 +75027,6 @@
             "type": {
               "kind": "INPUT_OBJECT",
               "name": "ReportUpdateManyWithoutPostNestedInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "tags",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "TagUpdateManyWithoutPostNestedInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "topics",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "PostTopicUpdateManyWithoutPostNestedInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "updatedAt",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "DateTimeFieldUpdateOperationsInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "user",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "UserUpdateOneRequiredWithoutPostsNestedInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "views",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "ViewUpdateManyWithoutPostNestedInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          }
-        ],
-        "interfaces": null,
-        "enumValues": null,
-        "possibleTypes": null
-      },
-      {
-        "kind": "INPUT_OBJECT",
-        "name": "PostUpdateWithoutTagsInput",
-        "description": null,
-        "fields": null,
-        "inputFields": [
-          {
-            "name": "attachments",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "AttachmentUpdateManyWithoutPostNestedInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "comments",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "CommentUpdateManyWithoutPostNestedInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "content",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "NullableStringFieldUpdateOperationsInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "createdAt",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "DateTimeFieldUpdateOperationsInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "isCommentable",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "BoolFieldUpdateOperationsInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "isDeleted",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "BoolFieldUpdateOperationsInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "likes",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "LikeUpdateManyWithoutPostNestedInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "notifications",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "NotificationUpdateManyWithoutPostNestedInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "published",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "BoolFieldUpdateOperationsInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "reports",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "ReportUpdateManyWithoutPostNestedInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "saves",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "CollectedPostUpdateManyWithoutPostNestedInput",
               "ofType": null
             },
             "defaultValue": null,
@@ -75514,18 +75225,6 @@
             "deprecationReason": null
           },
           {
-            "name": "tags",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "TagUpdateManyWithoutPostNestedInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "updatedAt",
             "description": null,
             "type": {
@@ -75705,18 +75404,6 @@
             "deprecationReason": null
           },
           {
-            "name": "tags",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "TagUpdateManyWithoutPostNestedInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "topics",
             "description": null,
             "type": {
@@ -75889,18 +75576,6 @@
             "type": {
               "kind": "INPUT_OBJECT",
               "name": "CollectedPostUpdateManyWithoutPostNestedInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "tags",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "TagUpdateManyWithoutPostNestedInput",
               "ofType": null
             },
             "defaultValue": null,
@@ -76267,49 +75942,6 @@
       },
       {
         "kind": "INPUT_OBJECT",
-        "name": "PostUpsertWithoutTagsInput",
-        "description": null,
-        "fields": null,
-        "inputFields": [
-          {
-            "name": "create",
-            "description": null,
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "INPUT_OBJECT",
-                "name": "PostCreateWithoutTagsInput",
-                "ofType": null
-              }
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "update",
-            "description": null,
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "INPUT_OBJECT",
-                "name": "PostUpdateWithoutTagsInput",
-                "ofType": null
-              }
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          }
-        ],
-        "interfaces": null,
-        "enumValues": null,
-        "possibleTypes": null
-      },
-      {
-        "kind": "INPUT_OBJECT",
         "name": "PostUpsertWithoutTopicsInput",
         "description": null,
         "fields": null,
@@ -76598,18 +76230,6 @@
             "type": {
               "kind": "INPUT_OBJECT",
               "name": "CollectedPostListRelationFilter",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "tags",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "TagListRelationFilter",
               "ofType": null
             },
             "defaultValue": null,
@@ -96638,6 +96258,38 @@
         "description": null,
         "fields": [
           {
+            "name": "attachment",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "Attachment",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "attachmentId",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "brand",
             "description": null,
             "args": [],
@@ -96702,38 +96354,6 @@
             "deprecationReason": null
           },
           {
-            "name": "post",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "OBJECT",
-                "name": "Post",
-                "ofType": null
-              }
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "postId",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Int",
-                "ofType": null
-              }
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "x",
             "description": null,
             "args": [],
@@ -96777,6 +96397,18 @@
         "description": null,
         "fields": [
           {
+            "name": "attachmentId",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "brandId",
             "description": null,
             "args": [],
@@ -96790,18 +96422,6 @@
           },
           {
             "name": "id",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "Float",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "postId",
             "description": null,
             "args": [],
             "type": {
@@ -96849,6 +96469,18 @@
         "fields": null,
         "inputFields": [
           {
+            "name": "attachmentId",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "SortOrder",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "brandId",
             "description": null,
             "type": {
@@ -96862,18 +96494,6 @@
           },
           {
             "name": "id",
-            "description": null,
-            "type": {
-              "kind": "ENUM",
-              "name": "SortOrder",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "postId",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -96935,6 +96555,22 @@
             "deprecationReason": null
           },
           {
+            "name": "attachmentId",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "brandId",
             "description": null,
             "args": [],
@@ -96968,22 +96604,6 @@
           },
           {
             "name": "id",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Int",
-                "ofType": null
-              }
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "postId",
             "description": null,
             "args": [],
             "type": {
@@ -97043,6 +96663,18 @@
         "fields": null,
         "inputFields": [
           {
+            "name": "attachmentId",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "SortOrder",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "brandId",
             "description": null,
             "type": {
@@ -97068,18 +96700,6 @@
           },
           {
             "name": "id",
-            "description": null,
-            "type": {
-              "kind": "ENUM",
-              "name": "SortOrder",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "postId",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -97126,6 +96746,22 @@
         "fields": null,
         "inputFields": [
           {
+            "name": "attachment",
+            "description": null,
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "INPUT_OBJECT",
+                "name": "AttachmentCreateNestedOneWithoutTagsInput",
+                "ofType": null
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "brand",
             "description": null,
             "type": {
@@ -97148,22 +96784,6 @@
               "kind": "SCALAR",
               "name": "Timestamp",
               "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "post",
-            "description": null,
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "INPUT_OBJECT",
-                "name": "PostCreateNestedOneWithoutTagsInput",
-                "ofType": null
-              }
             },
             "defaultValue": null,
             "isDeprecated": false,
@@ -97208,10 +96828,26 @@
       },
       {
         "kind": "INPUT_OBJECT",
-        "name": "TagCreateManyBrandInput",
+        "name": "TagCreateManyAttachmentInput",
         "description": null,
         "fields": null,
         "inputFields": [
+          {
+            "name": "brandId",
+            "description": null,
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
           {
             "name": "createdAt",
             "description": null,
@@ -97237,7 +96873,97 @@
             "deprecationReason": null
           },
           {
-            "name": "postId",
+            "name": "x",
+            "description": null,
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Float",
+                "ofType": null
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "y",
+            "description": null,
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Float",
+                "ofType": null
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "INPUT_OBJECT",
+        "name": "TagCreateManyAttachmentInputEnvelope",
+        "description": null,
+        "fields": null,
+        "inputFields": [
+          {
+            "name": "data",
+            "description": null,
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "INPUT_OBJECT",
+                    "name": "TagCreateManyAttachmentInput",
+                    "ofType": null
+                  }
+                }
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "skipDuplicates",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "Boolean",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "INPUT_OBJECT",
+        "name": "TagCreateManyBrandInput",
+        "description": null,
+        "fields": null,
+        "inputFields": [
+          {
+            "name": "attachmentId",
             "description": null,
             "type": {
               "kind": "NON_NULL",
@@ -97247,6 +96973,30 @@
                 "name": "Int",
                 "ofType": null
               }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "createdAt",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "Timestamp",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "id",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
             },
             "defaultValue": null,
             "isDeprecated": false,
@@ -97343,7 +97093,7 @@
         "fields": null,
         "inputFields": [
           {
-            "name": "brandId",
+            "name": "attachmentId",
             "description": null,
             "type": {
               "kind": "NON_NULL",
@@ -97358,89 +97108,6 @@
             "isDeprecated": false,
             "deprecationReason": null
           },
-          {
-            "name": "createdAt",
-            "description": null,
-            "type": {
-              "kind": "SCALAR",
-              "name": "Timestamp",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "id",
-            "description": null,
-            "type": {
-              "kind": "SCALAR",
-              "name": "Int",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "postId",
-            "description": null,
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Int",
-                "ofType": null
-              }
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "x",
-            "description": null,
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Float",
-                "ofType": null
-              }
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "y",
-            "description": null,
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Float",
-                "ofType": null
-              }
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          }
-        ],
-        "interfaces": null,
-        "enumValues": null,
-        "possibleTypes": null
-      },
-      {
-        "kind": "INPUT_OBJECT",
-        "name": "TagCreateManyPostInput",
-        "description": null,
-        "fields": null,
-        "inputFields": [
           {
             "name": "brandId",
             "description": null,
@@ -97520,27 +97187,23 @@
       },
       {
         "kind": "INPUT_OBJECT",
-        "name": "TagCreateManyPostInputEnvelope",
+        "name": "TagCreateNestedManyWithoutAttachmentInput",
         "description": null,
         "fields": null,
         "inputFields": [
           {
-            "name": "data",
+            "name": "connect",
             "description": null,
             "type": {
-              "kind": "NON_NULL",
+              "kind": "LIST",
               "name": null,
               "ofType": {
-                "kind": "LIST",
+                "kind": "NON_NULL",
                 "name": null,
                 "ofType": {
-                  "kind": "NON_NULL",
-                  "name": null,
-                  "ofType": {
-                    "kind": "INPUT_OBJECT",
-                    "name": "TagCreateManyPostInput",
-                    "ofType": null
-                  }
+                  "kind": "INPUT_OBJECT",
+                  "name": "TagWhereUniqueInput",
+                  "ofType": null
                 }
               }
             },
@@ -97549,11 +97212,51 @@
             "deprecationReason": null
           },
           {
-            "name": "skipDuplicates",
+            "name": "connectOrCreate",
             "description": null,
             "type": {
-              "kind": "SCALAR",
-              "name": "Boolean",
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "INPUT_OBJECT",
+                  "name": "TagCreateOrConnectWithoutAttachmentInput",
+                  "ofType": null
+                }
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "create",
+            "description": null,
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "INPUT_OBJECT",
+                  "name": "TagCreateWithoutAttachmentInput",
+                  "ofType": null
+                }
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "createMany",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "TagCreateManyAttachmentInputEnvelope",
               "ofType": null
             },
             "defaultValue": null,
@@ -97650,64 +97353,20 @@
       },
       {
         "kind": "INPUT_OBJECT",
-        "name": "TagCreateNestedManyWithoutPostInput",
+        "name": "TagCreateOrConnectWithoutAttachmentInput",
         "description": null,
         "fields": null,
         "inputFields": [
           {
-            "name": "connect",
-            "description": null,
-            "type": {
-              "kind": "LIST",
-              "name": null,
-              "ofType": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "TagWhereUniqueInput",
-                  "ofType": null
-                }
-              }
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "connectOrCreate",
-            "description": null,
-            "type": {
-              "kind": "LIST",
-              "name": null,
-              "ofType": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "TagCreateOrConnectWithoutPostInput",
-                  "ofType": null
-                }
-              }
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "create",
             "description": null,
             "type": {
-              "kind": "LIST",
+              "kind": "NON_NULL",
               "name": null,
               "ofType": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "TagCreateWithoutPostInput",
-                  "ofType": null
-                }
+                "kind": "INPUT_OBJECT",
+                "name": "TagCreateWithoutAttachmentInput",
+                "ofType": null
               }
             },
             "defaultValue": null,
@@ -97715,12 +97374,16 @@
             "deprecationReason": null
           },
           {
-            "name": "createMany",
+            "name": "where",
             "description": null,
             "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "TagCreateManyPostInputEnvelope",
-              "ofType": null
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "INPUT_OBJECT",
+                "name": "TagWhereUniqueInput",
+                "ofType": null
+              }
             },
             "defaultValue": null,
             "isDeprecated": false,
@@ -97776,19 +97439,19 @@
       },
       {
         "kind": "INPUT_OBJECT",
-        "name": "TagCreateOrConnectWithoutPostInput",
+        "name": "TagCreateWithoutAttachmentInput",
         "description": null,
         "fields": null,
         "inputFields": [
           {
-            "name": "create",
+            "name": "brand",
             "description": null,
             "type": {
               "kind": "NON_NULL",
               "name": null,
               "ofType": {
                 "kind": "INPUT_OBJECT",
-                "name": "TagCreateWithoutPostInput",
+                "name": "BrandCreateNestedOneWithoutTagsInput",
                 "ofType": null
               }
             },
@@ -97796,33 +97459,6 @@
             "isDeprecated": false,
             "deprecationReason": null
           },
-          {
-            "name": "where",
-            "description": null,
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "INPUT_OBJECT",
-                "name": "TagWhereUniqueInput",
-                "ofType": null
-              }
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          }
-        ],
-        "interfaces": null,
-        "enumValues": null,
-        "possibleTypes": null
-      },
-      {
-        "kind": "INPUT_OBJECT",
-        "name": "TagCreateWithoutBrandInput",
-        "description": null,
-        "fields": null,
-        "inputFields": [
           {
             "name": "createdAt",
             "description": null,
@@ -97830,22 +97466,6 @@
               "kind": "SCALAR",
               "name": "Timestamp",
               "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "post",
-            "description": null,
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "INPUT_OBJECT",
-                "name": "PostCreateNestedOneWithoutTagsInput",
-                "ofType": null
-              }
             },
             "defaultValue": null,
             "isDeprecated": false,
@@ -97890,19 +97510,19 @@
       },
       {
         "kind": "INPUT_OBJECT",
-        "name": "TagCreateWithoutPostInput",
+        "name": "TagCreateWithoutBrandInput",
         "description": null,
         "fields": null,
         "inputFields": [
           {
-            "name": "brand",
+            "name": "attachment",
             "description": null,
             "type": {
               "kind": "NON_NULL",
               "name": null,
               "ofType": {
                 "kind": "INPUT_OBJECT",
-                "name": "BrandCreateNestedOneWithoutTagsInput",
+                "name": "AttachmentCreateNestedOneWithoutTagsInput",
                 "ofType": null
               }
             },
@@ -98025,6 +97645,22 @@
             "deprecationReason": null
           },
           {
+            "name": "attachmentId",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "brandId",
             "description": null,
             "args": [],
@@ -98058,22 +97694,6 @@
           },
           {
             "name": "id",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Int",
-                "ofType": null
-              }
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "postId",
             "description": null,
             "args": [],
             "type": {
@@ -98179,6 +97799,18 @@
         "description": null,
         "fields": [
           {
+            "name": "attachmentId",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "brandId",
             "description": null,
             "args": [],
@@ -98204,18 +97836,6 @@
           },
           {
             "name": "id",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "Int",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "postId",
             "description": null,
             "args": [],
             "type": {
@@ -98263,6 +97883,18 @@
         "fields": null,
         "inputFields": [
           {
+            "name": "attachmentId",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "SortOrder",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "brandId",
             "description": null,
             "type": {
@@ -98288,18 +97920,6 @@
           },
           {
             "name": "id",
-            "description": null,
-            "type": {
-              "kind": "ENUM",
-              "name": "SortOrder",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "postId",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -98345,6 +97965,18 @@
         "description": null,
         "fields": [
           {
+            "name": "attachmentId",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "brandId",
             "description": null,
             "args": [],
@@ -98370,18 +98002,6 @@
           },
           {
             "name": "id",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "Int",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "postId",
             "description": null,
             "args": [],
             "type": {
@@ -98429,6 +98049,18 @@
         "fields": null,
         "inputFields": [
           {
+            "name": "attachmentId",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "SortOrder",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "brandId",
             "description": null,
             "type": {
@@ -98454,18 +98086,6 @@
           },
           {
             "name": "id",
-            "description": null,
-            "type": {
-              "kind": "ENUM",
-              "name": "SortOrder",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "postId",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -98595,6 +98215,18 @@
             "deprecationReason": null
           },
           {
+            "name": "attachmentId",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "SortOrder",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "brandId",
             "description": null,
             "type": {
@@ -98620,18 +98252,6 @@
           },
           {
             "name": "id",
-            "description": null,
-            "type": {
-              "kind": "ENUM",
-              "name": "SortOrder",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "postId",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -98677,6 +98297,30 @@
         "description": null,
         "fields": null,
         "inputFields": [
+          {
+            "name": "attachment",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "AttachmentOrderByWithRelationInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "attachmentId",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "SortOrder",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
           {
             "name": "brand",
             "description": null,
@@ -98726,30 +98370,6 @@
             "deprecationReason": null
           },
           {
-            "name": "post",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "PostOrderByWithRelationInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "postId",
-            "description": null,
-            "type": {
-              "kind": "ENUM",
-              "name": "SortOrder",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "x",
             "description": null,
             "type": {
@@ -98787,6 +98407,12 @@
         "interfaces": null,
         "enumValues": [
           {
+            "name": "attachmentId",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "brandId",
             "description": null,
             "isDeprecated": false,
@@ -98800,12 +98426,6 @@
           },
           {
             "name": "id",
-            "description": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "postId",
             "description": null,
             "isDeprecated": false,
             "deprecationReason": null
@@ -98892,6 +98512,18 @@
             "deprecationReason": null
           },
           {
+            "name": "attachmentId",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "IntFilter",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "brandId",
             "description": null,
             "type": {
@@ -98917,18 +98549,6 @@
           },
           {
             "name": "id",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "IntFilter",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "postId",
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
@@ -99035,6 +98655,18 @@
             "deprecationReason": null
           },
           {
+            "name": "attachmentId",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "IntWithAggregatesFilter",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "brandId",
             "description": null,
             "type": {
@@ -99060,18 +98692,6 @@
           },
           {
             "name": "id",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "IntWithAggregatesFilter",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "postId",
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
@@ -99117,6 +98737,18 @@
         "description": null,
         "fields": [
           {
+            "name": "attachmentId",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "brandId",
             "description": null,
             "args": [],
@@ -99130,18 +98762,6 @@
           },
           {
             "name": "id",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "Int",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "postId",
             "description": null,
             "args": [],
             "type": {
@@ -99189,6 +98809,18 @@
         "fields": null,
         "inputFields": [
           {
+            "name": "attachmentId",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "SortOrder",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "brandId",
             "description": null,
             "type": {
@@ -99202,18 +98834,6 @@
           },
           {
             "name": "id",
-            "description": null,
-            "type": {
-              "kind": "ENUM",
-              "name": "SortOrder",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "postId",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -99260,6 +98880,18 @@
         "fields": null,
         "inputFields": [
           {
+            "name": "attachment",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "AttachmentUpdateOneRequiredWithoutTagsNestedInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "brand",
             "description": null,
             "type": {
@@ -99277,18 +98909,6 @@
             "type": {
               "kind": "INPUT_OBJECT",
               "name": "DateTimeFieldUpdateOperationsInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "post",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "PostUpdateOneRequiredWithoutTagsNestedInput",
               "ofType": null
             },
             "defaultValue": null,
@@ -99373,6 +98993,49 @@
       },
       {
         "kind": "INPUT_OBJECT",
+        "name": "TagUpdateManyWithWhereWithoutAttachmentInput",
+        "description": null,
+        "fields": null,
+        "inputFields": [
+          {
+            "name": "data",
+            "description": null,
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "INPUT_OBJECT",
+                "name": "TagUpdateManyMutationInput",
+                "ofType": null
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "where",
+            "description": null,
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "INPUT_OBJECT",
+                "name": "TagScalarWhereInput",
+                "ofType": null
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "INPUT_OBJECT",
         "name": "TagUpdateManyWithWhereWithoutBrandInput",
         "description": null,
         "fields": null,
@@ -99416,20 +99079,24 @@
       },
       {
         "kind": "INPUT_OBJECT",
-        "name": "TagUpdateManyWithWhereWithoutPostInput",
+        "name": "TagUpdateManyWithoutAttachmentNestedInput",
         "description": null,
         "fields": null,
         "inputFields": [
           {
-            "name": "data",
+            "name": "connect",
             "description": null,
             "type": {
-              "kind": "NON_NULL",
+              "kind": "LIST",
               "name": null,
               "ofType": {
-                "kind": "INPUT_OBJECT",
-                "name": "TagUpdateManyMutationInput",
-                "ofType": null
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "INPUT_OBJECT",
+                  "name": "TagWhereUniqueInput",
+                  "ofType": null
+                }
               }
             },
             "defaultValue": null,
@@ -99437,15 +99104,191 @@
             "deprecationReason": null
           },
           {
-            "name": "where",
+            "name": "connectOrCreate",
             "description": null,
             "type": {
-              "kind": "NON_NULL",
+              "kind": "LIST",
               "name": null,
               "ofType": {
-                "kind": "INPUT_OBJECT",
-                "name": "TagScalarWhereInput",
-                "ofType": null
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "INPUT_OBJECT",
+                  "name": "TagCreateOrConnectWithoutAttachmentInput",
+                  "ofType": null
+                }
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "create",
+            "description": null,
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "INPUT_OBJECT",
+                  "name": "TagCreateWithoutAttachmentInput",
+                  "ofType": null
+                }
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "createMany",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "TagCreateManyAttachmentInputEnvelope",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "delete",
+            "description": null,
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "INPUT_OBJECT",
+                  "name": "TagWhereUniqueInput",
+                  "ofType": null
+                }
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "deleteMany",
+            "description": null,
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "INPUT_OBJECT",
+                  "name": "TagScalarWhereInput",
+                  "ofType": null
+                }
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "disconnect",
+            "description": null,
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "INPUT_OBJECT",
+                  "name": "TagWhereUniqueInput",
+                  "ofType": null
+                }
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "set",
+            "description": null,
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "INPUT_OBJECT",
+                  "name": "TagWhereUniqueInput",
+                  "ofType": null
+                }
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "update",
+            "description": null,
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "INPUT_OBJECT",
+                  "name": "TagUpdateWithWhereUniqueWithoutAttachmentInput",
+                  "ofType": null
+                }
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "updateMany",
+            "description": null,
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "INPUT_OBJECT",
+                  "name": "TagUpdateManyWithWhereWithoutAttachmentInput",
+                  "ofType": null
+                }
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "upsert",
+            "description": null,
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "INPUT_OBJECT",
+                  "name": "TagUpsertWithWhereUniqueWithoutAttachmentInput",
+                  "ofType": null
+                }
               }
             },
             "defaultValue": null,
@@ -99682,24 +99525,20 @@
       },
       {
         "kind": "INPUT_OBJECT",
-        "name": "TagUpdateManyWithoutPostNestedInput",
+        "name": "TagUpdateWithWhereUniqueWithoutAttachmentInput",
         "description": null,
         "fields": null,
         "inputFields": [
           {
-            "name": "connect",
+            "name": "data",
             "description": null,
             "type": {
-              "kind": "LIST",
+              "kind": "NON_NULL",
               "name": null,
               "ofType": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "TagWhereUniqueInput",
-                  "ofType": null
-                }
+                "kind": "INPUT_OBJECT",
+                "name": "TagUpdateWithoutAttachmentInput",
+                "ofType": null
               }
             },
             "defaultValue": null,
@@ -99707,191 +99546,15 @@
             "deprecationReason": null
           },
           {
-            "name": "connectOrCreate",
+            "name": "where",
             "description": null,
             "type": {
-              "kind": "LIST",
+              "kind": "NON_NULL",
               "name": null,
               "ofType": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "TagCreateOrConnectWithoutPostInput",
-                  "ofType": null
-                }
-              }
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "create",
-            "description": null,
-            "type": {
-              "kind": "LIST",
-              "name": null,
-              "ofType": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "TagCreateWithoutPostInput",
-                  "ofType": null
-                }
-              }
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "createMany",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "TagCreateManyPostInputEnvelope",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "delete",
-            "description": null,
-            "type": {
-              "kind": "LIST",
-              "name": null,
-              "ofType": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "TagWhereUniqueInput",
-                  "ofType": null
-                }
-              }
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "deleteMany",
-            "description": null,
-            "type": {
-              "kind": "LIST",
-              "name": null,
-              "ofType": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "TagScalarWhereInput",
-                  "ofType": null
-                }
-              }
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "disconnect",
-            "description": null,
-            "type": {
-              "kind": "LIST",
-              "name": null,
-              "ofType": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "TagWhereUniqueInput",
-                  "ofType": null
-                }
-              }
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "set",
-            "description": null,
-            "type": {
-              "kind": "LIST",
-              "name": null,
-              "ofType": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "TagWhereUniqueInput",
-                  "ofType": null
-                }
-              }
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "update",
-            "description": null,
-            "type": {
-              "kind": "LIST",
-              "name": null,
-              "ofType": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "TagUpdateWithWhereUniqueWithoutPostInput",
-                  "ofType": null
-                }
-              }
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "updateMany",
-            "description": null,
-            "type": {
-              "kind": "LIST",
-              "name": null,
-              "ofType": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "TagUpdateManyWithWhereWithoutPostInput",
-                  "ofType": null
-                }
-              }
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "upsert",
-            "description": null,
-            "type": {
-              "kind": "LIST",
-              "name": null,
-              "ofType": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "TagUpsertWithWhereUniqueWithoutPostInput",
-                  "ofType": null
-                }
+                "kind": "INPUT_OBJECT",
+                "name": "TagWhereUniqueInput",
+                "ofType": null
               }
             },
             "defaultValue": null,
@@ -99948,109 +99611,7 @@
       },
       {
         "kind": "INPUT_OBJECT",
-        "name": "TagUpdateWithWhereUniqueWithoutPostInput",
-        "description": null,
-        "fields": null,
-        "inputFields": [
-          {
-            "name": "data",
-            "description": null,
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "INPUT_OBJECT",
-                "name": "TagUpdateWithoutPostInput",
-                "ofType": null
-              }
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "where",
-            "description": null,
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "INPUT_OBJECT",
-                "name": "TagWhereUniqueInput",
-                "ofType": null
-              }
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          }
-        ],
-        "interfaces": null,
-        "enumValues": null,
-        "possibleTypes": null
-      },
-      {
-        "kind": "INPUT_OBJECT",
-        "name": "TagUpdateWithoutBrandInput",
-        "description": null,
-        "fields": null,
-        "inputFields": [
-          {
-            "name": "createdAt",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "DateTimeFieldUpdateOperationsInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "post",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "PostUpdateOneRequiredWithoutTagsNestedInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "x",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "FloatFieldUpdateOperationsInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "y",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "FloatFieldUpdateOperationsInput",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          }
-        ],
-        "interfaces": null,
-        "enumValues": null,
-        "possibleTypes": null
-      },
-      {
-        "kind": "INPUT_OBJECT",
-        "name": "TagUpdateWithoutPostInput",
+        "name": "TagUpdateWithoutAttachmentInput",
         "description": null,
         "fields": null,
         "inputFields": [
@@ -100109,7 +99670,66 @@
       },
       {
         "kind": "INPUT_OBJECT",
-        "name": "TagUpsertWithWhereUniqueWithoutBrandInput",
+        "name": "TagUpdateWithoutBrandInput",
+        "description": null,
+        "fields": null,
+        "inputFields": [
+          {
+            "name": "attachment",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "AttachmentUpdateOneRequiredWithoutTagsNestedInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "createdAt",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "DateTimeFieldUpdateOperationsInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "x",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "FloatFieldUpdateOperationsInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "y",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "FloatFieldUpdateOperationsInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "INPUT_OBJECT",
+        "name": "TagUpsertWithWhereUniqueWithoutAttachmentInput",
         "description": null,
         "fields": null,
         "inputFields": [
@@ -100121,7 +99741,7 @@
               "name": null,
               "ofType": {
                 "kind": "INPUT_OBJECT",
-                "name": "TagCreateWithoutBrandInput",
+                "name": "TagCreateWithoutAttachmentInput",
                 "ofType": null
               }
             },
@@ -100137,7 +99757,7 @@
               "name": null,
               "ofType": {
                 "kind": "INPUT_OBJECT",
-                "name": "TagUpdateWithoutBrandInput",
+                "name": "TagUpdateWithoutAttachmentInput",
                 "ofType": null
               }
             },
@@ -100168,7 +99788,7 @@
       },
       {
         "kind": "INPUT_OBJECT",
-        "name": "TagUpsertWithWhereUniqueWithoutPostInput",
+        "name": "TagUpsertWithWhereUniqueWithoutBrandInput",
         "description": null,
         "fields": null,
         "inputFields": [
@@ -100180,7 +99800,7 @@
               "name": null,
               "ofType": {
                 "kind": "INPUT_OBJECT",
-                "name": "TagCreateWithoutPostInput",
+                "name": "TagCreateWithoutBrandInput",
                 "ofType": null
               }
             },
@@ -100196,7 +99816,7 @@
               "name": null,
               "ofType": {
                 "kind": "INPUT_OBJECT",
-                "name": "TagUpdateWithoutPostInput",
+                "name": "TagUpdateWithoutBrandInput",
                 "ofType": null
               }
             },
@@ -100292,6 +99912,30 @@
             "deprecationReason": null
           },
           {
+            "name": "attachment",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "AttachmentRelationFilter",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "attachmentId",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "IntFilter",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "brand",
             "description": null,
             "type": {
@@ -100329,30 +99973,6 @@
           },
           {
             "name": "id",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "IntFilter",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "post",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "PostRelationFilter",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "postId",
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",

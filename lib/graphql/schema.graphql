@@ -135,15 +135,15 @@ query Post($where: PostWhereUniqueInput!) {
       id
       userId
     }
-    tags {
-      x
-      y
-      brand {
-        name
-      }
-    }
     attachments {
       url
+      tags {
+        x
+        y
+        brand {
+          name
+        }
+      }
     }
   }
 }
@@ -217,15 +217,15 @@ query Posts(
       postId
       userId
     }
-    tags {
-      x
-      y
-      brand {
-        name
-      }
-    }
     attachments {
       url
+      tags {
+        x
+        y
+        brand {
+          name
+        }
+      }
     }
     saves {
       id
@@ -643,15 +643,15 @@ mutation UpdateOnePost($data: PostUpdateInput!, $where: PostWhereUniqueInput!) {
       postId
       userId
     }
-    tags {
-      x
-      y
-      brand {
-        name
-      }
-    }
     attachments {
       url
+      tags {
+        x
+        y
+        brand {
+          name
+        }
+      }
     }
     saves {
       id
