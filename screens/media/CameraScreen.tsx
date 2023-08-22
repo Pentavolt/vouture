@@ -46,7 +46,15 @@ export default function CameraScreen({
       setIsSubmitting(true);
       if (!camera.current) throw new Error("Camera ref does not exist!");
       const image = await camera.current.takePhoto({ flash: flashMode });
-      navigation.navigate("Labeling", { photo: `file://${image.path}` });
+      navigation.navigate("Labeling", {
+        photos: [
+          {
+            uri: `file://${image.path}`,
+            height: image.height,
+            width: image.width,
+          },
+        ],
+      });
     } catch (error) {
       console.error("Failed to take photo!", error);
     }
@@ -57,11 +65,18 @@ export default function CameraScreen({
   const pickImage = async () => {
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsMultipleSelection: true,
       quality: 1,
     });
 
     if (!result.canceled) {
-      navigation.navigate("Labeling", { photo: result.assets[0].uri });
+      navigation.navigate("Labeling", {
+        photos: result.assets.map((asset) => ({
+          uri: asset.uri,
+          height: asset.height,
+          width: asset.width,
+        })),
+      });
     }
   };
 

@@ -4,7 +4,7 @@ import type {
 } from "@react-navigation/native";
 import type { StackScreenProps } from "@react-navigation/stack";
 import type { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
-import { Post, Tag, User } from "../../generated/gql/graphql";
+import { Brand, User } from "../../generated/gql/graphql";
 import { MaterialTopTabScreenProps } from "@react-navigation/material-top-tabs";
 
 export type RootStackParamList = {
@@ -31,10 +31,18 @@ export type IntroStackParamList = {
 
 export type CameraStackParamList = {
   Camera: undefined;
-  Labeling: { photo: string };
+  Labeling: { photos: Array<{ uri: string; height: number; width: number }> };
   Preview: {
-    photo: string;
-    tags: Omit<Tag, "id" | "post" | "postId" | "createdAt">[];
+    photos: Array<{ uri: string; height: number; width: number }>;
+    tags: Array<
+      Array<{
+        id: string;
+        brand: Brand;
+        brandId: number;
+        relX: number;
+        relY: number;
+      }>
+    >;
   };
 };
 

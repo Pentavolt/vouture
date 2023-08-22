@@ -1,66 +1,103 @@
+import "react-native-get-random-values";
 import * as MediaLibrary from "expo-media-library";
 import { Ionicons } from "@expo/vector-icons";
-import { useWindowDimensions } from "react-native";
-import { Button, Heading, Sheet, View, XStack, YStack } from "tamagui";
-import { CameraStackScreenProps } from "../../lib/navigation/types";
-import { useRef, useState } from "react";
-import { FlashList } from "@shopify/flash-list";
-import { TouchableOpacity } from "react-native-gesture-handler";
 import {
-  Brand,
-  BrandsDocument,
-  SortOrder,
-  Tag,
-} from "../../generated/gql/graphql";
-import { useQuery } from "@apollo/client";
+  FlatList,
+  ListRenderItemInfo,
+  ViewToken,
+  ViewabilityConfig,
+  useWindowDimensions,
+} from "react-native";
+import { Button, View, XStack, YStack } from "tamagui";
+import { CameraStackScreenProps } from "../../lib/navigation/types";
+import { useCallback, useRef, useState } from "react";
+import { Brand } from "../../generated/gql/graphql";
 import FastImage from "react-native-fast-image";
 import ClothingLabel from "../../components/post/ClothingLabel";
 import { useBottomSheetBack } from "../../lib/hooks";
-import Loading from "../../components/Loading";
 import { useToastController } from "@tamagui/toast";
 import Toaster from "../../components/Toaster";
+import { nanoid } from "nanoid";
+import { getImageActualHeight } from "../../lib/utils";
+import BrandSheet from "../../components/BrandSheet";
+
+interface Label {
+  id: string;
+  brand: Brand;
+  brandId: number;
+  relX: number;
+  relY: number;
+}
 
 export default function LabelScreen({
   route,
   navigation,
 }: CameraStackScreenProps<"Labeling">) {
+  const activeIndex = useRef<number>(0);
   const toast = useToastController();
-  const { photo } = route.params;
+  const { photos } = route.params;
   const { height, width } = useWindowDimensions();
+  const positions = useRef<Array<Label[]>>(new Array(photos.length).fill([]));
   const [permission, requestPermission] = MediaLibrary.usePermissions();
-  const { data, loading } = useQuery(BrandsDocument, {
-    variables: { orderBy: { name: SortOrder["Asc"] } },
-  });
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [open, setOpen] = useState<boolean>(false);
+  const [tags, setTags] = useState<Array<Label[]>>(
+    new Array(photos.length).fill([])
+  );
 
-  const positions = useRef<Omit<Tag, "id" | "post" | "postId" | "createdAt">[]>(
+  useBottomSheetBack(open, () => setOpen(false));
+
+  const viewabilityConfig: ViewabilityConfig = {
+    itemVisiblePercentThreshold: 100,
+  };
+
+  const onViewableItemsChanged = useCallback(
+    ({ viewableItems }: { viewableItems: ViewToken[] }) => {
+      if (!viewableItems.length) return;
+      if (viewableItems[0].index === null) return;
+      activeIndex.current = viewableItems[0].index;
+    },
     []
   );
 
-  const [open, setOpen] = useState<boolean>(false);
-  const [tags, setTags] = useState<
-    Omit<Tag, "id" | "post" | "postId" | "createdAt">[]
-  >([]);
-
-  useBottomSheetBack(open, () => setOpen(false));
   const onSelect = (brand: Brand) => {
     setOpen(false);
-    const x = Math.random() * width * 0.5;
-    const y = Math.random() * height * 0.5;
-    setTags((curr) => [
-      ...curr,
+    const id = nanoid(8);
+    setTags((curr) =>
+      curr.map((tag, idx) =>
+        idx === activeIndex.current
+          ? [
+              ...curr[activeIndex.current],
+              {
+                id,
+                brand,
+                brandId: brand.id,
+                relX: 0,
+                relY: 0,
+              },
+            ]
+          : tag
+      )
+    );
+
+    positions.current[activeIndex.current] = [
+      ...positions.current[activeIndex.current],
       {
+        id,
         brand,
         brandId: brand.id,
-        x,
-        y,
+        relX: 0,
+        relY: 0,
       },
-    ]);
+    ];
   };
 
-  const renderItem = ({ item }: { item: Brand }) => (
-    <TouchableOpacity style={{ height: 50 }} onPress={() => onSelect(item)}>
-      <Heading color={"black"}>{item.name}</Heading>
-    </TouchableOpacity>
+  const renderItem = ({ item }: ListRenderItemInfo<string>) => (
+    <FastImage
+      source={{ uri: item }}
+      style={{ height, width }}
+      resizeMode="contain"
+    />
   );
 
   const saveMedia = async () => {
@@ -73,120 +110,140 @@ export default function LabelScreen({
       });
     }
 
-    if (!photo) return;
-    await MediaLibrary.saveToLibraryAsync(photo);
+    if (!photos[activeIndex.current]) return;
+    await MediaLibrary.saveToLibraryAsync(photos[activeIndex.current].uri);
     return toast?.show("Photo saved", {
       message: "Your image has successfully been saved.",
     });
   };
 
-  if (loading) return <Loading />;
   return (
-    <>
+    <View flex={1} backgroundColor={"black"}>
       <Toaster backgroundColor={"$green4Light"} iconName="download-outline" />
-      <Sheet
-        open={open}
-        onOpenChange={setOpen}
-        snapPoints={[85]}
-        dismissOnSnapToBottom
-        forceRemoveScrollEnabled={open}
-      >
-        <Sheet.Overlay />
-        <Sheet.Handle backgroundColor={"white"} />
-        <Sheet.Frame backgroundColor={"white"}>
-          <FlashList<Brand>
-            contentContainerStyle={{ padding: 15 }}
-            data={data?.brands as Brand[]}
-            estimatedItemSize={50}
-            renderItem={renderItem}
-            keyExtractor={(_, idx) => idx.toString()}
-          />
-        </Sheet.Frame>
-      </Sheet>
-      <View flex={1}>
-        {tags.map((tag, idx) => (
-          <ClothingLabel
-            key={idx}
-            tag={tag}
-            onMove={({ x, y }) => {
-              positions.current = [
-                { ...tag, x, y },
-                ...positions.current.filter(
-                  (position) => position.x !== x && position.y !== y
-                ),
-              ];
-            }}
-            onClose={() => {
-              positions.current = positions.current.filter(
-                (position) => position.x !== tag.x && position.y !== tag.y
-              );
+      <FlatList
+        data={photos.map((photo) => photo.uri)}
+        renderItem={renderItem}
+        keyExtractor={(_, idx) => idx.toString()}
+        onMomentumScrollBegin={() => setIsLoading(true)}
+        onMomentumScrollEnd={() => setIsLoading(false)}
+        horizontal={true}
+        decelerationRate={"normal"}
+        snapToAlignment="end"
+        snapToInterval={width}
+        pagingEnabled
+        onViewableItemsChanged={onViewableItemsChanged}
+        viewabilityConfig={viewabilityConfig}
+      />
+      {!isLoading &&
+        tags[activeIndex.current]?.map((tag, idx) => {
+          const actualPosition = positions.current[activeIndex.current].find(
+            (position) => position.id == tag.id
+          );
 
-              setTags((curr) =>
-                curr.filter((item) => item.x !== tag.x && item.y !== tag.y)
-              );
-            }}
-          />
-        ))}
-        <FastImage
-          style={{ flex: 1, backgroundColor: "black" }}
-          resizeMode="contain"
-          source={{ uri: photo }}
+          const actualHeight = getImageActualHeight(
+            width,
+            photos[activeIndex.current]
+          );
+
+          return (
+            <ClothingLabel
+              key={idx}
+              photoHeight={actualHeight}
+              photoWidth={width}
+              windowHeight={height}
+              tag={{
+                ...tag,
+                x: actualPosition?.relX ?? 0,
+                y: actualPosition?.relY ?? 0,
+              }}
+              onMove={({ relX, relY }) => {
+                const updatedPositions = positions.current[
+                  activeIndex.current
+                ].filter((position) => position.id !== tag.id);
+
+                positions.current[activeIndex.current] = [
+                  ...updatedPositions,
+                  { ...tag, relX, relY },
+                ];
+              }}
+              onClose={() => {
+                positions.current[activeIndex.current] = positions.current[
+                  activeIndex.current
+                ].filter(
+                  (position) =>
+                    position.relX !== tag.relX && position.relY !== tag.relY
+                );
+
+                setTags((curr) =>
+                  curr.map((item, idx) =>
+                    idx === activeIndex.current
+                      ? item.filter((data) => data.id !== tag.id)
+                      : item
+                  )
+                );
+              }}
+            />
+          );
+        })}
+      <XStack
+        position={"absolute"}
+        backgroundColor={"red"}
+        top={15}
+        right={15}
+        left={15}
+        justifyContent="space-between"
+      >
+        <Button
+          onPress={() => navigation.goBack()}
+          bg={"rgba(140, 140, 140, 0.3)"}
+          icon={<Ionicons size={20} name="arrow-back-outline" />}
+          borderRadius="$true"
+          pressStyle={{
+            bg: "darkgray",
+          }}
         />
-        <XStack
-          position={"absolute"}
-          top={15}
-          right={15}
-          left={15}
-          bottom={15}
-          justifyContent="space-between"
-        >
+        <YStack space>
           <Button
-            onPress={() => navigation.goBack()}
+            onPress={() =>
+              navigation.navigate("Preview", {
+                photos,
+                tags: positions.current,
+              })
+            }
             bg={"rgba(140, 140, 140, 0.3)"}
-            icon={<Ionicons size={20} name="arrow-back-outline" />}
+            icon={<Ionicons size={20} name="arrow-forward-outline" />}
             borderRadius="$true"
             pressStyle={{
               bg: "darkgray",
             }}
           />
-          <YStack space justifyContent="space-between">
-            <YStack space>
-              <Button
-                onPress={() =>
-                  navigation.navigate("Preview", {
-                    photo,
-                    tags: positions.current,
-                  })
-                }
-                bg={"rgba(140, 140, 140, 0.3)"}
-                icon={<Ionicons size={20} name="arrow-forward-outline" />}
-                borderRadius="$true"
-                pressStyle={{
-                  bg: "darkgray",
-                }}
-              />
-              <Button
-                onPress={() => setOpen(true)}
-                bg={"rgba(140, 140, 140, 0.3)"}
-                icon={<Ionicons size={20} name="pricetag-outline" />}
-                borderRadius="$true"
-                pressStyle={{
-                  bg: "darkgray",
-                }}
-              />
-            </YStack>
-            <Button
-              onPress={saveMedia}
-              bg={"rgba(140, 140, 140, 0.3)"}
-              icon={<Ionicons size={20} name="download-outline" />}
-              borderRadius="$true"
-              pressStyle={{
-                bg: "darkgray",
-              }}
-            />
-          </YStack>
-        </XStack>
+          <Button
+            onPress={() => setOpen(true)}
+            bg={"rgba(140, 140, 140, 0.3)"}
+            icon={<Ionicons size={20} name="pricetag-outline" />}
+            borderRadius="$true"
+            pressStyle={{
+              bg: "darkgray",
+            }}
+          />
+        </YStack>
+      </XStack>
+      <View position="absolute" right={15} bottom={15}>
+        <Button
+          onPress={saveMedia}
+          bg={"rgba(140, 140, 140, 0.3)"}
+          icon={<Ionicons size={20} name="download-outline" />}
+          borderRadius="$true"
+          pressStyle={{
+            bg: "darkgray",
+          }}
+        />
       </View>
-    </>
+      <BrandSheet
+        open={open}
+        onOpenChange={() => setOpen(false)}
+        onSelect={onSelect}
+      />
+    </View>
   );
 }

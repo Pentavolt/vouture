@@ -1,37 +1,27 @@
 import { Ionicons } from "@expo/vector-icons";
 import { useState } from "react";
-import { useAuth, useBottomSheetBack } from "../../lib/hooks";
+import { useAuth } from "../../lib/hooks";
 import { CameraStackScreenProps } from "../../lib/navigation/types";
 import {
   Button,
-  Heading,
-  Input,
   ListItem,
-  Separator,
-  Sheet,
   Spinner,
   Switch,
   TextArea,
-  View,
   XStack,
   YGroup,
   YStack,
 } from "tamagui";
 import { CommonActions } from "@react-navigation/native";
-import { useMutation, useQuery } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 import {
   CreatePostDocument,
-  QueryMode,
-  Topic,
-  TopicsDocument,
   UploadDocument,
 } from "../../generated/gql/graphql";
 import { ReactNativeFile } from "apollo-upload-client";
 import FastImage from "react-native-fast-image";
-import { FlashList, ListRenderItemInfo } from "@shopify/flash-list";
-import { TouchableOpacity } from "react-native-gesture-handler";
 import { Keyboard, Pressable } from "react-native";
-import { useDebouncedCallback } from "use-debounce";
+import TagsSheet from "../../components/TagsSheet";
 
 export default function PreviewScreen({
   navigation,
@@ -44,32 +34,23 @@ export default function PreviewScreen({
   const [topicNames, setTopicNames] = useState<string[]>([]);
   const [checked, setChecked] = useState<boolean>(true);
   const [open, setOpen] = useState<boolean>(false);
-  const { data, refetch } = useQuery(TopicsDocument);
   const { user } = useAuth();
-  const { photo, tags } = route.params;
-
-  useBottomSheetBack(open, () => setOpen(false));
-  const debounce = useDebouncedCallback(
-    (value: string) =>
-      refetch({
-        where: {
-          name: { startsWith: value, mode: QueryMode["Insensitive"] },
-        },
-      }),
-    1000
-  );
+  const { photos, tags } = route.params;
 
   const onPress = async () => {
-    if (!photo) return;
+    if (!photos) return;
     setUploading(true);
-    const file = new ReactNativeFile({
-      name: "post.jpeg",
-      uri: photo,
-      type: "image/jpeg",
-    });
+    const files = photos.map(
+      (photo) =>
+        new ReactNativeFile({
+          name: "post.jpeg",
+          type: "image/jpeg",
+          uri: photo.uri,
+        })
+    );
 
     const urls = await upload({
-      variables: { images: [file] },
+      variables: { images: files },
       fetchPolicy: "network-only",
     });
 
@@ -89,16 +70,22 @@ export default function PreviewScreen({
           },
           isCommentable: checked,
           content: caption.length ? caption : undefined,
-          attachments: { create: urls.data.upload.map((url) => ({ url })) },
           user: { connect: { id: user?.id } },
-          tags: {
-            createMany: {
-              data: tags.map((tag) => ({
-                brandId: tag.brandId,
-                x: tag.x,
-                y: tag.y,
-              })),
-            },
+          attachments: {
+            create: urls.data.upload.map((url, idx) => ({
+              url,
+              height: photos[idx].height,
+              width: photos[idx].width,
+              tags: {
+                createMany: {
+                  data: tags[idx].map((tag) => ({
+                    brandId: tag.brandId,
+                    x: tag.relX,
+                    y: tag.relY,
+                  })),
+                },
+              },
+            })),
           },
         },
       },
@@ -112,19 +99,6 @@ export default function PreviewScreen({
     });
   };
 
-  const renderItem = ({ item }: ListRenderItemInfo<Topic>) => (
-    <TouchableOpacity
-      style={{ height: 50 }}
-      onPress={() => {
-        setTopicNames((curr) =>
-          curr.length >= 10 ? curr : [item.name, ...curr]
-        );
-      }}
-    >
-      <Heading color={"black"}>{item.name}</Heading>
-    </TouchableOpacity>
-  );
-
   return (
     <Pressable onPress={Keyboard.dismiss} style={{ flex: 1 }}>
       <YStack
@@ -137,7 +111,7 @@ export default function PreviewScreen({
         <YStack space>
           <XStack>
             <FastImage
-              source={{ uri: photo }}
+              source={{ uri: photos[0].uri }}
               resizeMode="cover"
               style={{
                 aspectRatio: 9 / 16,
@@ -223,64 +197,13 @@ export default function PreviewScreen({
           Post
         </Button>
       </YStack>
-      <Sheet
-        modal
+      <TagsSheet
         open={open}
-        dismissOnSnapToBottom
-        dismissOnOverlayPress
-        snapPoints={[90]}
-        onOpenChange={() => {
-          Keyboard.dismiss();
+        onClose={(topics) => {
+          setTopicNames(topics);
           setOpen(false);
         }}
-      >
-        <Sheet.Overlay />
-        <Sheet.Handle backgroundColor={"white"} />
-        <Sheet.Frame flex={1} backgroundColor={"white"}>
-          <YStack space padding="$3" flex={1}>
-            <Input
-              onChangeText={debounce}
-              backgroundColor={"$gray3Light"}
-              borderColor={"$gray3Light"}
-              focusStyle={{ borderColor: "$gray3Light" }}
-              color={"black"}
-            />
-            <XStack space="$1" flexWrap="wrap">
-              {topicNames.map((topicName, idx) => (
-                <Button
-                  marginBottom={"$1"}
-                  key={idx}
-                  size={"$2"}
-                  onPress={() =>
-                    setTopicNames((curr) =>
-                      curr.filter((_, index) => index !== idx)
-                    )
-                  }
-                  iconAfter={
-                    <Ionicons size={10} name="close" color={"white"} />
-                  }
-                  color={"black"}
-                  textProps={{
-                    color: "white",
-                    numberOfLines: 1,
-                  }}
-                >
-                  {topicName}
-                </Button>
-              ))}
-            </XStack>
-            <Separator borderWidth={1.5} borderColor={"$gray3Light"} />
-            <View flexGrow={1} minHeight={200}>
-              <FlashList<Topic>
-                data={data?.topics as Topic[]}
-                estimatedItemSize={50}
-                renderItem={renderItem}
-                keyExtractor={(_, idx) => idx.toString()}
-              />
-            </View>
-          </YStack>
-        </Sheet.Frame>
-      </Sheet>
+      />
     </Pressable>
   );
 }
