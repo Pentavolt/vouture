@@ -9,6 +9,7 @@ npm-debug.*
 *.mobileprovision
 *.orig.*
 web-build/
+*.apk
 
 # macOS
 .DS_Store
@@ -18,3 +19,6 @@ web-build/
 
 # Generated files
 generated/
+
+# Google services files
+google-services.json
