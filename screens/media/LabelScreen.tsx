@@ -18,7 +18,6 @@ import { useBottomSheetBack } from "../../lib/hooks";
 import { useToastController } from "@tamagui/toast";
 import Toaster from "../../components/Toaster";
 import { nanoid } from "nanoid";
-import { getImageActualHeight } from "../../lib/utils";
 import BrandSheet from "../../components/BrandSheet";
 
 interface Label {
@@ -140,11 +139,8 @@ export default function LabelScreen({
             (position) => position.id == tag.id
           );
 
-          const actualHeight = getImageActualHeight(
-            width,
-            photos[activeIndex.current]
-          );
-
+          const aspectRatio = height / width;
+          const actualHeight = width * aspectRatio;
           return (
             <ClothingLabel
               key={idx}
