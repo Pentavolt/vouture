@@ -1,14 +1,6 @@
 import { useRef, useState } from "react";
-import { Ionicons } from "@expo/vector-icons";
-import { StyleSheet } from "react-native";
 import { useAuth, useBottomSheetBack } from "../../lib/hooks";
-import Animated, {
-  useAnimatedStyle,
-  useSharedValue,
-  withDelay,
-  withSpring,
-  withTiming,
-} from "react-native-reanimated";
+import { useSharedValue, withDelay, withSpring } from "react-native-reanimated";
 import { View } from "tamagui";
 import { useMutation } from "@apollo/client";
 import {
@@ -21,23 +13,18 @@ import {
   Post,
   PostDocument,
 } from "../../generated/gql/graphql";
-import { AnimatableClothingLabel } from "./ClothingLabel";
-import FastImage from "react-native-fast-image";
 import ActionPanel from "./ActionPanel";
 import CommentSheet from "./CommentSheet";
-import PostGestureView from "./PostGesture";
 import PostContent from "./PostContent";
 import ControlSheet from "./ControlSheet";
+import ImageCarousel from "../ImageCarousel";
+import HeartOverlay from "./HeartOverlay";
+import { TapGestureHandler } from "react-native-gesture-handler";
 
 interface PostItemProps {
   post: Post;
   onNavigate: () => void;
 }
-
-const AnimatedIcon = Animated.createAnimatedComponent(Ionicons);
-const AnimatedClothingLabel = Animated.createAnimatedComponent(
-  AnimatableClothingLabel
-);
 
 /**
  * There is an annoying issue where we need to update each post when
@@ -53,8 +40,8 @@ const AnimatedClothingLabel = Animated.createAnimatedComponent(
 
 export default function PostItem({ post, onNavigate }: PostItemProps) {
   const identifier = useRef(post.id);
+  const ref = useRef(null);
   const scale = useSharedValue(0);
-  const fade = useSharedValue(1);
   const start = useRef(Date.now());
   const { user } = useAuth();
   const [like] = useMutation(CreateOneLikeDocument);
@@ -93,14 +80,6 @@ export default function PostItem({ post, onNavigate }: PostItemProps) {
     setCommentsOpen(false);
     setShareOpen(false);
   }
-
-  const scaleStyle = useAnimatedStyle(() => ({
-    transform: [{ scale: Math.max(scale.value, 0) }],
-  }));
-
-  const fadeStyle = useAnimatedStyle(() => ({
-    opacity: fade.value,
-  }));
 
   const animate = () => {
     scale.value = withSpring(1, { velocity: 1 }, (isFinished) => {
@@ -189,11 +168,6 @@ export default function PostItem({ post, onNavigate }: PostItemProps) {
     }
   };
 
-  const onSingleTap = () => {
-    if (fade.value) fade.value = withTiming(0, { duration: 300 });
-    else fade.value = withTiming(1, { duration: 300 });
-  };
-
   // Note: Liking is slow.
   const onDoubleTap = async () => {
     if (!user) return;
@@ -256,51 +230,17 @@ export default function PostItem({ post, onNavigate }: PostItemProps) {
   // TODO: The full screen posts doesn't work on Android for some reason.
   return (
     <View flex={1} backgroundColor={"black"}>
-      <PostGestureView onDoubleTap={onDoubleTap} onSingleTap={onSingleTap}>
+      <TapGestureHandler ref={ref} onActivated={onDoubleTap} numberOfTaps={2}>
         <View flex={1}>
-          <Animated.View
-            style={{
-              ...StyleSheet.absoluteFillObject,
-              flex: 1,
-              zIndex: 1,
-            }}
-          >
-            {post.attachments[0].tags.map((tag, idx) => (
-              <AnimatedClothingLabel
-                key={idx}
-                tag={tag}
-                style={{ ...fadeStyle }}
-              />
-            ))}
-          </Animated.View>
-          <FastImage
-            resizeMode="contain"
-            source={{ uri: post.attachments[0].url }}
-            style={{
-              width: "100%",
-              flex: 1,
-              justifyContent: "center",
-              alignContent: "center",
-              height: "100%",
-            }}
+          <ImageCarousel innerRef={ref} attachments={post.attachments} />
+          <HeartOverlay
+            innerRef={ref}
+            scale={scale}
+            onActivated={onDoubleTap}
           />
-          <Animated.View
-            style={{
-              ...StyleSheet.absoluteFillObject,
-              justifyContent: "center",
-              alignItems: "center",
-              zIndex: 100,
-            }}
-          >
-            <AnimatedIcon
-              name="heart"
-              color={"#ef4444"}
-              style={{ ...scaleStyle }}
-              size={100}
-            />
-          </Animated.View>
         </View>
-      </PostGestureView>
+      </TapGestureHandler>
+
       <PostContent post={post} onNavigate={onNavigate} />
       <ActionPanel
         post={post}
