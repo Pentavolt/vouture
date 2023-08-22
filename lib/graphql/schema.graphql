@@ -137,6 +137,8 @@ query Post($where: PostWhereUniqueInput!) {
     }
     attachments {
       url
+      height
+      width
       tags {
         x
         y
@@ -219,6 +221,8 @@ query Posts(
     }
     attachments {
       url
+      height
+      width
       tags {
         x
         y
@@ -645,6 +649,8 @@ mutation UpdateOnePost($data: PostUpdateInput!, $where: PostWhereUniqueInput!) {
     }
     attachments {
       url
+      height
+      width
       tags {
         x
         y
