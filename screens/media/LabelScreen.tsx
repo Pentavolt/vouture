@@ -183,7 +183,6 @@ export default function LabelScreen({
         })}
       <XStack
         position={"absolute"}
-        backgroundColor={"red"}
         top={15}
         right={15}
         left={15}
