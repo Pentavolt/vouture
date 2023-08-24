@@ -139,8 +139,8 @@ export default function LabelScreen({
             (position) => position.id == tag.id
           );
 
-          const aspectRatio = height / width;
-          const actualHeight = width * aspectRatio;
+          const aspectRatio = photos[idx].height / photos[idx].width;
+          const actualHeight = aspectRatio * width;
           return (
             <ClothingLabel
               key={idx}
