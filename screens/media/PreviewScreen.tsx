@@ -22,6 +22,7 @@ import { ReactNativeFile } from "apollo-upload-client";
 import FastImage from "react-native-fast-image";
 import { Keyboard, Pressable } from "react-native";
 import TagsSheet from "../../components/TagsSheet";
+import PollCreateSheet from "../../components/PollCreateSheet";
 
 export default function PreviewScreen({
   navigation,
@@ -30,10 +31,12 @@ export default function PreviewScreen({
   const [post] = useMutation(CreatePostDocument);
   const [upload] = useMutation(UploadDocument);
   const [caption, setCaption] = useState<string>("");
+  const [pollTitle, setPollTitle] = useState<string>("");
   const [uploading, setUploading] = useState<boolean>(false);
   const [topicNames, setTopicNames] = useState<string[]>([]);
   const [checked, setChecked] = useState<boolean>(true);
   const [open, setOpen] = useState<boolean>(false);
+  const [pollIsOpen, setPollIsOpen] = useState<boolean>(false);
   const { user } = useAuth();
   const { photos, tags } = route.params;
 
@@ -71,6 +74,7 @@ export default function PreviewScreen({
           isCommentable: checked,
           content: caption.length ? caption : undefined,
           user: { connect: { id: user?.id } },
+          poll: pollTitle.length ? { create: { name: pollTitle } } : undefined,
           attachments: {
             create: urls.data.upload.map((url, idx) => ({
               url,
@@ -154,18 +158,29 @@ export default function PreviewScreen({
                 Tags
               </ListItem>
             </YGroup.Item>
-            <YGroup.Item>
-              <ListItem
-                pressTheme
-                themeInverse
-                fontSize={15}
-                fontFamily={"$span"}
-                icon={<Ionicons size={18} color={"#5D5D5D"} name="location" />}
-                iconAfter={<Ionicons size={18} name="chevron-forward" />}
-              >
-                Location
-              </ListItem>
-            </YGroup.Item>
+            {photos.length >= 2 && (
+              <YGroup.Item>
+                <ListItem
+                  pressTheme
+                  themeInverse
+                  fontSize={15}
+                  fontFamily={"$span"}
+                  icon={
+                    <Ionicons size={18} color={"#5D5D5D"} name="stats-chart" />
+                  }
+                  iconAfter={
+                    pollTitle.length ? (
+                      <Ionicons size={18} name="checkmark-sharp" />
+                    ) : (
+                      <Ionicons size={18} name="chevron-forward" />
+                    )
+                  }
+                  onPress={() => setPollIsOpen(true)}
+                >
+                  Poll
+                </ListItem>
+              </YGroup.Item>
+            )}
           </YGroup>
           <YGroup>
             <YGroup.Item>
@@ -202,6 +217,14 @@ export default function PreviewScreen({
         onClose={(topics) => {
           setTopicNames(topics);
           setOpen(false);
+        }}
+      />
+
+      <PollCreateSheet
+        open={pollIsOpen}
+        onClose={(text) => {
+          setPollTitle(text);
+          setPollIsOpen(false);
         }}
       />
     </Pressable>

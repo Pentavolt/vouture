@@ -136,9 +136,13 @@ query Post($where: PostWhereUniqueInput!) {
       userId
     }
     attachments {
+      id
       url
       height
       width
+      _count {
+        votes
+      }
       tags {
         x
         y
@@ -220,9 +224,13 @@ query Posts(
       userId
     }
     attachments {
+      id
       url
       height
       width
+      _count {
+        votes
+      }
       tags {
         x
         y
@@ -230,6 +238,10 @@ query Posts(
           name
         }
       }
+    }
+    poll {
+      id
+      name
     }
     saves {
       id
@@ -695,5 +707,20 @@ query Notifications(
       }
     }
     createdAt
+  }
+}
+
+mutation CreateOneVote($data: VoteCreateInput!) {
+  createOneVote(data: $data) {
+    id
+  }
+}
+
+query Votes($where: VoteWhereInput) {
+  votes(where: $where) {
+    attachmentId
+    userId
+    id
+    pollId
   }
 }
