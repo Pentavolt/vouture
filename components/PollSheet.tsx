@@ -9,9 +9,8 @@ import {
   YStack,
 } from "tamagui";
 import {
-  Attachment,
   CreateOneVoteDocument,
-  Poll,
+  Post,
   PostDocument,
   VotesDocument,
 } from "../generated/gql/graphql";
@@ -23,12 +22,7 @@ import Loading from "./Loading";
 import { useAuth } from "../lib/hooks";
 
 interface PollSheetProps {
-  post: {
-    id: number;
-    user: { username: string };
-    attachments: Attachment[];
-    poll: Poll;
-  };
+  post: Post;
   open: boolean;
   onClose: () => void;
 }
@@ -61,7 +55,7 @@ export default function PollSheet({ onClose, open, post }: PollSheetProps) {
       variables: {
         data: {
           attachment: { connect: { id: selected.id } },
-          poll: { connect: { id: post.poll.id } },
+          poll: { connect: { id: post.poll?.id } },
           user: { connect: { id: user?.id } },
         },
       },
@@ -122,11 +116,12 @@ export default function PollSheet({ onClose, open, post }: PollSheetProps) {
               >
                 A poll from {post.user.username}
               </Paragraph>
-              <Heading>{post.poll.name}</Heading>
+              <Heading>{post.poll?.name}</Heading>
             </YStack>
             <XStack space>
               {post.attachments.map((attachment, idx) => (
                 <Pressable
+                  key={attachment.id}
                   onPress={() => (hasVoted ? null : setActiveIndex(idx))}
                 >
                   <FastImage
