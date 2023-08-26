@@ -9,6 +9,7 @@ import {
   YStack,
 } from "tamagui";
 import {
+  Attachment,
   CreateOneVoteDocument,
   Post,
   PostDocument,
@@ -16,7 +17,12 @@ import {
 } from "../generated/gql/graphql";
 import FastImage from "react-native-fast-image";
 import { useState } from "react";
-import { Pressable } from "react-native";
+import {
+  FlatList,
+  ListRenderItemInfo,
+  Platform,
+  TouchableOpacity,
+} from "react-native";
 import { useMutation, useQuery } from "@apollo/client";
 import Loading from "./Loading";
 import { useAuth } from "../lib/hooks";
@@ -59,7 +65,7 @@ export default function PollSheet({ onClose, open, post }: PollSheetProps) {
           user: { connect: { id: user?.id } },
         },
       },
-      onCompleted: () => refetch(),
+      onCompleted: () => refetch().then(() => setHasVoted(true)),
       onError: () => setDisabled(false),
       update: (cache, { data }) => {
         if (!data) return;
@@ -89,22 +95,56 @@ export default function PollSheet({ onClose, open, post }: PollSheetProps) {
     });
   };
 
+  const renderItem = ({ item, index }: ListRenderItemInfo<Attachment>) => (
+    <TouchableOpacity
+      onPress={() => (hasVoted ? console.log(index) : setActiveIndex(index))}
+    >
+      <FastImage
+        source={{ uri: item.url }}
+        resizeMode="cover"
+        style={{
+          height: 200,
+          width: 100,
+          borderRadius: 8,
+        }}
+      >
+        <View
+          height={"100%"}
+          justifyContent="center"
+          alignItems="center"
+          backgroundColor={
+            index === activeIndex
+              ? "rgba(254, 159, 16, 0.4)"
+              : "rgba(0, 0, 0, 0.4)"
+          }
+        >
+          {hasVoted && (
+            <H2>
+              {((item._count?.votes ?? 0) / (data!.votes.length ?? 0)) * 100}%
+            </H2>
+          )}
+        </View>
+      </FastImage>
+    </TouchableOpacity>
+  );
+
   return (
     <Sheet
       modal
       open={open}
       onOpenChange={onClose}
       dismissOnSnapToBottom
-      snapPoints={[45]}
+      dismissOnOverlayPress
+      snapPoints={Platform.OS === "ios" ? [50] : [45]}
     >
       <Sheet.Overlay />
       <Sheet.Handle backgroundColor={"white"} />
-      <Sheet.ScrollView
+      <Sheet.Frame
         borderRadius={"$true"}
         flex={1}
         backgroundColor={"$background"}
       >
-        {loading || !data ? (
+        {!data?.votes || loading ? (
           <Loading />
         ) : (
           <YStack padding="$3" space>
@@ -118,43 +158,15 @@ export default function PollSheet({ onClose, open, post }: PollSheetProps) {
               </Paragraph>
               <Heading>{post.poll?.name}</Heading>
             </YStack>
-            <XStack space>
-              {post.attachments.map((attachment, idx) => (
-                <Pressable
-                  key={attachment.id}
-                  onPress={() => (hasVoted ? null : setActiveIndex(idx))}
-                >
-                  <FastImage
-                    source={{ uri: attachment.url }}
-                    resizeMode="cover"
-                    style={{
-                      height: 200,
-                      width: 100,
-                      borderRadius: 8,
-                    }}
-                  >
-                    <View
-                      height={"100%"}
-                      justifyContent="center"
-                      alignItems="center"
-                      backgroundColor={
-                        idx === activeIndex
-                          ? "rgba(254, 159, 16, 0.4)"
-                          : "rgba(0, 0, 0, 0.4)"
-                      }
-                    >
-                      {hasVoted && (
-                        <H2>
-                          {((attachment._count?.votes ?? 0) /
-                            data?.votes.length) *
-                            100}
-                          %
-                        </H2>
-                      )}
-                    </View>
-                  </FastImage>
-                </Pressable>
-              ))}
+            <XStack>
+              <FlatList
+                contentContainerStyle={{ columnGap: 13 }}
+                data={post.attachments}
+                renderItem={renderItem}
+                horizontal
+                keyExtractor={(attachment) => attachment.id.toString()}
+                showsHorizontalScrollIndicator={false}
+              />
             </XStack>
             {!hasVoted && (
               <Button
@@ -167,7 +179,7 @@ export default function PollSheet({ onClose, open, post }: PollSheetProps) {
             )}
           </YStack>
         )}
-      </Sheet.ScrollView>
+      </Sheet.Frame>
     </Sheet>
   );
 }
