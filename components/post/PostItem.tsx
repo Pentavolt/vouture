@@ -264,11 +264,13 @@ export default function PostItem({ post, onNavigate }: PostItemProps) {
         open={shareOpen}
         onOpenChange={() => setShareOpen(false)}
       />
-      <PollSheet
-        post={post}
-        open={pollOpen}
-        onClose={() => setPollOpen(false)}
-      />
+      {post.poll && (
+        <PollSheet
+          post={post}
+          open={pollOpen}
+          onClose={() => setPollOpen(false)}
+        />
+      )}
     </View>
   );
 }
