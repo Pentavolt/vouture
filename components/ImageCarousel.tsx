@@ -36,6 +36,7 @@ export default function ImageCarousel({
       <View>
         <FlatList<Attachment>
           pagingEnabled
+          showsHorizontalScrollIndicator={false}
           horizontal={true}
           snapToAlignment="end"
           snapToInterval={width}
