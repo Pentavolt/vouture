@@ -9,9 +9,7 @@ import {
   Poll,
   User,
 } from "../../generated/gql/graphql";
-import { useAuth, useBottomSheetBack } from "../../lib/hooks";
-import PollSheet from "../PollSheet";
-import { useState } from "react";
+import { useAuth } from "../../lib/hooks";
 
 interface ActionPanelProps {
   post: {
@@ -28,6 +26,7 @@ interface ActionPanelProps {
   onCommentPress: () => void;
   onSavePress: () => void;
   onSharePress: () => void;
+  onPollPress: () => void;
 }
 
 export default function ActionPanel({
@@ -36,10 +35,9 @@ export default function ActionPanel({
   onLikePress,
   onSavePress,
   onSharePress,
+  onPollPress,
 }: ActionPanelProps) {
   const { user } = useAuth();
-  const [open, setOpen] = useState<boolean>(false);
-  useBottomSheetBack(open, () => setOpen(false));
 
   const isLiked = post.likes.some((like) => like.userId === user?.id);
   const isSaved = post.saves.some((save) => save.userId === user?.id);
@@ -92,7 +90,7 @@ export default function ActionPanel({
         {post.poll && (
           <Button
             backgroundColor={"$backgroundTransparent"}
-            onPress={() => setOpen(true)}
+            onPress={onPollPress}
             icon={<Ionicons size={25} color={"red"} name={"compass-outline"} />}
           />
         )}
@@ -102,10 +100,6 @@ export default function ActionPanel({
           icon={<Ionicons size={25} name={"share-outline"} />}
         />
       </XStack>
-      {post.poll && (
-        // @ts-ignore post.poll is defined when rendering.
-        <PollSheet post={post} open={open} onClose={() => setOpen(false)} />
-      )}
     </>
   );
 }

@@ -20,6 +20,7 @@ import ControlSheet from "./ControlSheet";
 import ImageCarousel from "../ImageCarousel";
 import HeartOverlay from "./HeartOverlay";
 import { TapGestureHandler } from "react-native-gesture-handler";
+import PollSheet from "../PollSheet";
 
 interface PostItemProps {
   post: Post;
@@ -52,6 +53,7 @@ export default function PostItem({ post, onNavigate }: PostItemProps) {
   const [uncollect] = useMutation(DeleteOneCollectedPostDocument);
   const [commentsOpen, setCommentsOpen] = useState<boolean>(false);
   const [shareOpen, setShareOpen] = useState<boolean>(false);
+  const [pollOpen, setPollOpen] = useState<boolean>(false);
   const [isLiked, setIsLiked] = useState<boolean>(
     post.likes.some((like) => like.userId === user?.id)
   );
@@ -62,6 +64,7 @@ export default function PostItem({ post, onNavigate }: PostItemProps) {
 
   useBottomSheetBack(commentsOpen, () => setCommentsOpen(false));
   useBottomSheetBack(shareOpen, () => setShareOpen(false));
+  useBottomSheetBack(pollOpen, () => setPollOpen(false));
   if (identifier.current !== post.id) {
     view({
       variables: {
@@ -248,6 +251,7 @@ export default function PostItem({ post, onNavigate }: PostItemProps) {
         onSavePress={handleCollect}
         onLikePress={() => (isLiked ? handleUnlike() : onDoubleTap())}
         onSharePress={() => setShareOpen(true)}
+        onPollPress={() => setPollOpen(true)}
       />
       <CommentSheet
         post={post}
@@ -259,6 +263,11 @@ export default function PostItem({ post, onNavigate }: PostItemProps) {
         post={post}
         open={shareOpen}
         onOpenChange={() => setShareOpen(false)}
+      />
+      <PollSheet
+        post={post}
+        open={pollOpen}
+        onClose={() => setPollOpen(false)}
       />
     </View>
   );
