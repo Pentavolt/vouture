@@ -3,7 +3,10 @@ import {
   DefaultTheme,
   NavigationContainer,
 } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
+import {
+  CardStyleInterpolators,
+  createStackNavigator,
+} from "@react-navigation/stack";
 import { ColorSchemeName } from "react-native";
 import { useAuth } from "../hooks";
 import { linking } from "./linking";
@@ -56,7 +59,10 @@ function RootNavigator() {
           <Stack.Screen
             name="Create"
             component={CameraStackNavigator}
-            options={{ headerShown: false, presentation: "modal" }}
+            options={{
+              headerShown: false,
+              cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS,
+            }}
           />
           <Stack.Screen
             name="Preferences"

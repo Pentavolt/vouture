@@ -200,7 +200,7 @@ export function CameraStackNavigator() {
       <CameraStack.Screen
         name="Labeling"
         component={LabelScreen}
-        options={{ headerShown: false, presentation: "modal" }}
+        options={{ headerShown: false }}
       />
     </CameraStack.Navigator>
   );
