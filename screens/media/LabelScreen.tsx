@@ -126,8 +126,8 @@ export default function LabelScreen({
         onMomentumScrollBegin={() => setIsLoading(true)}
         onMomentumScrollEnd={() => setIsLoading(false)}
         horizontal={true}
-        decelerationRate={"normal"}
-        snapToAlignment="end"
+        decelerationRate={0.99}
+        snapToAlignment="start"
         snapToInterval={width}
         pagingEnabled
         onViewableItemsChanged={onViewableItemsChanged}
