@@ -1,4 +1,6 @@
 import { Ionicons } from "@expo/vector-icons";
+import { FlashList } from "@shopify/flash-list";
+import { useCallback, useRef, useState } from "react";
 import {
   Button,
   Input,
@@ -10,10 +12,11 @@ import {
   YStack,
 } from "tamagui";
 import { Comment, Post, User } from "../../generated/gql/graphql";
-import { FlashList } from "@shopify/flash-list";
-import { useCallback, useRef, useState } from "react";
-import CommentItem from "./CommentItem";
 import { useAuth } from "../../lib/hooks";
+import CommentItem from "./CommentItem";
+import { ScrollView } from "react-native-gesture-handler";
+import { KeyboardAvoidingView, Platform } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 interface CommentSheetProps {
   post: Post;
@@ -30,6 +33,7 @@ export default function CommentSheet({
 }: CommentSheetProps) {
   const ref = useRef<FlashList<Comment>>(null);
   const { user } = useAuth();
+  const { bottom } = useSafeAreaInsets();
   const [text, setText] = useState<string>("");
   const [disabled, setDisabled] = useState<boolean>(false);
 
@@ -55,46 +59,55 @@ export default function CommentSheet({
           <FlashList<Comment>
             ref={ref}
             data={post.comments}
+            renderScrollComponent={ScrollView}
             estimatedItemSize={100}
             renderItem={renderItem}
             keyExtractor={(comment) => comment.id.toString()}
           />
           <Separator />
-          {post.isCommentable ? (
-            <XStack space>
-              <Input
-                size="$4"
-                borderWidth={2}
-                flex={2}
-                value={text}
-                onChangeText={(value) => setText(value)}
-              />
-              <Button
-                disabled={text.length ? false : true} // TODO: Add disabled button style
-                icon={disabled ? <Spinner /> : <Ionicons name="send" />} // Note: This causes a slight change in width.
-                onPress={async () => {
-                  if (disabled) return;
-                  setDisabled(true);
-                  setText("");
-                  // Awaiting this is slow but necessary for scrollToEnd() to work.
-                  await onComment(text);
-                  if (post.comments.length) {
-                    // Not a great solution, but works for now.
-                    setTimeout(
-                      () => ref.current?.scrollToEnd({ animated: true }),
-                      100
-                    );
-                  }
+          <KeyboardAvoidingView
+            contentContainerStyle={{ flex: 1 }}
+            behavior={Platform.OS === "ios" ? "padding" : undefined}
+            keyboardVerticalOffset={
+              Platform.OS === "ios" ? bottom + 44 * 2 : undefined
+            }
+          >
+            {post.isCommentable ? (
+              <XStack space flexGrow={1}>
+                <Input
+                  size="$4"
+                  borderWidth={2}
+                  flex={2}
+                  value={text}
+                  onChangeText={(value) => setText(value)}
+                />
+                <Button
+                  disabled={text.length ? false : true} // TODO: Add disabled button style
+                  icon={disabled ? <Spinner /> : <Ionicons name="send" />} // Note: This causes a slight change in width.
+                  onPress={async () => {
+                    if (disabled) return;
+                    setDisabled(true);
+                    setText("");
+                    // Awaiting this is slow but necessary for scrollToEnd() to work.
+                    await onComment(text);
+                    if (post.comments.length) {
+                      // Not a great solution, but works for now.
+                      setTimeout(
+                        () => ref.current?.scrollToEnd({ animated: true }),
+                        100
+                      );
+                    }
 
-                  setDisabled(false);
-                }}
-              >
-                Post
-              </Button>
-            </XStack>
-          ) : (
-            <Text textAlign="center">Comments have been disabled.</Text>
-          )}
+                    setDisabled(false);
+                  }}
+                >
+                  Post
+                </Button>
+              </XStack>
+            ) : (
+              <Text textAlign="center">Comments have been disabled.</Text>
+            )}
+          </KeyboardAvoidingView>
         </YStack>
       </Sheet.Frame>
     </Sheet>
