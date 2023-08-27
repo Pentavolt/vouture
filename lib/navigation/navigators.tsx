@@ -49,6 +49,7 @@ import PostResultsScreen from "../../screens/search/PostResultsScreen";
 import BrandScreen from "../../screens/search/BrandScreen";
 import VerificationScreen from "../../screens/settings/VerificationScreen";
 import { SafeAreaView } from "react-native-safe-area-context";
+import BackButton from "../../components/BackButton";
 
 const BottomTab = createBottomTabNavigator<RootTabParamList>();
 
@@ -221,13 +222,25 @@ export function HomeStackNavigator() {
       <HomeStack.Screen
         name="Details"
         component={PostScreen}
-        options={{
+        options={({ navigation }) => ({
           headerShown: true,
           headerTransparent: true,
           headerTintColor: "white",
-        }}
+          headerTitleAlign: "left",
+          headerLeft: () => <BackButton navigation={navigation} />,
+        })}
       />
-      <HomeStack.Screen name="Profile" component={ProfileScreen} />
+      <HomeStack.Screen
+        name="Profile"
+        component={ProfileScreen}
+        options={({ navigation }) => ({
+          headerShadowVisible: false,
+          headerTitleAlign: "left",
+          headerLeft: () => (
+            <BackButton color={"black"} navigation={navigation} />
+          ),
+        })}
+      />
     </HomeStack.Navigator>
   );
 }
@@ -243,6 +256,7 @@ export function UserStackNavigator() {
         name="Profile"
         component={ProfileScreen}
         options={({ navigation }: UserStackScreenProps<"Profile">) => ({
+          headerTitleAlign: "left",
           headerRight: () => (
             <Ionicons
               size={26}
@@ -259,11 +273,13 @@ export function UserStackNavigator() {
       <UserStack.Screen
         name="Details"
         component={PostScreen}
-        options={{
+        options={({ navigation }) => ({
           headerShown: true,
           headerTransparent: true,
           headerTintColor: "white",
-        }}
+          headerTitleAlign: "left",
+          headerLeft: () => <BackButton navigation={navigation} />,
+        })}
       />
     </UserStack.Navigator>
   );
@@ -274,7 +290,12 @@ const PreferencesStack = createStackNavigator<PreferencesStackParamList>();
 export function PreferencesStackNavigator() {
   return (
     <PreferencesStack.Navigator
-      screenOptions={{ headerTitleStyle: { fontFamily: "Satoshi Bold" } }}
+      screenOptions={({ navigation }) => ({
+        headerTitleStyle: { fontFamily: "Satoshi Bold" },
+        headerLeft: () => (
+          <BackButton color={"black"} navigation={navigation} />
+        ),
+      })}
     >
       <PreferencesStack.Screen name="Settings" component={SettingsScreen} />
       <PreferencesStack.Screen
@@ -358,15 +379,26 @@ export function InboxStackNavigator() {
       screenOptions={{ headerTitleStyle: { fontFamily: "Satoshi Bold" } }}
     >
       <InboxStack.Screen name="Notifications" component={NotificationsScreen} />
-      <InboxStack.Screen name="Requests" component={RequestsScreen} />
+      <InboxStack.Screen
+        name="Requests"
+        component={RequestsScreen}
+        options={({ navigation }) => ({
+          headerLeft: () => (
+            <BackButton color={"black"} navigation={navigation} />
+          ),
+        })}
+      />
       <InboxStack.Screen
         name="Details"
         component={PostScreen}
-        options={{
+        options={({ navigation }) => ({
           headerShown: true,
           headerTransparent: true,
           headerTintColor: "white",
-        }}
+          headerLeft: () => (
+            <BackButton color={"white"} navigation={navigation} />
+          ),
+        })}
       />
     </InboxStack.Navigator>
   );
