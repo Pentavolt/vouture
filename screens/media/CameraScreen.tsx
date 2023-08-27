@@ -8,6 +8,7 @@ import { CameraStackScreenProps } from "../../lib/navigation/types";
 import Loading from "../../components/Loading";
 import { Camera, useCameraDevices } from "react-native-vision-camera";
 import { useIsFocused } from "@react-navigation/native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function CameraScreen({
   navigation,
@@ -82,87 +83,91 @@ export default function CameraScreen({
 
   if (!devices[cameraPosition] || !mounted) return <Loading />;
   return (
-    <View flex={1} backgroundColor="white">
-      <Camera
-        ref={camera}
-        style={StyleSheet.absoluteFill}
-        device={devices[cameraPosition]!}
-        isActive={isFocused}
-        photo={true}
-        enableZoomGesture
-      />
+    <SafeAreaView style={{ flex: 1, backgroundColor: "black" }}>
+      <View flex={1} backgroundColor="white">
+        <Camera
+          ref={camera}
+          style={StyleSheet.absoluteFill}
+          device={devices[cameraPosition]!}
+          isActive={isFocused}
+          photo={true}
+          enableZoomGesture
+        />
 
-      <XStack
-        justifyContent="space-between"
-        position={"absolute"}
-        top={15}
-        right={15}
-        left={15}
-      >
-        <Button
-          onPress={() => navigation.goBack()}
-          bg={"rgba(140, 140, 140, 0.3)"}
-          icon={<Ionicons size={20} name="close" />}
-          borderRadius="$true"
-          pressStyle={{
-            bg: "darkgray",
+        <XStack
+          justifyContent="space-between"
+          position={"absolute"}
+          top={15}
+          right={15}
+          left={15}
+        >
+          <Button
+            onPress={() => navigation.goBack()}
+            bg={"rgba(140, 140, 140, 0.3)"}
+            icon={<Ionicons size={20} name="close" />}
+            borderRadius="$true"
+            pressStyle={{
+              bg: "darkgray",
+            }}
+          />
+          <YStack space="$3">
+            <Button
+              onPress={() =>
+                setCameraPosition((curr) =>
+                  curr === "back" ? "front" : "back"
+                )
+              }
+              bg={"rgba(140, 140, 140, 0.3)"}
+              icon={<Ionicons size={20} name="camera-reverse-outline" />}
+              borderRadius="$true"
+              pressStyle={{
+                bg: "darkgray",
+              }}
+            />
+            <Button
+              bg={"rgba(140, 140, 140, 0.3)"}
+              onPress={() =>
+                setFlashMode((curr) => (curr === "off" ? "on" : "off"))
+              }
+              icon={
+                <Ionicons
+                  size={20}
+                  name={
+                    flashMode === "on" ? "flash-off-outline" : "flash-outline"
+                  }
+                />
+              }
+              borderRadius="$true"
+              pressStyle={{
+                bg: "darkgray",
+              }}
+            />
+            <Button
+              bg={"rgba(140, 140, 140, 0.3)"}
+              onPress={pickImage}
+              icon={<Ionicons size={20} name={"image-outline"} />}
+              borderRadius="$true"
+              pressStyle={{
+                bg: "darkgray",
+              }}
+            />
+          </YStack>
+        </XStack>
+        <Pressable
+          disabled={isSubmitting}
+          onPress={takePicture}
+          style={{
+            position: "absolute",
+            bottom: 40,
+            alignSelf: "center",
+            borderRadius: 100,
+            borderColor: "white",
+            borderWidth: 5,
+            height: 78,
+            width: 78,
           }}
         />
-        <YStack space="$3">
-          <Button
-            onPress={() =>
-              setCameraPosition((curr) => (curr === "back" ? "front" : "back"))
-            }
-            bg={"rgba(140, 140, 140, 0.3)"}
-            icon={<Ionicons size={20} name="camera-reverse-outline" />}
-            borderRadius="$true"
-            pressStyle={{
-              bg: "darkgray",
-            }}
-          />
-          <Button
-            bg={"rgba(140, 140, 140, 0.3)"}
-            onPress={() =>
-              setFlashMode((curr) => (curr === "off" ? "on" : "off"))
-            }
-            icon={
-              <Ionicons
-                size={20}
-                name={
-                  flashMode === "on" ? "flash-off-outline" : "flash-outline"
-                }
-              />
-            }
-            borderRadius="$true"
-            pressStyle={{
-              bg: "darkgray",
-            }}
-          />
-          <Button
-            bg={"rgba(140, 140, 140, 0.3)"}
-            onPress={pickImage}
-            icon={<Ionicons size={20} name={"image-outline"} />}
-            borderRadius="$true"
-            pressStyle={{
-              bg: "darkgray",
-            }}
-          />
-        </YStack>
-      </XStack>
-      <Pressable
-        disabled={isSubmitting}
-        onPress={takePicture}
-        style={{
-          position: "absolute",
-          bottom: 40,
-          alignSelf: "center",
-          borderRadius: 100,
-          borderColor: "white",
-          borderWidth: 5,
-          height: 78,
-          width: 78,
-        }}
-      />
-    </View>
+      </View>
+    </SafeAreaView>
   );
 }

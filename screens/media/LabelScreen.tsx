@@ -19,6 +19,7 @@ import { useToastController } from "@tamagui/toast";
 import Toaster from "../../components/Toaster";
 import { nanoid } from "nanoid";
 import BrandSheet from "../../components/BrandSheet";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 interface Label {
   id: string;
@@ -117,128 +118,130 @@ export default function LabelScreen({
   };
 
   return (
-    <View flex={1} backgroundColor={"black"}>
-      <Toaster backgroundColor={"$green4Light"} iconName="download-outline" />
-      <FlatList
-        data={photos.map((photo) => photo.uri)}
-        renderItem={renderItem}
-        keyExtractor={(_, idx) => idx.toString()}
-        onMomentumScrollBegin={() => setIsLoading(true)}
-        onMomentumScrollEnd={() => setIsLoading(false)}
-        horizontal={true}
-        decelerationRate={0.99}
-        snapToAlignment="start"
-        snapToInterval={width}
-        pagingEnabled
-        onViewableItemsChanged={onViewableItemsChanged}
-        viewabilityConfig={viewabilityConfig}
-      />
-      {!isLoading &&
-        tags[activeIndex.current]?.map((tag, idx) => {
-          const actualPosition = positions.current[activeIndex.current].find(
-            (position) => position.id == tag.id
-          );
+    <SafeAreaView style={{ flex: 1, backgroundColor: "black" }}>
+      <View flex={1} backgroundColor={"black"}>
+        <Toaster backgroundColor={"$green4Light"} iconName="download-outline" />
+        <FlatList
+          data={photos.map((photo) => photo.uri)}
+          renderItem={renderItem}
+          keyExtractor={(_, idx) => idx.toString()}
+          onMomentumScrollBegin={() => setIsLoading(true)}
+          onMomentumScrollEnd={() => setIsLoading(false)}
+          horizontal={true}
+          decelerationRate={0.99}
+          snapToAlignment="start"
+          snapToInterval={width}
+          pagingEnabled
+          onViewableItemsChanged={onViewableItemsChanged}
+          viewabilityConfig={viewabilityConfig}
+        />
+        {!isLoading &&
+          tags[activeIndex.current]?.map((tag, idx) => {
+            const actualPosition = positions.current[activeIndex.current].find(
+              (position) => position.id == tag.id
+            );
 
-          const aspectRatio = photos[idx].height / photos[idx].width;
-          const actualHeight = aspectRatio * width;
-          return (
-            <ClothingLabel
-              key={idx}
-              photoHeight={actualHeight}
-              photoWidth={width}
-              windowHeight={height}
-              tag={{
-                ...tag,
-                x: actualPosition?.relX ?? 0,
-                y: actualPosition?.relY ?? 0,
-              }}
-              onMove={({ relX, relY }) => {
-                const updatedPositions = positions.current[
-                  activeIndex.current
-                ].filter((position) => position.id !== tag.id);
+            const aspectRatio = photos[idx].height / photos[idx].width;
+            const actualHeight = aspectRatio * width;
+            return (
+              <ClothingLabel
+                key={idx}
+                photoHeight={actualHeight}
+                photoWidth={width}
+                windowHeight={height}
+                tag={{
+                  ...tag,
+                  x: actualPosition?.relX ?? 0,
+                  y: actualPosition?.relY ?? 0,
+                }}
+                onMove={({ relX, relY }) => {
+                  const updatedPositions = positions.current[
+                    activeIndex.current
+                  ].filter((position) => position.id !== tag.id);
 
-                positions.current[activeIndex.current] = [
-                  ...updatedPositions,
-                  { ...tag, relX, relY },
-                ];
-              }}
-              onClose={() => {
-                positions.current[activeIndex.current] = positions.current[
-                  activeIndex.current
-                ].filter(
-                  (position) =>
-                    position.relX !== tag.relX && position.relY !== tag.relY
-                );
+                  positions.current[activeIndex.current] = [
+                    ...updatedPositions,
+                    { ...tag, relX, relY },
+                  ];
+                }}
+                onClose={() => {
+                  positions.current[activeIndex.current] = positions.current[
+                    activeIndex.current
+                  ].filter(
+                    (position) =>
+                      position.relX !== tag.relX && position.relY !== tag.relY
+                  );
 
-                setTags((curr) =>
-                  curr.map((item, idx) =>
-                    idx === activeIndex.current
-                      ? item.filter((data) => data.id !== tag.id)
-                      : item
-                  )
-                );
+                  setTags((curr) =>
+                    curr.map((item, idx) =>
+                      idx === activeIndex.current
+                        ? item.filter((data) => data.id !== tag.id)
+                        : item
+                    )
+                  );
+                }}
+              />
+            );
+          })}
+        <XStack
+          position={"absolute"}
+          top={15}
+          right={15}
+          left={15}
+          justifyContent="space-between"
+        >
+          <Button
+            onPress={() => navigation.goBack()}
+            bg={"rgba(140, 140, 140, 0.3)"}
+            icon={<Ionicons size={20} name="arrow-back-outline" />}
+            borderRadius="$true"
+            pressStyle={{
+              bg: "darkgray",
+            }}
+          />
+          <YStack space>
+            <Button
+              onPress={() =>
+                navigation.navigate("Preview", {
+                  photos,
+                  tags: positions.current,
+                })
+              }
+              bg={"rgba(140, 140, 140, 0.3)"}
+              icon={<Ionicons size={20} name="arrow-forward-outline" />}
+              borderRadius="$true"
+              pressStyle={{
+                bg: "darkgray",
               }}
             />
-          );
-        })}
-      <XStack
-        position={"absolute"}
-        top={15}
-        right={15}
-        left={15}
-        justifyContent="space-between"
-      >
-        <Button
-          onPress={() => navigation.goBack()}
-          bg={"rgba(140, 140, 140, 0.3)"}
-          icon={<Ionicons size={20} name="arrow-back-outline" />}
-          borderRadius="$true"
-          pressStyle={{
-            bg: "darkgray",
-          }}
-        />
-        <YStack space>
+            <Button
+              onPress={() => setOpen(true)}
+              bg={"rgba(140, 140, 140, 0.3)"}
+              icon={<Ionicons size={20} name="pricetag-outline" />}
+              borderRadius="$true"
+              pressStyle={{
+                bg: "darkgray",
+              }}
+            />
+          </YStack>
+        </XStack>
+        <View position="absolute" right={15} bottom={15}>
           <Button
-            onPress={() =>
-              navigation.navigate("Preview", {
-                photos,
-                tags: positions.current,
-              })
-            }
+            onPress={saveMedia}
             bg={"rgba(140, 140, 140, 0.3)"}
-            icon={<Ionicons size={20} name="arrow-forward-outline" />}
+            icon={<Ionicons size={20} name="download-outline" />}
             borderRadius="$true"
             pressStyle={{
               bg: "darkgray",
             }}
           />
-          <Button
-            onPress={() => setOpen(true)}
-            bg={"rgba(140, 140, 140, 0.3)"}
-            icon={<Ionicons size={20} name="pricetag-outline" />}
-            borderRadius="$true"
-            pressStyle={{
-              bg: "darkgray",
-            }}
-          />
-        </YStack>
-      </XStack>
-      <View position="absolute" right={15} bottom={15}>
-        <Button
-          onPress={saveMedia}
-          bg={"rgba(140, 140, 140, 0.3)"}
-          icon={<Ionicons size={20} name="download-outline" />}
-          borderRadius="$true"
-          pressStyle={{
-            bg: "darkgray",
-          }}
+        </View>
+        <BrandSheet
+          open={open}
+          onOpenChange={() => setOpen(false)}
+          onSelect={onSelect}
         />
       </View>
-      <BrandSheet
-        open={open}
-        onOpenChange={() => setOpen(false)}
-        onSelect={onSelect}
-      />
-    </View>
+    </SafeAreaView>
   );
 }

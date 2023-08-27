@@ -48,6 +48,7 @@ import { Button, XStack, YStack } from "tamagui";
 import PostResultsScreen from "../../screens/search/PostResultsScreen";
 import BrandScreen from "../../screens/search/BrandScreen";
 import VerificationScreen from "../../screens/settings/VerificationScreen";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const BottomTab = createBottomTabNavigator<RootTabParamList>();
 
@@ -317,33 +318,35 @@ const FeedTopTab = createMaterialTopTabNavigator<FeedTopTabParamList>();
 
 export function FeedTopTabNavigator() {
   return (
-    <FeedTopTab.Navigator
-      screenOptions={{
-        tabBarGap: 20,
-        tabBarIndicatorStyle: {
-          backgroundColor: "black",
-          marginHorizontal: 13, // Needs to match the paddingHorizontal of tabBarStyle.
-        },
-        tabBarPressColor: "transparent",
-        tabBarItemStyle: {
-          width: "auto",
-          paddingHorizontal: 0,
-        },
-        tabBarLabelStyle: {
-          textTransform: "capitalize",
-          fontFamily: "Satoshi Bold",
-          marginHorizontal: 0,
-          fontSize: 16,
-        },
-        tabBarStyle: {
-          elevation: 0,
-          paddingHorizontal: 13,
-        },
-      }}
-    >
-      <FeedTopTab.Screen component={DiscoverScreen} name="Discover" />
-      <FeedTopTab.Screen component={FollowingScreen} name="Following" />
-    </FeedTopTab.Navigator>
+    <SafeAreaView style={{ flex: 1, backgroundColor: "white" }} edges={["top"]}>
+      <FeedTopTab.Navigator
+        screenOptions={{
+          tabBarGap: 20,
+          tabBarIndicatorStyle: {
+            backgroundColor: "black",
+            marginHorizontal: 13, // Needs to match the paddingHorizontal of tabBarStyle.
+          },
+          tabBarPressColor: "transparent",
+          tabBarItemStyle: {
+            width: "auto",
+            paddingHorizontal: 0,
+          },
+          tabBarLabelStyle: {
+            textTransform: "capitalize",
+            fontFamily: "Satoshi Bold",
+            marginHorizontal: 0,
+            fontSize: 16,
+          },
+          tabBarStyle: {
+            elevation: 0,
+            paddingHorizontal: 13,
+          },
+        }}
+      >
+        <FeedTopTab.Screen component={DiscoverScreen} name="Discover" />
+        <FeedTopTab.Screen component={FollowingScreen} name="Following" />
+      </FeedTopTab.Navigator>
+    </SafeAreaView>
   );
 }
 
@@ -373,61 +376,63 @@ const SearchStack = createStackNavigator<SearchStackParamList>();
 
 export function SearchStackNavigator() {
   return (
-    <SearchStack.Navigator
-      screenOptions={{ headerTitleStyle: { fontFamily: "Satoshi Bold" } }}
-    >
-      <SearchStack.Screen
-        name="Explore"
-        component={ExploreScreen}
-        options={{ headerShown: false }}
-      />
-      <SearchStack.Screen
-        name="Query"
-        component={QueryScreen}
-        options={{ headerShown: false, animationEnabled: false }}
-      />
-      <SearchStack.Screen name="Profile" component={ProfileScreen} />
-      <SearchStack.Screen
-        name="Details"
-        component={PostScreen}
-        options={{ headerShown: false }}
-      />
-      <SearchStack.Screen
-        name="Brand"
-        component={BrandScreen}
-        options={({ route }) => ({ headerTitle: route.params.brandName })}
-      />
-      <SearchStack.Screen
-        name="Results"
-        component={ResultsTopTabNavigator}
-        options={({ route, navigation }) => ({
-          header: () => (
-            <YStack space padding="$3" backgroundColor={"white"}>
-              <XStack space="$2" alignItems="center">
-                <Ionicons
-                  name="chevron-back"
-                  color={"black"}
-                  size={20}
-                  onPress={() => navigation.goBack()}
-                />
-                <Button
-                  flex={1}
-                  paddingHorizontal={"$3"}
-                  onPress={() => navigation.goBack()}
-                  backgroundColor={"$gray3Light"}
-                  pressStyle={{ backgroundColor: "$gray3Light" }}
-                  justifyContent="flex-start"
-                  icon={<Ionicons name="search" color={"black"} size={20} />}
-                  color={"black"}
-                >
-                  {route.params?.params?.query}
-                </Button>
-              </XStack>
-            </YStack>
-          ),
-        })}
-      />
-    </SearchStack.Navigator>
+    <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
+      <SearchStack.Navigator
+        screenOptions={{ headerTitleStyle: { fontFamily: "Satoshi Bold" } }}
+      >
+        <SearchStack.Screen
+          name="Explore"
+          component={ExploreScreen}
+          options={{ headerShown: false }}
+        />
+        <SearchStack.Screen
+          name="Query"
+          component={QueryScreen}
+          options={{ headerShown: false, animationEnabled: false }}
+        />
+        <SearchStack.Screen name="Profile" component={ProfileScreen} />
+        <SearchStack.Screen
+          name="Details"
+          component={PostScreen}
+          options={{ headerShown: false }}
+        />
+        <SearchStack.Screen
+          name="Brand"
+          component={BrandScreen}
+          options={({ route }) => ({ headerTitle: route.params.brandName })}
+        />
+        <SearchStack.Screen
+          name="Results"
+          component={ResultsTopTabNavigator}
+          options={({ route, navigation }) => ({
+            header: () => (
+              <YStack space padding="$3" backgroundColor={"white"}>
+                <XStack space="$2" alignItems="center">
+                  <Ionicons
+                    name="chevron-back"
+                    color={"black"}
+                    size={20}
+                    onPress={() => navigation.goBack()}
+                  />
+                  <Button
+                    flex={1}
+                    paddingHorizontal={"$3"}
+                    onPress={() => navigation.goBack()}
+                    backgroundColor={"$gray3Light"}
+                    pressStyle={{ backgroundColor: "$gray3Light" }}
+                    justifyContent="flex-start"
+                    icon={<Ionicons name="search" color={"black"} size={20} />}
+                    color={"black"}
+                  >
+                    {route.params?.params?.query}
+                  </Button>
+                </XStack>
+              </YStack>
+            ),
+          })}
+        />
+      </SearchStack.Navigator>
+    </SafeAreaView>
   );
 }
 
