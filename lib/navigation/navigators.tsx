@@ -17,12 +17,12 @@ import {
   ResultsTopTabParamList,
   SearchStackScreenProps,
   ResultsTopTabScreenProps,
+  RegisterStackParamList,
 } from "./types";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import LoginScreen from "../../screens/intro/LoginScreen";
 import FrontScreen from "../../screens/intro/FrontScreen";
-import RegisterScreen from "../../screens/intro/RegisterScreen";
 import FollowingScreen from "../../screens/feed/FollowingScreen";
 import CameraScreen from "../../screens/media/CameraScreen";
 import PreviewScreen from "../../screens/media/PreviewScreen";
@@ -49,7 +49,12 @@ import PostResultsScreen from "../../screens/search/PostResultsScreen";
 import BrandScreen from "../../screens/search/BrandScreen";
 import VerificationScreen from "../../screens/settings/VerificationScreen";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { RegisterProvider } from "../context";
 import BackButton from "../../components/BackButton";
+import PasswordScreen from "../../screens/register/PasswordScreen";
+import EmailScreen from "../../screens/register/EmailScreen";
+import BirthdayScreen from "../../screens/register/BirthdayScreen";
+import NameScreen from "../../screens/register/NameScreen";
 
 const BottomTab = createBottomTabNavigator<RootTabParamList>();
 
@@ -179,9 +184,52 @@ export function IntroStackNavigator() {
         component={FrontScreen}
         options={{ headerShown: false }}
       />
-      <IntroStack.Screen name="Login" component={LoginScreen} />
-      <IntroStack.Screen name="Register" component={RegisterScreen} />
+      <IntroStack.Screen
+        name="Login"
+        component={LoginScreen}
+        options={({ navigation }) => ({
+          headerTitleAlign: "center",
+          headerShadowVisible: false,
+          headerLeft: () => (
+            <BackButton color={"black"} navigation={navigation} />
+          ),
+        })}
+      />
+      <IntroStack.Screen
+        name="Register"
+        component={RegisterStackNavigator}
+        options={{ headerShown: false }}
+      />
     </IntroStack.Navigator>
+  );
+}
+
+const RegisterStack = createStackNavigator<RegisterStackParamList>();
+
+export function RegisterStackNavigator() {
+  return (
+    <RegisterProvider>
+      <SafeAreaView
+        style={{ flex: 1, backgroundColor: "white" }}
+        edges={["bottom"]}
+      >
+        <RegisterStack.Navigator
+          initialRouteName="Birthday"
+          screenOptions={({ navigation }) => ({
+            headerTitle: "",
+            headerShadowVisible: false,
+            headerLeft: () => (
+              <BackButton color={"black"} navigation={navigation} />
+            ),
+          })}
+        >
+          <RegisterStack.Screen name="Email" component={EmailScreen} />
+          <RegisterStack.Screen name="Name" component={NameScreen} />
+          <RegisterStack.Screen name="Password" component={PasswordScreen} />
+          <RegisterStack.Screen name="Birthday" component={BirthdayScreen} />
+        </RegisterStack.Navigator>
+      </SafeAreaView>
+    </RegisterProvider>
   );
 }
 

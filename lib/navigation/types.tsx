@@ -29,6 +29,13 @@ export type IntroStackParamList = {
   Register: undefined;
 };
 
+export type RegisterStackParamList = {
+  Email: undefined;
+  Name: undefined;
+  Password: undefined;
+  Birthday: undefined;
+};
+
 export type CameraStackParamList = {
   Camera: undefined;
   Labeling: { photos: Array<{ uri: string; height: number; width: number }> };
@@ -103,9 +110,18 @@ export type IntroStackScreenProps<T extends keyof IntroStackParamList> =
     RootStackScreenProps<keyof RootStackParamList>
   >;
 
+export type RegisterStackScreenProps<T extends keyof RegisterStackParamList> =
+  CompositeScreenProps<
+    StackScreenProps<RegisterStackParamList, T>,
+    RootStackScreenProps<keyof RootStackParamList>
+  >;
+
 export type CameraStackScreenProps<T extends keyof CameraStackParamList> =
   CompositeScreenProps<
-    StackScreenProps<CameraStackParamList, T>,
+    CompositeScreenProps<
+      StackScreenProps<CameraStackParamList, T>,
+      IntroStackScreenProps<"Register">
+    >,
     RootStackScreenProps<keyof RootStackParamList>
   >;
 
