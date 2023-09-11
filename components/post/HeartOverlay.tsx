@@ -1,5 +1,5 @@
 import { Ionicons } from "@expo/vector-icons";
-import { Ref } from "react";
+import { ReactNode, Ref } from "react";
 import { StyleSheet } from "react-native";
 import Animated, {
   SharedValue,
@@ -21,11 +21,11 @@ export default function HeartOverlay({ scale }: HeartOverlayProps) {
 
   return (
     <Animated.View
+      pointerEvents={"none"}
       style={{
         ...StyleSheet.absoluteFillObject,
         justifyContent: "center",
         alignItems: "center",
-        zIndex: 100,
       }}
     >
       <AnimatedIcon name="heart" color={"#ef4444"} style={style} size={100} />
