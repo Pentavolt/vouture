@@ -63,7 +63,7 @@ export default function BrandScreen({
         ListHeaderComponent={
           <YStack
             height={100}
-            backgroundColor={"#FE9F10"}
+            backgroundColor={"#BBDB8D"}
             padding="$3"
             margin={8}
             borderRadius={5}
