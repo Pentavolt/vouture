@@ -76,7 +76,11 @@ export default function ProfileScreen({
       />
       <Tabs.Container
         renderHeader={renderHeader}
-        headerContainerStyle={{ elevation: 0, shadowRadius: 0 }}
+        headerContainerStyle={{
+          elevation: 0,
+          shadowRadius: 0,
+          shadowOpacity: 0,
+        }}
         renderTabBar={(props) => (
           <MaterialTabBar
             {...props}
