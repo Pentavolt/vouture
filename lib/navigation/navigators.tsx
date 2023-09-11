@@ -469,16 +469,35 @@ export function SearchStackNavigator() {
         component={QueryScreen}
         options={{ headerShown: false, animationEnabled: false }}
       />
-      <SearchStack.Screen name="Profile" component={ProfileScreen} />
+      <SearchStack.Screen
+        name="Profile"
+        component={ProfileScreen}
+        options={({ navigation }) => ({
+          headerLeft: () => (
+            <BackButton color={"black"} navigation={navigation} />
+          ),
+        })}
+      />
       <SearchStack.Screen
         name="Details"
         component={PostScreen}
-        options={{ headerShown: false }}
+        options={({ navigation }) => ({
+          headerShown: true,
+          headerTransparent: true,
+          headerTintColor: "white",
+          headerTitleAlign: "left",
+          headerLeft: () => <BackButton navigation={navigation} />,
+        })}
       />
       <SearchStack.Screen
         name="Brand"
         component={BrandScreen}
-        options={({ route }) => ({ headerTitle: route.params.brandName })}
+        options={({ route, navigation }) => ({
+          headerTitle: route.params.brandName,
+          headerLeft: () => (
+            <BackButton color={"black"} navigation={navigation} />
+          ),
+        })}
       />
 
       <SearchStack.Screen
