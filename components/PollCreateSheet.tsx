@@ -1,16 +1,8 @@
-import { Keyboard, KeyboardAvoidingView, Platform } from "react-native";
-import {
-  Button,
-  Heading,
-  Input,
-  Paragraph,
-  Sheet,
-  View,
-  YStack,
-} from "tamagui";
+import { Keyboard, Platform } from "react-native";
+import { Button, Heading, Input, Paragraph, Sheet, YStack } from "tamagui";
 import { useEffect, useState } from "react";
 import { useBottomSheetBack } from "../lib/hooks";
-import { onChange } from "react-native-reanimated";
+import { useHeaderHeight } from "@react-navigation/elements";
 
 interface PollCreateSheetProps {
   open: boolean;
@@ -23,12 +15,21 @@ export default function PollCreateSheet({
 }: PollCreateSheetProps) {
   const [title, setTitle] = useState<string>("");
   const [snapIndex, setSnapIndex] = useState<number>(0);
+  const headerHeight = useHeaderHeight();
 
   useBottomSheetBack(open, () => onClose(title));
   useEffect(() => {
-    Keyboard.addListener("keyboardDidShow", () => setSnapIndex(1));
-    Keyboard.addListener("keyboardDidHide", () => setSnapIndex(0));
+    if (Platform.OS === "ios") {
+      Keyboard.addListener("keyboardWillShow", () => setSnapIndex(1));
+      Keyboard.addListener("keyboardWillHide", () => setSnapIndex(0));
+    } else {
+      Keyboard.addListener("keyboardDidShow", () => setSnapIndex(1));
+      Keyboard.addListener("keyboardDidHide", () => setSnapIndex(0));
+    }
+
     return () => {
+      Keyboard.removeAllListeners("keyboardWillShow");
+      Keyboard.removeAllListeners("keyboardWillHide");
       Keyboard.removeAllListeners("keyboardDidShow");
       Keyboard.removeAllListeners("keyboardDidHide");
     };
@@ -36,11 +37,11 @@ export default function PollCreateSheet({
 
   return (
     <Sheet
-      modal={false}
+      modal
       open={open}
       dismissOnSnapToBottom
       dismissOnOverlayPress
-      snapPoints={[35, 80]}
+      snapPoints={[35, 75]}
       position={snapIndex}
       onOpenChange={() => {
         Keyboard.dismiss();
@@ -49,7 +50,7 @@ export default function PollCreateSheet({
     >
       <Sheet.Overlay />
       <Sheet.Handle backgroundColor={"white"} />
-      <Sheet.Frame backgroundColor={"white"}>
+      <Sheet.Frame backgroundColor={"white"} zIndex={999}>
         <YStack space height={"100%"} padding="$3" flexGrow={1}>
           <Heading color={"black"}>Create Poll</Heading>
           <Paragraph color={"black"}>
@@ -57,28 +58,24 @@ export default function PollCreateSheet({
             shirt to wear. Write a poll question and users will be able to vote
             on the photos that you have posted.
           </Paragraph>
-          <KeyboardAvoidingView
-            behavior={Platform.OS === "ios" ? "padding" : undefined}
-          >
-            <YStack space>
-              <Input
-                placeholder="Add a poll question..."
-                onChangeText={setTitle}
-                backgroundColor={"$gray3Light"}
-                borderColor={"$gray3Light"}
-                focusStyle={{ borderColor: "$gray3Light" }}
-                color={"black"}
-              />
-              <Button
-                onPress={() => {
-                  Keyboard.dismiss();
-                  setTimeout(() => onClose(title), 500);
-                }}
-              >
-                Create Poll
-              </Button>
-            </YStack>
-          </KeyboardAvoidingView>
+          <YStack space flexGrow={1}>
+            <Input
+              placeholder="Add a poll question..."
+              onChangeText={setTitle}
+              backgroundColor={"$gray3Light"}
+              borderColor={"$gray3Light"}
+              focusStyle={{ borderColor: "$gray3Light" }}
+              color={"black"}
+            />
+            <Button
+              onPress={() => {
+                Keyboard.dismiss();
+                setTimeout(() => onClose(title), 500);
+              }}
+            >
+              Create Poll
+            </Button>
+          </YStack>
         </YStack>
       </Sheet.Frame>
     </Sheet>
