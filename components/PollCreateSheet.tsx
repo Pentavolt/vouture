@@ -2,7 +2,6 @@ import { Keyboard, Platform } from "react-native";
 import { Button, Heading, Input, Paragraph, Sheet, YStack } from "tamagui";
 import { useEffect, useState } from "react";
 import { useBottomSheetBack } from "../lib/hooks";
-import { useHeaderHeight } from "@react-navigation/elements";
 
 interface PollCreateSheetProps {
   open: boolean;
@@ -15,7 +14,6 @@ export default function PollCreateSheet({
 }: PollCreateSheetProps) {
   const [title, setTitle] = useState<string>("");
   const [snapIndex, setSnapIndex] = useState<number>(0);
-  const headerHeight = useHeaderHeight();
 
   useBottomSheetBack(open, () => onClose(title));
   useEffect(() => {
