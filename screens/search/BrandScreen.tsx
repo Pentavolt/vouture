@@ -24,13 +24,17 @@ export default function BrandScreen({
       take: 20,
       orderBy: { likes: { _count: SortOrder["Desc"] } },
       where: {
-        tags: {
-          some: {
-            brand: {
-              is: {
-                name: {
-                  equals: route.params.brandName,
-                  mode: QueryMode["Insensitive"],
+        attachments: {
+          every: {
+            tags: {
+              some: {
+                brand: {
+                  is: {
+                    name: {
+                      equals: route.params.brandName,
+                      mode: QueryMode["Insensitive"],
+                    },
+                  },
                 },
               },
             },
