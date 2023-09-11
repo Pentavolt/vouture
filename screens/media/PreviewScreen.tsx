@@ -193,10 +193,10 @@ export default function PreviewScreen({
                   <Switch
                     size={"$3"}
                     checked={checked}
-                    backgroundColor={checked ? "#FE9F10" : "$gray6Dark"}
+                    backgroundColor={checked ? "#BBDB8D" : "$gray6Dark"}
                     onCheckedChange={() => setChecked((curr) => !curr)}
                   >
-                    <Switch.Thumb animation="bouncy" />
+                    <Switch.Thumb backgroundColor={"white"} animation="quick" />
                   </Switch>
                 }
               />
@@ -205,9 +205,14 @@ export default function PreviewScreen({
         </YStack>
         <Button
           disabled={uploading}
-          backgroundColor={"#FE9F10"}
-          icon={uploading ? <Spinner /> : <Ionicons name="send" />}
+          backgroundColor={"#BBDB8D"}
+          color={"#15191E"}
+          icon={uploading ? <Spinner /> : null}
           onPress={onPress}
+          pressStyle={{
+            backgroundColor: "#CFEBA5",
+            borderColor: "#CFEBA5",
+          }}
         >
           Post
         </Button>

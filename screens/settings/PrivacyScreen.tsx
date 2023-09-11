@@ -50,15 +50,15 @@ export default function PrivacyScreen({
             <ListItem
               themeInverse
               fontSize={16}
-              fontWeight={"$span"}
+              fontFamily={"$span"}
               iconAfter={
                 <Switch
                   size={"$3"}
                   checked={checked}
-                  backgroundColor={checked ? "#FE9F10" : "$gray6Dark"}
+                  backgroundColor={checked ? "#BBDB8D" : "$gray6Dark"}
                   onCheckedChange={onCheck}
                 >
-                  <Switch.Thumb animation="bouncy" />
+                  <Switch.Thumb backgroundColor={"white"} animation="quick" />
                 </Switch>
               }
             >
@@ -143,7 +143,7 @@ export default function PrivacyScreen({
                     </AlertDialog.Description>
                     <XStack space="$3">
                       <AlertDialog.Cancel asChild>
-                        <Button backgroundColor={"#FE9F10"}>Cancel</Button>
+                        <Button backgroundColor={"#BBDB8D"}>Cancel</Button>
                       </AlertDialog.Cancel>
                       <AlertDialog.Action asChild onPress={handleDelete}>
                         <Button>Proceed</Button>

@@ -90,7 +90,9 @@ export default function ActionPanel({
         <Button
           backgroundColor={"$backgroundTransparent"}
           onPress={onPollPress}
-          icon={<Ionicons size={25} color={"red"} name={"compass-outline"} />}
+          icon={
+            <Ionicons size={25} color={"#BBDB8D"} name={"compass-outline"} />
+          }
         />
       )}
       <Button

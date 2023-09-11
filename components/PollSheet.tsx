@@ -114,7 +114,7 @@ export default function PollSheet({ onClose, open, post }: PollSheetProps) {
           alignItems="center"
           backgroundColor={
             index === activeIndex
-              ? "rgba(254, 159, 16, 0.4)"
+              ? "rgba(187, 219, 141, 0.4)"
               : "rgba(0, 0, 0, 0.4)"
           }
         >

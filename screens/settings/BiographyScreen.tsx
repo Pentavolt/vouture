@@ -77,6 +77,12 @@ export default function BiographyScreen() {
                 disabled={isSubmitting}
                 marginTop="$3"
                 onPress={submitForm}
+                backgroundColor={"#BBDB8D"}
+                color={"#15191E"}
+                pressStyle={{
+                  backgroundColor: "#CFEBA5",
+                  borderColor: "#CFEBA5",
+                }}
               >
                 Save
               </Button>

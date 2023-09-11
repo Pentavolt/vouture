@@ -79,7 +79,7 @@ export default function ReportScreen({
             <YGroup.Item key={idx}>
               <ListItem
                 backgroundColor={
-                  selectedIdx === idx ? "#E2676F" : "$backgroundTransparent"
+                  selectedIdx === idx ? "#BBDB8D" : "$backgroundTransparent"
                 }
                 fontSize={16}
                 themeInverse
@@ -104,10 +104,15 @@ export default function ReportScreen({
           backgroundColor={
             selectedIdx === undefined || selectedIdx === null
               ? "$gray8Light"
-              : "#E2676F"
+              : "#BBDB8D"
           }
+          color={"#15191E"}
           marginBottom="$3"
           onPress={handleSubmit}
+          pressStyle={{
+            backgroundColor: "#CFEBA5",
+            borderColor: "#CFEBA5",
+          }}
         >
           Submit
         </Button>
