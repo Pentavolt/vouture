@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import { useAuth, useBottomSheetBack } from "../../lib/hooks";
 import { useSharedValue, withDelay, withSpring } from "react-native-reanimated";
-import { View } from "tamagui";
+import { View, YStack } from "tamagui";
 import { useMutation } from "@apollo/client";
 import {
   CreateCommentDocument,
@@ -21,6 +21,8 @@ import ImageCarousel from "../ImageCarousel";
 import HeartOverlay from "./HeartOverlay";
 import { TapGestureHandler } from "react-native-gesture-handler";
 import PollSheet from "../PollSheet";
+import { useWindowDimensions } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 interface PostItemProps {
   post: Post;
@@ -45,6 +47,8 @@ export default function PostItem({ post, onNavigate }: PostItemProps) {
   const scale = useSharedValue(0);
   const start = useRef(Date.now());
   const { user } = useAuth();
+  const { height } = useWindowDimensions();
+  const { top, bottom } = useSafeAreaInsets();
   const [like] = useMutation(CreateOneLikeDocument);
   const [unlike] = useMutation(DeleteOneLikeDocument);
   const [comment] = useMutation(CreateCommentDocument);
@@ -232,7 +236,7 @@ export default function PostItem({ post, onNavigate }: PostItemProps) {
   // Height doesn't include status bar height on some Android phones.)
   // TODO: The full screen posts doesn't work on Android for some reason.
   return (
-    <View flex={1} backgroundColor={"black"}>
+    <YStack height={height - top - bottom} backgroundColor={"black"}>
       <TapGestureHandler ref={ref} onActivated={onDoubleTap} numberOfTaps={2}>
         <View flex={1}>
           <ImageCarousel innerRef={ref} attachments={post.attachments} />
@@ -243,16 +247,17 @@ export default function PostItem({ post, onNavigate }: PostItemProps) {
           />
         </View>
       </TapGestureHandler>
-
-      <PostContent post={post} onNavigate={onNavigate} />
-      <ActionPanel
-        post={post}
-        onCommentPress={() => setCommentsOpen(true)}
-        onSavePress={handleCollect}
-        onLikePress={() => (isLiked ? handleUnlike() : onDoubleTap())}
-        onSharePress={() => setShareOpen(true)}
-        onPollPress={() => setPollOpen(true)}
-      />
+      <YStack>
+        <PostContent post={post} onNavigate={onNavigate} />
+        <ActionPanel
+          post={post}
+          onCommentPress={() => setCommentsOpen(true)}
+          onSavePress={handleCollect}
+          onLikePress={() => (isLiked ? handleUnlike() : onDoubleTap())}
+          onSharePress={() => setShareOpen(true)}
+          onPollPress={() => setPollOpen(true)}
+        />
+      </YStack>
       <CommentSheet
         post={post}
         open={commentsOpen}
@@ -271,6 +276,6 @@ export default function PostItem({ post, onNavigate }: PostItemProps) {
           onClose={() => setPollOpen(false)}
         />
       )}
-    </View>
+    </YStack>
   );
 }
