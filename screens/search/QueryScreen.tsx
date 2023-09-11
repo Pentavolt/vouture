@@ -12,6 +12,7 @@ import {
   UsersDocument,
 } from "../../generated/gql/graphql";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function QueryScreen({
   navigation,
@@ -71,36 +72,40 @@ export default function QueryScreen({
   );
 
   return (
-    <YStack flex={1} padding="$3" backgroundColor={"white"} width={"100%"}>
-      <XStack space="$2" alignItems="center" marginBottom="$4">
-        <Ionicons
-          name="chevron-back"
-          color={"black"}
-          size={20}
-          onPress={() => navigation.goBack()}
+    <SafeAreaView style={{ flex: 1, backgroundColor: "white" }} edges={["top"]}>
+      <YStack flex={1} padding="$3" backgroundColor={"white"} width={"100%"}>
+        <XStack space="$2" alignItems="center" marginBottom="$4">
+          <Ionicons
+            name="chevron-back"
+            color={"black"}
+            size={20}
+            onPress={() => navigation.goBack()}
+          />
+          <SearchBar
+            ref={ref}
+            text={text}
+            autoFocus={true}
+            onFocus={() => null}
+            onChangeText={setText}
+            onSubmit={() =>
+              navigation.navigate("Results", {
+                params: { query: text },
+                screen: "Users",
+              })
+            }
+          />
+        </XStack>
+        <FlashList
+          data={data?.users as User[]}
+          keyExtractor={(_, idx) => idx.toString()}
+          renderItem={renderItem}
+          estimatedItemSize={100}
+          keyboardShouldPersistTaps={"handled"}
+          ItemSeparatorComponent={() => (
+            <Separator borderColor={"$gray3Light"} />
+          )}
         />
-        <SearchBar
-          ref={ref}
-          text={text}
-          autoFocus={true}
-          onFocus={() => null}
-          onChangeText={setText}
-          onSubmit={() =>
-            navigation.navigate("Results", {
-              params: { query: text },
-              screen: "Users",
-            })
-          }
-        />
-      </XStack>
-      <FlashList
-        data={data?.users as User[]}
-        keyExtractor={(_, idx) => idx.toString()}
-        renderItem={renderItem}
-        estimatedItemSize={100}
-        keyboardShouldPersistTaps={"handled"}
-        ItemSeparatorComponent={() => <Separator borderColor={"$gray3Light"} />}
-      />
-    </YStack>
+      </YStack>
+    </SafeAreaView>
   );
 }

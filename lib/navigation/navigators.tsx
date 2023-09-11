@@ -456,37 +456,38 @@ const SearchStack = createStackNavigator<SearchStackParamList>();
 
 export function SearchStackNavigator() {
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
-      <SearchStack.Navigator
-        screenOptions={{ headerTitleStyle: { fontFamily: "Satoshi Bold" } }}
-      >
-        <SearchStack.Screen
-          name="Explore"
-          component={ExploreScreen}
-          options={{ headerShown: false }}
-        />
-        <SearchStack.Screen
-          name="Query"
-          component={QueryScreen}
-          options={{ headerShown: false, animationEnabled: false }}
-        />
-        <SearchStack.Screen name="Profile" component={ProfileScreen} />
-        <SearchStack.Screen
-          name="Details"
-          component={PostScreen}
-          options={{ headerShown: false }}
-        />
-        <SearchStack.Screen
-          name="Brand"
-          component={BrandScreen}
-          options={({ route }) => ({ headerTitle: route.params.brandName })}
-        />
-        <SearchStack.Screen
-          name="Results"
-          component={ResultsTopTabNavigator}
-          options={({ route, navigation }) => ({
-            header: () => (
-              <YStack space padding="$3" backgroundColor={"white"}>
+    <SearchStack.Navigator
+      screenOptions={{ headerTitleStyle: { fontFamily: "Satoshi Bold" } }}
+    >
+      <SearchStack.Screen
+        name="Explore"
+        component={ExploreScreen}
+        options={{ headerShown: false }}
+      />
+      <SearchStack.Screen
+        name="Query"
+        component={QueryScreen}
+        options={{ headerShown: false, animationEnabled: false }}
+      />
+      <SearchStack.Screen name="Profile" component={ProfileScreen} />
+      <SearchStack.Screen
+        name="Details"
+        component={PostScreen}
+        options={{ headerShown: false }}
+      />
+      <SearchStack.Screen
+        name="Brand"
+        component={BrandScreen}
+        options={({ route }) => ({ headerTitle: route.params.brandName })}
+      />
+
+      <SearchStack.Screen
+        name="Results"
+        component={ResultsTopTabNavigator}
+        options={({ route, navigation }) => ({
+          header: () => (
+            <SafeAreaView style={{ backgroundColor: "white" }} edges={["top"]}>
+              <YStack space padding="$3">
                 <XStack space="$2" alignItems="center">
                   <Ionicons
                     name="chevron-back"
@@ -499,7 +500,10 @@ export function SearchStackNavigator() {
                     paddingHorizontal={"$3"}
                     onPress={() => navigation.goBack()}
                     backgroundColor={"$gray3Light"}
-                    pressStyle={{ backgroundColor: "$gray3Light" }}
+                    pressStyle={{
+                      backgroundColor: "$gray3Light",
+                      borderColor: "$gray3Light",
+                    }}
                     justifyContent="flex-start"
                     icon={<Ionicons name="search" color={"black"} size={20} />}
                     color={"black"}
@@ -508,11 +512,11 @@ export function SearchStackNavigator() {
                   </Button>
                 </XStack>
               </YStack>
-            ),
-          })}
-        />
-      </SearchStack.Navigator>
-    </SafeAreaView>
+            </SafeAreaView>
+          ),
+        })}
+      />
+    </SearchStack.Navigator>
   );
 }
 
