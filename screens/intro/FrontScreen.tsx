@@ -32,16 +32,17 @@ export default function FrontScreen() {
             </YStack>
             <Button
               onPress={() => navigate("Intro", { screen: "Register" })}
-              backgroundColor={"#FE9F10"}
+              backgroundColor={"#BBDB8D"}
               borderRadius={100}
+              color={"#15191E"}
             >
               Get Started
             </Button>
             <TouchableOpacity
               onPress={() => navigate("Intro", { screen: "Login" })}
             >
-              <Text textAlign="center">
-                Already have an account? <Text color={"#FE9F10"}>Sign in</Text>
+              <Text textAlign="center" fontFamily={"$body"}>
+                Already have an account? <Text color={"#BBDB8D"}>Sign in</Text>
               </Text>
             </TouchableOpacity>
           </YStack>
