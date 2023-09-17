@@ -118,7 +118,10 @@ export default function LabelScreen({
   };
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: "black" }}>
+    <SafeAreaView
+      style={{ flex: 1, backgroundColor: "black" }}
+      edges={["top", "bottom"]}
+    >
       <View flex={1} backgroundColor={"black"}>
         <Toaster backgroundColor={"$green4Light"} iconName="download-outline" />
         <FlatList
@@ -141,7 +144,9 @@ export default function LabelScreen({
               (position) => position.id == tag.id
             );
 
-            const aspectRatio = photos[idx].height / photos[idx].width;
+            const aspectRatio =
+              photos[activeIndex.current].height /
+              photos[activeIndex.current].width;
             const actualHeight = aspectRatio * width;
             return (
               <ClothingLabel
