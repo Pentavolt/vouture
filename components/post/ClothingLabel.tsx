@@ -2,7 +2,6 @@ import { Ionicons } from "@expo/vector-icons";
 import { Animated, PanResponder, useWindowDimensions } from "react-native";
 import { Component, useEffect, useMemo, useRef, useState } from "react";
 import { Button, Circle, View, XStack } from "tamagui";
-import { TouchableOpacity } from "react-native-gesture-handler";
 import { Tag } from "../../generated/gql/graphql";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
@@ -57,17 +56,13 @@ export default function ClothingLabel({
           ) {
             if (gestureState.moveX < 0) pan.current.x.setValue(0);
             if (gestureState.moveX > width) {
-              pan.current.x.setValue(width);
+              pan.current.x.setOffset(width);
             }
 
             if (gestureState.moveY > maxY) pan.current.y.setValue(maxY);
             if (gestureState.moveY < minY) pan.current.y.setValue(minY);
             if (gestureState.moveX < 0 || gestureState.moveX > width) {
               pan.current.x.setOffset(0);
-            }
-
-            if (gestureState.moveY < minY || gestureState.moveY > maxY) {
-              pan.current.y.setOffset(0);
             }
           } else {
             return Animated.event(
@@ -83,7 +78,7 @@ export default function ClothingLabel({
   useEffect(() => {
     if (onMove) {
       pan.current.addListener(({ x, y }) => {
-        if (x > width || x < 0 || y > maxY! || y < minY!) return;
+        if (x > width || x < 0 || y > maxY || y < minY) return;
         onMove({ relX: x / width, relY: (y - minY) / (maxY - minY) });
       });
     }
@@ -120,6 +115,8 @@ export default function ClothingLabel({
       }}
     >
       <XStack
+        alignItems="center"
+        onPress={onClose}
         onLayout={(e) => {
           setDimension({
             height: e.nativeEvent.layout.height,
@@ -127,24 +124,19 @@ export default function ClothingLabel({
           });
         }}
       >
-        <TouchableOpacity
-          onPress={onClose}
-          style={{ flexDirection: "row", alignItems: "center" }}
+        <Circle size={"$0.75"} backgroundColor={"$gray4Dark"} />
+        <View height={2} width={20} backgroundColor={"$gray4Dark"} />
+        <Button
+          size={"$2"}
+          backgroundColor={"$gray4Dark"}
+          iconAfter={onClose ? <Ionicons name="close" /> : null}
+          textProps={{
+            numberOfLines: 2,
+            ellipsizeMode: "tail",
+          }}
         >
-          <Circle size={"$0.75"} backgroundColor={"$gray4Dark"} />
-          <View height={2} width={20} backgroundColor={"$gray4Dark"} />
-          <Button
-            size={"$2"}
-            backgroundColor={"$gray4Dark"}
-            iconAfter={onClose ? <Ionicons name="close" /> : null}
-            textProps={{
-              numberOfLines: 2,
-              ellipsizeMode: "tail",
-            }}
-          >
-            {tag.brand.name}
-          </Button>
-        </TouchableOpacity>
+          {tag.brand.name}
+        </Button>
       </XStack>
     </Animated.View>
   );
