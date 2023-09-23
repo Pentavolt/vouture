@@ -92,12 +92,20 @@ export default function LabelScreen({
     ];
   };
 
-  const renderItem = ({ item }: ListRenderItemInfo<string>) => (
-    <FastImage
-      source={{ uri: item }}
-      style={{ height, width }}
-      resizeMode="contain"
-    />
+  const renderItem = ({
+    item,
+  }: ListRenderItemInfo<(typeof route.params.photos)[0]>) => (
+    <View width={width} backgroundColor={"black"} alignItems="center">
+      <FastImage
+        source={{ uri: item.uri }}
+        style={{
+          aspectRatio: item.height / item.width,
+          height: 600,
+          maxWidth: "100%",
+        }}
+        resizeMode="contain"
+      />
+    </View>
   );
 
   const saveMedia = async () => {
@@ -120,23 +128,26 @@ export default function LabelScreen({
   return (
     <SafeAreaView
       style={{ flex: 1, backgroundColor: "black" }}
-      edges={["top", "bottom"]}
+      onLayout={(e) => console.log(e.nativeEvent.layout)}
     >
       <View flex={1} backgroundColor={"black"}>
         <Toaster backgroundColor={"$green4Light"} iconName="download-outline" />
         <FlatList
-          data={photos.map((photo) => photo.uri)}
+          data={photos}
           renderItem={renderItem}
+          contentContainerStyle={{ alignItems: "center" }}
           keyExtractor={(_, idx) => idx.toString()}
           onMomentumScrollBegin={() => setIsLoading(true)}
           onMomentumScrollEnd={() => setIsLoading(false)}
           horizontal={true}
+          bounces={false}
           decelerationRate={0.99}
           snapToAlignment="start"
           snapToInterval={width}
           pagingEnabled
           onViewableItemsChanged={onViewableItemsChanged}
           viewabilityConfig={viewabilityConfig}
+          showsHorizontalScrollIndicator={false}
         />
         {!isLoading &&
           tags[activeIndex.current]?.map((tag, idx) => {
@@ -151,7 +162,7 @@ export default function LabelScreen({
             return (
               <ClothingLabel
                 key={idx}
-                photoHeight={actualHeight}
+                photoHeight={actualHeight > 600 ? 600 : actualHeight}
                 photoWidth={width}
                 windowHeight={height}
                 tag={{

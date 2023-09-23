@@ -4,6 +4,7 @@ import { Component, useEffect, useMemo, useRef, useState } from "react";
 import { Button, Circle, View, XStack } from "tamagui";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { Tag } from "../../generated/gql/graphql";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 interface ClothingLabelProps {
   tag: Omit<Tag, "id" | "attachment" | "attachmentId" | "createdAt">;
@@ -29,8 +30,10 @@ export default function ClothingLabel({
   }>();
 
   const { width } = useWindowDimensions();
-  const minY = (windowHeight - photoHeight) / 2;
-  const maxY = photoHeight + (windowHeight - photoHeight) / 2;
+  const { top, bottom } = useSafeAreaInsets();
+  const space = windowHeight - top - bottom - photoHeight;
+  const minY = space / 2;
+  const maxY = minY + photoHeight - (dimension?.height ?? 0);
   const pan = useRef(
     new Animated.ValueXY({
       x: tag.x * photoWidth,
@@ -57,7 +60,6 @@ export default function ClothingLabel({
               pan.current.x.setValue(width);
             }
 
-            console.log(gestureState.moveY < minY);
             if (gestureState.moveY > maxY) pan.current.y.setValue(maxY);
             if (gestureState.moveY < minY) pan.current.y.setValue(minY);
             if (gestureState.moveX < 0 || gestureState.moveX > width) {
@@ -108,8 +110,8 @@ export default function ClothingLabel({
                 },
                 {
                   translateY: pan.current.y.interpolate({
-                    inputRange: [minY, maxY - (dimension?.height ?? 0)],
-                    outputRange: [minY, maxY - (dimension?.height ?? 0)],
+                    inputRange: [minY, maxY],
+                    outputRange: [minY, maxY],
                     extrapolate: "clamp",
                   }),
                 },
