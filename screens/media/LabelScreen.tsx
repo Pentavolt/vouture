@@ -137,8 +137,12 @@ export default function LabelScreen({
           renderItem={renderItem}
           contentContainerStyle={{ alignItems: "center" }}
           keyExtractor={(_, idx) => idx.toString()}
-          onMomentumScrollBegin={() => setIsLoading(true)}
-          onMomentumScrollEnd={() => setIsLoading(false)}
+          onMomentumScrollBegin={() =>
+            photos.length > 1 ? setIsLoading(true) : null
+          }
+          onMomentumScrollEnd={() =>
+            photos.length > 1 ? setIsLoading(false) : null
+          }
           horizontal={true}
           bounces={false}
           decelerationRate={0.99}
