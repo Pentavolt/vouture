@@ -43,7 +43,12 @@ export default function ClothingLabel({
   const panResponder = useMemo(
     () =>
       PanResponder.create({
-        onMoveShouldSetPanResponder: () => !!onClose,
+        onMoveShouldSetPanResponder: (_, gestureState) => {
+          if (!onClose) return false;
+          return (
+            Math.abs(gestureState.dx) > 20 || Math.abs(gestureState.dy) > 20
+          );
+        },
         onPanResponderGrant: () => pan.current.extractOffset(),
         onPanResponderRelease: () => pan.current.flattenOffset(),
         onPanResponderMove: (event, gestureState) => {
@@ -116,7 +121,6 @@ export default function ClothingLabel({
     >
       <XStack
         alignItems="center"
-        onPress={onClose}
         onLayout={(e) => {
           setDimension({
             height: e.nativeEvent.layout.height,
@@ -127,6 +131,7 @@ export default function ClothingLabel({
         <Circle size={"$0.75"} backgroundColor={"$gray4Dark"} />
         <View height={2} width={20} backgroundColor={"$gray4Dark"} />
         <Button
+          onPress={onClose}
           size={"$2"}
           backgroundColor={"$gray4Dark"}
           iconAfter={onClose ? <Ionicons name="close" /> : null}
