@@ -4,13 +4,13 @@ import { Post, PostsDocument, SortOrder } from "../generated/gql/graphql";
 import { Paragraph, YStack } from "tamagui";
 import { useQuery } from "@apollo/client";
 import { useCallback } from "react";
-import PostPreview from "./post/PostPreview";
-import { ListRenderItemInfo } from "@shopify/flash-list";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import {
   HomeStackParamList,
   UserStackParamList,
 } from "../lib/navigation/types";
+import FeedItem from "./FeedItem";
+import { ListRenderItemInfo } from "react-native";
 
 interface PostsTabProps {
   userId: number;
@@ -37,17 +37,18 @@ export default function PostsTab({
   });
 
   const renderItem = useCallback(
-    ({ item }: ListRenderItemInfo<Post>) => (
-      <PostPreview
+    ({ item, index }: ListRenderItemInfo<Post>) => (
+      <FeedItem
         post={item}
-        onNavigate={() => navigation.navigate("Details", { postId: item.id })}
+        column={index % 2}
+        onPress={() => navigation.navigate("Details", { postId: item.id })}
       />
     ),
     []
   );
 
   return (
-    <Tabs.FlashList<Post>
+    <Tabs.FlatList<Post>
       ListEmptyComponent={
         isBlocked || isPrivate ? (
           <YStack
@@ -76,17 +77,18 @@ export default function PostsTab({
         onRefresh();
       }}
       refreshing={loading}
-      numColumns={3}
+      numColumns={2}
       keyExtractor={(_, idx) => idx.toString()}
       data={isBlocked || isPrivate ? [] : (data?.posts as Post[])}
-      estimatedItemSize={200}
       onEndReachedThreshold={0.5}
       onEndReached={async () => {
         if (isBlocked || isPrivate) return;
-        const lastItemId = data?.posts[data.posts.length - 1]?.id;
-        await fetchMore({
+        if (!data?.posts[data?.posts.length - 1]) return;
+        if (data.posts.length % 20 !== 0) return;
+        fetchMore({
           variables: {
-            ...(lastItemId ? { cursor: { id: lastItemId }, skip: 1 } : {}),
+            cursor: { id: data.posts[data.posts.length - 1].id },
+            skip: 1,
           },
           updateQuery: (previousQueryResult, { fetchMoreResult }) => {
             return {
