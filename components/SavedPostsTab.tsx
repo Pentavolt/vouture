@@ -90,13 +90,15 @@ export default function SavedPostsTab({
       refreshing={loading}
       keyExtractor={(_, idx) => idx.toString()}
       onEndReachedThreshold={0.5}
-      onEndReached={async () => {
-        const lastItemId =
-          data?.collectedPosts[data.collectedPosts.length - 1]?.id;
-
-        await fetchMore({
+      onEndReached={() => {
+        if (!data.collectedPosts[data.collectedPosts.length - 1]) return;
+        if (data.collectedPosts.length % 20 !== 0) return;
+        fetchMore({
           variables: {
-            ...(lastItemId ? { cursor: { id: lastItemId }, skip: 1 } : {}),
+            skip: 1,
+            cursor: {
+              id: data.collectedPosts[data.collectedPosts.length - 1].id,
+            },
           },
           updateQuery: (previousQueryResult, { fetchMoreResult }) => {
             return {
