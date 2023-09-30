@@ -12,7 +12,7 @@ interface FeedItemProps {
 
 export default function FeedItem({ post, column, onPress }: FeedItemProps) {
   return (
-    <Pressable onPress={onPress} style={{ flex: 1, borderRadius: 5 }}>
+    <Pressable onPress={onPress} style={{ flex: 1 / 2, borderRadius: 5 }}>
       <YStack
         flex={1}
         marginLeft={8}
