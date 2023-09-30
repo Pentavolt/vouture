@@ -18,6 +18,7 @@ import {
   User,
 } from "../generated/gql/graphql";
 import { useLazyQuery, useMutation } from "@apollo/client";
+import { client } from "./apollo";
 
 interface AuthContextType {
   user?: User;
@@ -118,6 +119,7 @@ export function AuthProvider({
     storage.delete("rwt");
     storage.delete("session");
     setUser(undefined);
+    client.resetStore();
   };
 
   // Make the provider update only when it should.
