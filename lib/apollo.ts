@@ -1,4 +1,5 @@
 import { ApolloClient, ApolloLink, InMemoryCache, from } from "@apollo/client";
+import { loadErrorMessages, loadDevMessages } from "@apollo/client/dev";
 import { setContext } from "@apollo/client/link/context";
 import { RetryLink } from "@apollo/client/link/retry";
 import { createUploadLink } from "apollo-upload-client";
@@ -122,4 +123,8 @@ export const client = new ApolloClient({
   ]),
 });
 
-if (__DEV__) apolloDevToolsInit(client);
+if (__DEV__) {
+  apolloDevToolsInit(client);
+  loadDevMessages();
+  loadErrorMessages();
+}
