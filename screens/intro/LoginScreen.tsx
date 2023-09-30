@@ -1,27 +1,18 @@
 import * as Yup from "yup";
 import { useNavigation } from "@react-navigation/native";
+import { useHeaderHeight } from "@react-navigation/elements";
 import { Formik } from "formik";
 import {
   Keyboard,
   KeyboardAvoidingView,
   Platform,
+  StatusBar,
   TouchableOpacity,
   TouchableWithoutFeedback,
 } from "react-native";
 import { useAuth } from "../../lib/hooks";
-import {
-  Button,
-  Form,
-  Heading,
-  Input,
-  View,
-  XStack,
-  YStack,
-  Text,
-  H1,
-  ScrollView,
-} from "tamagui";
-import RoundedImage from "../../components/RoundedImage";
+import { Button, Form, Heading, Input, View, YStack, Text, H1 } from "tamagui";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const IMAGES = [
   "https://ci.xiaohongshu.com/1000g0082qddt7oiju0005njngs208eqc1mikm3g?imageView2/2/w/format/png",
@@ -30,6 +21,7 @@ const IMAGES = [
 ];
 
 export default function LoginScreen() {
+  const headerHeight = useHeaderHeight();
   const { navigate } = useNavigation();
   const { login } = useAuth();
   const schema = Yup.object().shape({
@@ -38,40 +30,39 @@ export default function LoginScreen() {
   });
 
   return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <ScrollView
-        contentContainerStyle={{ flexGrow: 1, alignItems: "center" }}
-        flex={1}
-        backgroundColor={"white"}
-        px="$2"
-        pb="$4"
+    <SafeAreaView
+      style={{ flex: 1, backgroundColor: "white" }}
+      edges={["bottom"]}
+    >
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        style={{ flexGrow: 1, backgroundColor: "white" }}
+        contentContainerStyle={{ flex: 1 }}
+        keyboardVerticalOffset={
+          Platform.OS === "ios"
+            ? headerHeight
+            : headerHeight + (StatusBar.currentHeight ?? 0)
+        }
       >
-        <XStack space="$2" paddingVertical="$5">
-          {IMAGES.map((image, idx) => (
-            <RoundedImage key={idx} offset={30 * idx} uri={image} />
-          ))}
-        </XStack>
-        <YStack flex={1}>
-          <H1 color="black">Welcome back!</H1>
-          <Heading pb={"$6"} fontFamily={"$body"} color={"black"}>
-            Let's get you signed in.
-          </Heading>
-          <Formik
-            validateOnChange={false}
-            validateOnBlur={false}
-            validationSchema={schema}
-            initialValues={{ email: "", password: "" }}
-            onSubmit={({ email, password }) => login(email, password)}
-          >
-            {({ handleChange, handleBlur, submitForm, errors, values }) => (
-              <Form
-                onSubmit={submitForm}
-                minWidth={300}
-                flexGrow={1}
-                justifyContent="space-between"
-              >
-                <KeyboardAvoidingView
-                  behavior={Platform.OS === "ios" ? "padding" : "height"}
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <YStack flex={1} px="$4" pb={"$4"}>
+            <H1 color="black">Welcome back!</H1>
+            <Heading pb={"$6"} fontFamily={"$body"} color={"black"}>
+              Let's get you signed in.
+            </Heading>
+            <Formik
+              validateOnChange={false}
+              validateOnBlur={false}
+              validationSchema={schema}
+              initialValues={{ email: "", password: "" }}
+              onSubmit={({ email, password }) => login(email, password)}
+            >
+              {({ handleChange, handleBlur, submitForm, errors, values }) => (
+                <Form
+                  onSubmit={submitForm}
+                  minWidth={300}
+                  flexGrow={1}
+                  justifyContent="space-between"
                 >
                   <YStack space>
                     <View>
@@ -116,31 +107,31 @@ export default function LoginScreen() {
                       )}
                     </View>
                   </YStack>
-                </KeyboardAvoidingView>
-                <YStack paddingTop="$3">
-                  <TouchableOpacity
-                    onPress={() => navigate("Intro", { screen: "Register" })}
-                  >
-                    <Text fontFamily={"$body"} color={"black"}>
-                      Not a member?{" "}
-                      <Text color={"#FE9F10"} fontWeight={"400"}>
-                        Create an account
+                  <YStack>
+                    <TouchableOpacity
+                      onPress={() => navigate("Intro", { screen: "Register" })}
+                    >
+                      <Text fontFamily={"$body"} color={"black"}>
+                        Not a member?{" "}
+                        <Text color={"#BBDB8D"} fontWeight={"400"}>
+                          Create an account
+                        </Text>
                       </Text>
-                    </Text>
-                  </TouchableOpacity>
-                  <Button
-                    marginTop="$3"
-                    onPress={submitForm}
-                    backgroundColor={"#FE9F10"}
-                  >
-                    Sign in
-                  </Button>
-                </YStack>
-              </Form>
-            )}
-          </Formik>
-        </YStack>
-      </ScrollView>
-    </TouchableWithoutFeedback>
+                    </TouchableOpacity>
+                    <Button
+                      marginTop="$3"
+                      onPress={submitForm}
+                      backgroundColor={"#BBDB8D"}
+                    >
+                      Sign in
+                    </Button>
+                  </YStack>
+                </Form>
+              )}
+            </Formik>
+          </YStack>
+        </TouchableWithoutFeedback>
+      </KeyboardAvoidingView>
+    </SafeAreaView>
   );
 }
