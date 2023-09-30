@@ -8595,7 +8595,7 @@ prompts@^2.3.2, prompts@^2.4.0:
     kleur "^3.0.3"
     sisteransi "^1.0.5"
 
-prop-types@*, prop-types@15.8.1, prop-types@^15.7.2:
+prop-types@*, prop-types@15.8.1, prop-types@^15.7.2, prop-types@^15.8.1:
   version "15.8.1"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.8.1.tgz#67d87bf1a694f48435cf332c24af10214a3140b5"
   integrity sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg==
@@ -8758,6 +8758,13 @@ react-native-collapsible-tab-view@^6.2.0:
   integrity sha512-pgmpZYSg6TPYmhv3Dw/czFJHk4AzcYN2df3EMlKwFqbu1ifmlA866hBUVDX3mlbRaros75U5S1wpGCwlqqXLTQ==
   dependencies:
     use-deep-compare "^1.1.0"
+
+react-native-date-picker@^4.3.0:
+  version "4.3.0"
+  resolved "https://registry.yarnpkg.com/react-native-date-picker/-/react-native-date-picker-4.3.0.tgz#2c3eed15f2de55c87c7689a804c7395189dbda41"
+  integrity sha512-rZjGZ7FNYIGNNj8poUVgHFd315m75WnrfFSwCuMnIvx9e79y+NzszceTZq2NlAEiq+RXeVtQOSYBw1IDT/fhMg==
+  dependencies:
+    prop-types "^15.8.1"
 
 react-native-fast-image@^8.6.3:
   version "8.6.3"
