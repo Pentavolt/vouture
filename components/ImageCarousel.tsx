@@ -33,7 +33,7 @@ export default function ImageCarousel({
       numberOfTaps={1}
       onActivated={onSingleTap}
     >
-      <View>
+      <View flex={1}>
         <FlatList<Attachment>
           pagingEnabled
           showsHorizontalScrollIndicator={false}
@@ -43,7 +43,7 @@ export default function ImageCarousel({
           keyExtractor={(_, idx) => idx.toString()}
           data={attachments}
           renderItem={renderItem}
-          decelerationRate={"normal"}
+          decelerationRate={"fast"}
         />
       </View>
     </TapGestureHandler>
