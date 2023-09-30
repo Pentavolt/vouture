@@ -6,8 +6,6 @@ import {
   CollectedPostsDocument,
   SortOrder,
 } from "../generated/gql/graphql";
-import { ListRenderItemInfo } from "@shopify/flash-list";
-import PostPreview from "./post/PostPreview";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import {
   HomeStackParamList,
@@ -16,6 +14,8 @@ import {
 import { Tabs } from "react-native-collapsible-tab-view";
 import Loading from "./Loading";
 import { Paragraph, YStack } from "tamagui";
+import { ListRenderItemInfo } from "react-native";
+import FeedItem from "./FeedItem";
 
 interface SavedPostsTabProps {
   userId: number;
@@ -46,12 +46,11 @@ export default function SavedPostsTab({
   );
 
   const renderItem = useCallback(
-    ({ item }: ListRenderItemInfo<CollectedPost>) => (
-      <PostPreview
+    ({ item, index }: ListRenderItemInfo<CollectedPost>) => (
+      <FeedItem
         post={item.post}
-        onNavigate={() =>
-          navigation.navigate("Details", { postId: item.post.id })
-        }
+        column={index % 2}
+        onPress={() => navigation.navigate("Details", { postId: item.post.id })}
       />
     ),
     []
@@ -59,7 +58,7 @@ export default function SavedPostsTab({
 
   if (!data || loading) return <Loading />;
   return (
-    <Tabs.FlashList
+    <Tabs.FlatList
       ListEmptyComponent={
         isBlocked || isPrivate ? (
           <YStack
@@ -82,10 +81,9 @@ export default function SavedPostsTab({
           </YStack>
         ) : undefined
       }
-      numColumns={3}
+      numColumns={2}
       data={data.collectedPosts as CollectedPost[]}
       renderItem={renderItem}
-      estimatedItemSize={200}
       onRefresh={refetch}
       refreshing={loading}
       keyExtractor={(_, idx) => idx.toString()}
