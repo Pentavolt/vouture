@@ -18,6 +18,7 @@ import {
 } from "./navigators";
 import type { RootStackParamList } from "./types";
 import ReportScreen from "../../screens/ReportScreen";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 
 export function NavigationProvider({
   colorScheme,
@@ -25,12 +26,14 @@ export function NavigationProvider({
   colorScheme: ColorSchemeName;
 }) {
   return (
-    <NavigationContainer
-      linking={linking}
-      theme={colorScheme === "dark" ? DarkTheme : DefaultTheme}
-    >
-      <RootNavigator />
-    </NavigationContainer>
+    <SafeAreaProvider>
+      <NavigationContainer
+        linking={linking}
+        theme={colorScheme === "dark" ? DarkTheme : DefaultTheme}
+      >
+        <RootNavigator />
+      </NavigationContainer>
+    </SafeAreaProvider>
   );
 }
 
