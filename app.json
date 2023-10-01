@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "vte",
-    "slug": "vte",
+    "name": "WTWT",
+    "slug": "wtwt",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -14,7 +14,7 @@
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.pentavolt.vte"
+      "bundleIdentifier": "com.terrabyte.wtwt"
     },
     "android": {
       "googleServicesFile": "./google-services.json",
@@ -22,14 +22,14 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#15191E"
       },
-      "package": "com.pentavolt.vte"
+      "package": "com.terrabyte.wtwt"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "extra": {
       "eas": {
-        "projectId": "3915962d-4f52-4778-b6c5-fc402fd60f08"
+        "projectId": "67161627-676b-4efe-8444-a117e645efc0"
       }
     },
     "owner": "pentavolt",
