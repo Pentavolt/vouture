@@ -96,9 +96,7 @@ export default function PollSheet({ onClose, open, post }: PollSheetProps) {
   };
 
   const renderItem = ({ item, index }: ListRenderItemInfo<Attachment>) => (
-    <TouchableOpacity
-      onPress={() => (hasVoted ? console.log(index) : setActiveIndex(index))}
-    >
+    <TouchableOpacity onPress={() => (hasVoted ? null : setActiveIndex(index))}>
       <FastImage
         source={{ uri: item.url }}
         resizeMode="cover"

@@ -126,10 +126,7 @@ export default function LabelScreen({
   };
 
   return (
-    <SafeAreaView
-      style={{ flex: 1, backgroundColor: "black" }}
-      onLayout={(e) => console.log(e.nativeEvent.layout)}
-    >
+    <SafeAreaView style={{ flex: 1, backgroundColor: "black" }}>
       <View flex={1} backgroundColor={"black"}>
         <Toaster backgroundColor={"$green4Light"} iconName="download-outline" />
         <FlatList

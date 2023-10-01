@@ -128,7 +128,6 @@ export default function RequestsScreen() {
                       },
                     },
                     (cached) => {
-                      console.log(cached);
                       if (!cached?.user) return undefined;
                       return {
                         user: {
