@@ -78,7 +78,10 @@ export default function VerificationScreen({
           <H1 color={"black"}>Verification Code Sent</H1>
           <Paragraph fontSize={16} color={"black"}>
             A verification code has been sent to{" "}
-            <Text color={"#FE9F10"}>{user?.email}</Text>.
+            <Text color={"#BBDB8D"} fontFamily={"$span"}>
+              {user?.email}
+            </Text>
+            .
           </Paragraph>
           <KeyboardAvoidingView
             style={{ paddingVertical: 30 }}
@@ -92,13 +95,22 @@ export default function VerificationScreen({
           </KeyboardAvoidingView>
         </YStack>
         <YStack width={"100%"} space paddingVertical="$2">
-          <Button width={"100%"} onPress={async () => await handleSubmit()}>
+          <Button
+            width={"100%"}
+            onPress={async () => await handleSubmit()}
+            backgroundColor={"#BBDB8D"}
+            color={"#15191E"}
+            pressStyle={{
+              backgroundColor: "#CFEBA5",
+              borderColor: "#CFEBA5",
+            }}
+          >
             Verify
           </Button>
           <TouchableOpacity onPress={handleResend}>
             <Text fontFamily={"$body"} color={"black"}>
               Didn't receive code?{" "}
-              <Text fontFamily={"$span"} color={"#FE9F10"}>
+              <Text fontFamily={"$span"} color={"#BBDB8D"}>
                 Resend
               </Text>
             </Text>
