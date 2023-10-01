@@ -247,6 +247,9 @@ query Posts(
       id
       userId
     }
+    _count {
+      likes
+    }
   }
 }
 
