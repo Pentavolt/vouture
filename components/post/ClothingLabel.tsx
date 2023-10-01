@@ -32,7 +32,7 @@ export default function ClothingLabel({
   const { top, bottom } = useSafeAreaInsets();
   const space = windowHeight - top - bottom - photoHeight;
   const minY = space / 2;
-  const maxY = minY + photoHeight - (dimension?.height ?? 0);
+  const maxY = minY + photoHeight;
   const pan = useRef(
     new Animated.ValueXY({
       x: tag.x * photoWidth,
@@ -110,8 +110,8 @@ export default function ClothingLabel({
                 },
                 {
                   translateY: pan.current.y.interpolate({
-                    inputRange: [minY, maxY],
-                    outputRange: [minY, maxY],
+                    inputRange: [minY, maxY - (dimension?.height ?? 0)],
+                    outputRange: [minY, maxY - (dimension?.height ?? 0)],
                     extrapolate: "clamp",
                   }),
                 },
