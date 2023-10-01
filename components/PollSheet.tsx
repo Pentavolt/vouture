@@ -169,7 +169,7 @@ export default function PollSheet({ onClose, open, post }: PollSheetProps) {
             {!hasVoted && (
               <Button
                 disabled={disabled}
-                backgroundColor={"#FE9F10"}
+                backgroundColor={"#BBDB8D"}
                 onPress={handleVote}
               >
                 Vote
