@@ -51,7 +51,7 @@ export default function ImageCarouselItem({
               key={idx}
               photoWidth={width}
               photoHeight={actualHeight}
-              windowHeight={height - top - bottom - 60}
+              windowHeight={height - 60}
               tag={tag}
               style={style}
             />
