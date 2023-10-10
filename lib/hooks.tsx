@@ -24,7 +24,7 @@ interface AuthContextType {
   user?: User;
   loading: boolean;
   error?: any;
-  login: (email: string, password: string) => void;
+  login: (email: string, password: string) => Promise<void>;
   register: (email: string, username: string, password: string) => void;
   logout: () => void;
 }
@@ -77,7 +77,7 @@ export function AuthProvider({
   const login = async (email: string, password: string) => {
     // TODO: Test if this new login logic works.
     setLoading(true);
-    mutate({
+    await mutate({
       variables: { email, password },
       onCompleted: async ({ login }) => {
         if (!login) throw new Error("Invalid credentials.");

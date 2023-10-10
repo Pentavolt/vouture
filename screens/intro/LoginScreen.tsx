@@ -14,12 +14,6 @@ import { useAuth } from "../../lib/hooks";
 import { Button, Form, Heading, Input, View, YStack, Text, H1 } from "tamagui";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-const IMAGES = [
-  "https://ci.xiaohongshu.com/1000g0082qddt7oiju0005njngs208eqc1mikm3g?imageView2/2/w/format/png",
-  "https://ci.xiaohongshu.com/1000g0082qddt7oiju0005njngs208eqc1mikm3g?imageView2/2/w/format/png",
-  "https://ci.xiaohongshu.com/1000g0082qddt7oiju0005njngs208eqc1mikm3g?imageView2/2/w/format/png",
-];
-
 export default function LoginScreen() {
   const headerHeight = useHeaderHeight();
   const { navigate } = useNavigation();
@@ -55,7 +49,15 @@ export default function LoginScreen() {
               validateOnBlur={false}
               validationSchema={schema}
               initialValues={{ email: "", password: "" }}
-              onSubmit={({ email, password }) => login(email, password)}
+              onSubmit={async ({ email, password }, { setErrors }) => {
+                try {
+                  await login(email, password);
+                } catch (error) {
+                  setErrors({
+                    password: "Invalid credentials.",
+                  });
+                }
+              }}
             >
               {({ handleChange, handleBlur, submitForm, errors, values }) => (
                 <Form
@@ -74,13 +76,24 @@ export default function LoginScreen() {
                         onChangeText={handleChange("email")}
                         value={values.email}
                         keyboardType="email-address"
-                        backgroundColor={"$gray3Light"}
-                        borderColor={"$gray3Light"}
-                        focusStyle={{ borderColor: "$gray3Light" }}
+                        backgroundColor={
+                          "email" in errors ? "$red3Light" : "$gray3Light"
+                        }
+                        borderColor={
+                          "email" in errors ? "$red10Light" : "$gray3Light"
+                        }
+                        focusStyle={{
+                          borderColor:
+                            "email" in errors ? "$red10Light" : "$gray3Light",
+                        }}
                         color={"black"}
                       />
                       {"email" in errors && (
-                        <Text paddingTop={"$1"} color={"$red10Light"}>
+                        <Text
+                          fontFamily={"$span"}
+                          paddingTop={"$2"}
+                          color={"$red10Light"}
+                        >
                           {errors.email}
                         </Text>
                       )}
@@ -95,13 +108,26 @@ export default function LoginScreen() {
                         onBlur={handleBlur("password")}
                         onChangeText={handleChange("password")}
                         value={values.password}
-                        backgroundColor={"$gray3Light"}
-                        borderColor={"$gray3Light"}
-                        focusStyle={{ borderColor: "$gray3Light" }}
+                        backgroundColor={
+                          "password" in errors ? "$red3Light" : "$gray3Light"
+                        }
+                        borderColor={
+                          "password" in errors ? "$red10Light" : "$gray3Light"
+                        }
+                        focusStyle={{
+                          borderColor:
+                            "password" in errors
+                              ? "$red10Light"
+                              : "$gray3Light",
+                        }}
                         color={"black"}
                       />
                       {"password" in errors && (
-                        <Text paddingTop={"$1"} color={"$red10Light"}>
+                        <Text
+                          fontFamily={"$span"}
+                          paddingTop={"$2"}
+                          color={"$red10Light"}
+                        >
                           {errors.password}
                         </Text>
                       )}
