@@ -98,7 +98,8 @@ export function BottomTabNavigator() {
         options={({ route }) => ({
           tabBarStyle: {
             display:
-              getFocusedRouteNameFromRoute(route) === "Details"
+              getFocusedRouteNameFromRoute(route) === "Details" ||
+              getFocusedRouteNameFromRoute(route) === "Query"
                 ? "none"
                 : "flex",
           },
