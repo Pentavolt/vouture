@@ -96,6 +96,7 @@ export function BottomTabNavigator() {
         name="Search"
         component={SearchStackNavigator}
         options={({ route }) => ({
+          tabBarHideOnKeyboard: true,
           tabBarStyle: {
             display:
               getFocusedRouteNameFromRoute(route) === "Details" ||
@@ -468,7 +469,9 @@ export function SearchStackNavigator() {
       <SearchStack.Screen
         name="Query"
         component={QueryScreen}
-        options={{ headerShown: false, animationEnabled: false }}
+        options={{ headerShown: false, animationEnabled: true }}
+        // TODO: Ideally, it should be animationEnabled: false.
+        // FlashList throws a warning without animation at the moment.
       />
       <SearchStack.Screen
         name="Profile"
