@@ -96,7 +96,7 @@ export default function ProfileScreen({
           />
         )}
       >
-        <Tabs.Tab name="Posts">
+        <Tabs.Tab name="Outfits">
           <PostsTab
             userId={data.user.id}
             isBlocked={isBlocked}
@@ -104,7 +104,7 @@ export default function ProfileScreen({
             onRefresh={refetch}
           />
         </Tabs.Tab>
-        <Tabs.Tab name="Saved">
+        <Tabs.Tab name="Collected">
           <SavedPostsTab
             userId={data.user.id}
             isBlocked={isBlocked}
