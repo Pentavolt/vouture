@@ -171,6 +171,9 @@ export default function PollSheet({ onClose, open, post }: PollSheetProps) {
                 disabled={disabled}
                 backgroundColor={"#BBDB8D"}
                 onPress={handleVote}
+                color={"black"}
+                fontSize={16}
+                fontFamily={"$span"}
               >
                 Vote
               </Button>
